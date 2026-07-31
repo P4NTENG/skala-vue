@@ -8,8 +8,22 @@ defineOptions({
 const navigationItems = [
   { label: 'Home', to: '/' },
   { label: 'About', to: '/about' },
-  { label: 'Sample One', to: '/practices/basic/SampleOne' },
-  { label: 'Sample Two', to: '/practices/basic/SampleTwo' },
+  { label: 'Sample One', to: '/practices/basic/sample-one' },
+  { label: 'Sample Two', to: '/practices/basic/sample-two' },
+  { label: 'V HTML', to: '/practices/view-directive/v-html' },
+  { label: 'V Text', to: '/practices/view-directive/v-text' },
+  { label: 'V Bind', to: '/practices/view-directive/v-bind' },
+  { label: 'V ClassBind', to: '/practices/view-directive/v-classbind' },
+  { label: 'V StyleBind', to: '/practices/view-directive/v-stylebind' },
+  { label: 'V ShorthandBind', to: '/practices/view-directive/v-shorthandbind' },
+  { label: 'V If', to: '/practices/view-directive/v-if' },
+  { label: 'V Show', to: '/practices/view-directive/v-show' },
+  { label: 'V For', to: '/practices/view-directive/v-for' },
+  { label: 'V Pre', to: '/practices/view-directive/v-pre' },
+  { label: 'V Cloak', to: '/practices/view-directive/v-cloak' },
+  { label: 'V Once', to: '/practices/view-directive/v-once' },
+  { label: 'V Memo', to: '/practices/view-directive/v-memo' },
+
 ]
 </script>
 

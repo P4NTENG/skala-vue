@@ -45,16 +45,107 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/practices/basic/SampleOne': RouteRecordInfo<
-      '/practices/basic/SampleOne',
-      '/practices/basic/SampleOne',
+    '/practices/basic/sample-one': RouteRecordInfo<
+      '/practices/basic/sample-one',
+      '/practices/basic/sample-one',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/practices/basic/SampleTwo': RouteRecordInfo<
-      '/practices/basic/SampleTwo',
-      '/practices/basic/SampleTwo',
+    '/practices/basic/sample-two': RouteRecordInfo<
+      '/practices/basic/sample-two',
+      '/practices/basic/sample-two',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-bind': RouteRecordInfo<
+      '/practices/view-directive/v-bind',
+      '/practices/view-directive/v-bind',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-classbind': RouteRecordInfo<
+      '/practices/view-directive/v-classbind',
+      '/practices/view-directive/v-classbind',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-cloak': RouteRecordInfo<
+      '/practices/view-directive/v-cloak',
+      '/practices/view-directive/v-cloak',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-for': RouteRecordInfo<
+      '/practices/view-directive/v-for',
+      '/practices/view-directive/v-for',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-html': RouteRecordInfo<
+      '/practices/view-directive/v-html',
+      '/practices/view-directive/v-html',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-if': RouteRecordInfo<
+      '/practices/view-directive/v-if',
+      '/practices/view-directive/v-if',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-memo': RouteRecordInfo<
+      '/practices/view-directive/v-memo',
+      '/practices/view-directive/v-memo',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-once': RouteRecordInfo<
+      '/practices/view-directive/v-once',
+      '/practices/view-directive/v-once',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-pre': RouteRecordInfo<
+      '/practices/view-directive/v-pre',
+      '/practices/view-directive/v-pre',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-shorthandbind': RouteRecordInfo<
+      '/practices/view-directive/v-shorthandbind',
+      '/practices/view-directive/v-shorthandbind',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-show': RouteRecordInfo<
+      '/practices/view-directive/v-show',
+      '/practices/view-directive/v-show',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-stylebind': RouteRecordInfo<
+      '/practices/view-directive/v-stylebind',
+      '/practices/view-directive/v-stylebind',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/view-directive/v-text': RouteRecordInfo<
+      '/practices/view-directive/v-text',
+      '/practices/view-directive/v-text',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -88,17 +179,121 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
-    'src/pages/practices/basic/SampleOne.vue': {
+    'src/pages/practices/basic/sample-one.vue': {
       routes:
-        | '/practices/basic/SampleOne'
+        | '/practices/basic/sample-one'
       views:
         | never
       pathParamNames:
         | never
     }
-    'src/pages/practices/basic/SampleTwo.vue': {
+    'src/pages/practices/basic/sample-two.vue': {
       routes:
-        | '/practices/basic/SampleTwo'
+        | '/practices/basic/sample-two'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-bind.vue': {
+      routes:
+        | '/practices/view-directive/v-bind'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-classbind.vue': {
+      routes:
+        | '/practices/view-directive/v-classbind'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-cloak.vue': {
+      routes:
+        | '/practices/view-directive/v-cloak'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-for.vue': {
+      routes:
+        | '/practices/view-directive/v-for'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-html.vue': {
+      routes:
+        | '/practices/view-directive/v-html'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-if.vue': {
+      routes:
+        | '/practices/view-directive/v-if'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-memo.vue': {
+      routes:
+        | '/practices/view-directive/v-memo'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-once.vue': {
+      routes:
+        | '/practices/view-directive/v-once'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-pre.vue': {
+      routes:
+        | '/practices/view-directive/v-pre'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-shorthandbind.vue': {
+      routes:
+        | '/practices/view-directive/v-shorthandbind'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-show.vue': {
+      routes:
+        | '/practices/view-directive/v-show'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-stylebind.vue': {
+      routes:
+        | '/practices/view-directive/v-stylebind'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/view-directive/v-text.vue': {
+      routes:
+        | '/practices/view-directive/v-text'
       views:
         | never
       pathParamNames:
