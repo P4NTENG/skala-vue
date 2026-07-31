@@ -45,16 +45,16 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/sample-one': RouteRecordInfo<
-      '/sample-one',
-      '/sample-one',
+    '/practices/basic/SampleOne': RouteRecordInfo<
+      '/practices/basic/SampleOne',
+      '/practices/basic/SampleOne',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/sample-two': RouteRecordInfo<
-      '/sample-two',
-      '/sample-two',
+    '/practices/basic/SampleTwo': RouteRecordInfo<
+      '/practices/basic/SampleTwo',
+      '/practices/basic/SampleTwo',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -88,17 +88,17 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
-    'src/pages/sample-one.vue': {
+    'src/pages/practices/basic/SampleOne.vue': {
       routes:
-        | '/sample-one'
+        | '/practices/basic/SampleOne'
       views:
         | never
       pathParamNames:
         | never
     }
-    'src/pages/sample-two.vue': {
+    'src/pages/practices/basic/SampleTwo.vue': {
       routes:
-        | '/sample-two'
+        | '/practices/basic/SampleTwo'
       views:
         | never
       pathParamNames:
