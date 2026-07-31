@@ -61,7 +61,7 @@ const showDetail = (cityName, status) => {
 
 <template>
   <div class="weather2">
-    <!-- ═══ Hero — atmospheric sky banner ═══ -->
+    <!-- Hero -- atmospheric sky banner -->
     <section class="hero">
       <div class="hero__atmosphere"></div>
       <div class="hero__inner">
@@ -102,7 +102,7 @@ const showDetail = (cityName, status) => {
       </div>
     </section>
 
-    <!-- ═══ City cards grid ═══ -->
+    <!-- City cards grid -->
     <section class="grid-section">
       <VContainer fluid>
         <VRow v-if="filteredWeatherList.length">
@@ -177,12 +177,6 @@ const showDetail = (cityName, status) => {
 </template>
 
 <style scoped>
-/*
- * ═══════════════════════════════════════════════════
- *  Weather2 — Atmospheric Weather Station Dashboard
- *  DESIGN TOKENS
- * ═══════════════════════════════════════════════════
- */
 .weather2 {
   --hero-deep: #0b2d45;
   --hero-mid: #143c5a;
@@ -191,9 +185,7 @@ const showDetail = (cityName, status) => {
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* ═══════════════════════════════════════════════════
-   HERO — deep-sky atmospheric banner
-   ═══════════════════════════════════════════════════ */
+/* ── Hero ── */
 .hero {
   position: relative;
   background: linear-gradient(
@@ -283,9 +275,7 @@ const showDetail = (cityName, status) => {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* ═══════════════════════════════════════════════════
-   CITY CARDS — atmospheric micro-environments
-   ═══════════════════════════════════════════════════ */
+/* ── City cards ── */
 .city-card {
   position: relative;
   display: flex;
@@ -320,7 +310,6 @@ const showDetail = (cityName, status) => {
   transform: translateY(-2px);
 }
 
-/* Icon */
 .city-card__icon-wrap {
   margin-bottom: 16px;
 }
@@ -341,7 +330,6 @@ const showDetail = (cityName, status) => {
   transform: scale(1.12) rotate(-8deg);
 }
 
-/* Temperature — the instrument reading */
 .city-card__reading {
   font-weight: 800;
   line-height: 1;
@@ -366,7 +354,6 @@ const showDetail = (cityName, status) => {
   margin-left: 2px;
 }
 
-/* Name + status chip row */
 .city-card__header {
   display: flex;
   align-items: center;
@@ -385,14 +372,12 @@ const showDetail = (cityName, status) => {
   font-weight: 500;
 }
 
-/* Description */
 .city-card__desc {
   font-size: 0.8rem;
   color: #64748b;
   margin: 8px 0 24px;
 }
 
-/* Bottom accent bar */
 .city-card__bar {
   width: 100%;
   height: 4px;
@@ -401,9 +386,7 @@ const showDetail = (cityName, status) => {
   opacity: 0.65;
 }
 
-/* ═══════════════════════════════════════════════════
-   EMPTY STATE
-   ═══════════════════════════════════════════════════ */
+/* ── Empty state ── */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -433,9 +416,7 @@ const showDetail = (cityName, status) => {
   margin: 0;
 }
 
-/* ═══════════════════════════════════════════════════
-   ENTRANCE ANIMATION — one orchestrated moment
-   ═══════════════════════════════════════════════════ */
+/* ── Entrance animation ── */
 @keyframes cardIn {
   from {
     opacity: 0;
@@ -447,9 +428,7 @@ const showDetail = (cityName, status) => {
   }
 }
 
-/* ═══════════════════════════════════════════════════
-   RESPONSIVE
-   ═══════════════════════════════════════════════════ */
+/* ── Responsive ── */
 @media (max-width: 600px) {
   .hero {
     border-radius: 16px;
@@ -485,9 +464,7 @@ const showDetail = (cityName, status) => {
   }
 }
 
-/* ═══════════════════════════════════════════════════
-   ACCESSIBILITY — reduced motion
-   ═══════════════════════════════════════════════════ */
+/* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .city-card {
     animation: none !important;
