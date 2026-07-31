@@ -59,6 +59,27 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/practices/form-data-binding/form-element-handling-example': RouteRecordInfo<
+      '/practices/form-data-binding/form-element-handling-example',
+      '/practices/form-data-binding/form-element-handling-example',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/form-data-binding/two-way-data-binding-with-v-model': RouteRecordInfo<
+      '/practices/form-data-binding/two-way-data-binding-with-v-model',
+      '/practices/form-data-binding/two-way-data-binding-with-v-model',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/form-data-binding/v-model-modifier-example': RouteRecordInfo<
+      '/practices/form-data-binding/v-model-modifier-example',
+      '/practices/form-data-binding/v-model-modifier-example',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/practices/view-directive/v-bind': RouteRecordInfo<
       '/practices/view-directive/v-bind',
       '/practices/view-directive/v-bind',
@@ -150,6 +171,41 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/practices/vue-event-handling/event-modifier': RouteRecordInfo<
+      '/practices/vue-event-handling/event-modifier',
+      '/practices/vue-event-handling/event-modifier',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/vue-event-handling/event-object': RouteRecordInfo<
+      '/practices/vue-event-handling/event-object',
+      '/practices/vue-event-handling/event-object',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/vue-event-handling/v-on': RouteRecordInfo<
+      '/practices/vue-event-handling/v-on',
+      '/practices/vue-event-handling/v-on',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/practices/vue-style/vue-style-example': RouteRecordInfo<
+      '/practices/vue-style/vue-style-example',
+      '/practices/vue-style/vue-style-example',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/weather': RouteRecordInfo<
+      '/weather',
+      '/weather',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -190,6 +246,30 @@ declare module 'vue-router/auto-routes' {
     'src/pages/practices/basic/sample-two.vue': {
       routes:
         | '/practices/basic/sample-two'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/form-data-binding/form-element-handling-example.vue': {
+      routes:
+        | '/practices/form-data-binding/form-element-handling-example'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/form-data-binding/two-way-data-binding-with-v-model.vue': {
+      routes:
+        | '/practices/form-data-binding/two-way-data-binding-with-v-model'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/form-data-binding/v-model-modifier-example.vue': {
+      routes:
+        | '/practices/form-data-binding/v-model-modifier-example'
       views:
         | never
       pathParamNames:
@@ -294,6 +374,46 @@ declare module 'vue-router/auto-routes' {
     'src/pages/practices/view-directive/v-text.vue': {
       routes:
         | '/practices/view-directive/v-text'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/vue-event-handling/event-modifier.vue': {
+      routes:
+        | '/practices/vue-event-handling/event-modifier'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/vue-event-handling/event-object.vue': {
+      routes:
+        | '/practices/vue-event-handling/event-object'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/vue-event-handling/v-on.vue': {
+      routes:
+        | '/practices/vue-event-handling/v-on'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/vue-style/vue-style-example.vue': {
+      routes:
+        | '/practices/vue-style/vue-style-example'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/weather.vue': {
+      routes:
+        | '/weather'
       views:
         | never
       pathParamNames:

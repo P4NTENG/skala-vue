@@ -4,13 +4,15 @@ import AppTopBar from '@/components/layout/AppTopBar.vue'
 </script>
 
 <template>
-  <div class="app-shell">
-    <AppTopBar />
+  <VApp>
+    <div class="app-shell">
+      <AppTopBar />
 
-    <div class="app-content">
-      <RouterView />
+      <div class="app-content">
+        <RouterView />
+      </div>
     </div>
-  </div>
+  </VApp>
 </template>
 
 <style scoped>
