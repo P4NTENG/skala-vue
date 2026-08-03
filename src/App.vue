@@ -4,29 +4,8 @@ import AppTopBar from '@/components/layout/AppTopBar.vue'
 </script>
 
 <template>
-  <div class="app-shell">
+  <div class="min-h-screen bg-white dark:bg-slate-950">
     <AppTopBar />
-
-    <div class="app-content">
-      <RouterView />
-    </div>
+    <RouterView />
   </div>
 </template>
-
-<style scoped>
-.app-shell {
-  min-height: 100vh;
-}
-
-.app-content {
-  width: min(100% - 2rem, 1280px);
-  margin: 0 auto;
-  padding: 2.5rem 0;
-}
-
-@media (max-width: 720px) {
-  .app-content {
-    padding: 1.5rem 0;
-  }
-}
-</style>
