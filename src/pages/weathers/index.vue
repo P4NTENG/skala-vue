@@ -5,14 +5,22 @@ import { Icon } from '@iconify/vue'
 
 defineOptions({ name: 'WeathersIndex' })
 
-const modules = import.meta.glob('./*.vue', { eager: false })
-const pages = Object.keys(modules)
-  .filter(p => !p.includes('/index.vue'))
-  .map(p => ({
-    path: p.replace('./', '/weathers/').replace('.vue', ''),
-    name: p.split('/').pop()?.replace('.vue', '') || '',
-  }))
-  .sort((a, b) => a.name.localeCompare(b.name))
+const fileModules = import.meta.glob('./*.vue', { eager: false })
+const dirModules = import.meta.glob('./**/index.vue', { eager: false })
+
+const pages = [
+  ...Object.keys(fileModules)
+    .filter(p => !p.includes('/index.vue'))
+    .map(p => ({
+      path: p.replace('./', '/weathers/').replace('.vue', ''),
+      name: p.split('/').pop()?.replace('.vue', '') || '',
+    })),
+  ...Object.keys(dirModules)
+    .map(p => ({
+      path: p.replace('./', '/weathers/').replace('/index.vue', ''),
+      name: p.split('/')[1] || '',
+    })),
+].sort((a, b) => a.name.localeCompare(b.name))
 </script>
 
 <template>
