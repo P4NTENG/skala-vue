@@ -30,7 +30,7 @@ function formatName(v) {
 <template>
   <div class="relative min-h-[100dvh] bg-white pt-24 pb-24 dark:bg-zinc-950">
     <SnowfallBg color="#ADD8E6" class="pointer-events-none absolute inset-0 z-0" :quantity="100" :min-radius="0.2" :max-radius="5.0" :speed="0.5" />
-    <div class="relative z-10 mx-auto max-w-2xl px-6">
+    <div class="relative z-10 mx-auto max-w-2xl px-6" style="isolation: isolate">
       <h1 class="text-3xl font-bold text-zinc-900 dark:text-white">실습 목록</h1>
       <p class="mt-2 text-zinc-500 dark:text-zinc-400">Vue 3 핵심 개념별 실습 페이지입니다.</p>
 
@@ -44,7 +44,7 @@ function formatName(v) {
               v-for="item in items.sort((a, b) => a.name.localeCompare(b.name))"
               :key="item.path"
               :to="item.path"
-              class="flex items-center gap-3 rounded-xl border border-zinc-100 bg-zinc-50/50 px-4 py-3 text-zinc-700 transition-all duration-300 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:border-blue-800 dark:hover:bg-blue-950 dark:hover:text-blue-400"
+              class="flex items-center gap-3 rounded-xl border border-zinc-100 bg-white/70 px-4 py-3 text-zinc-700 backdrop-blur-sm transition-all duration-300 hover:border-blue-200 hover:bg-blue-50/90 hover:text-blue-600 dark:border-zinc-800 dark:bg-zinc-900/70 dark:text-zinc-300 dark:hover:border-blue-800 dark:hover:bg-blue-950/90 dark:hover:text-blue-400"
             >
               <Icon icon="solar:document-linear" class="size-4 shrink-0 text-zinc-400" />
               <span class="text-sm font-medium">{{ item.name }}</span>
