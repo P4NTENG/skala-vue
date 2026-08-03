@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { Icon } from '@iconify/vue'
+import { SnowfallBg } from '@/components/ui/snowfall-bg'
 
 defineOptions({ name: 'PracticesIndex' })
 
@@ -27,8 +28,9 @@ function formatName(v) {
 </script>
 
 <template>
-  <div class="min-h-[100dvh] bg-white pt-24 pb-24 dark:bg-zinc-950">
-    <div class="mx-auto max-w-2xl px-6">
+  <div class="relative min-h-[100dvh] bg-white pt-24 pb-24 dark:bg-zinc-950">
+    <SnowfallBg color="#ADD8E6" class="pointer-events-none absolute inset-0 z-0" :quantity="100" :min-radius="0.2" :max-radius="5.0" :speed="0.5" />
+    <div class="relative z-10 mx-auto max-w-2xl px-6">
       <h1 class="text-3xl font-bold text-zinc-900 dark:text-white">실습 목록</h1>
       <p class="mt-2 text-zinc-500 dark:text-zinc-400">Vue 3 핵심 개념별 실습 페이지입니다.</p>
 
