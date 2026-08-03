@@ -4,7 +4,7 @@ import AppTopBar from '@/components/layout/AppTopBar.vue'
 </script>
 
 <template>
-  <div class="min-h-screen bg-white dark:bg-slate-950">
+  <div class="min-h-[100dvh] bg-white text-slate-950 dark:bg-zinc-950 dark:text-zinc-50">
     <AppTopBar />
     <RouterView />
   </div>

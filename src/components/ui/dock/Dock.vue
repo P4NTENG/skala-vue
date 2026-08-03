@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import type { HTMLAttributes } from "vue";
-import type { DataOrientation, Direction } from "./types";
+<script setup>
 import { cn } from "@/lib/utils";
 import { computed, provide, ref } from "vue";
 
@@ -12,22 +10,19 @@ import {
   ORIENTATION_INJECTION_KEY,
 } from "./injectionKeys";
 
-interface DockProps {
-  class?: HTMLAttributes["class"];
-  magnification?: number;
-  distance?: number;
-  direction?: Direction;
-  orientation?: DataOrientation;
-}
-
-const props = withDefaults(defineProps<DockProps>(), {
-  magnification: 60,
-  distance: 140,
-  direction: "middle",
-  orientation: "horizontal",
+const props = defineProps({
+  class: {
+    type: [Boolean, null, String, Object, Array],
+    required: false,
+    skipCheck: true,
+  },
+  magnification: { type: Number, required: false, default: 60 },
+  distance: { type: Number, required: false, default: 140 },
+  direction: { type: null, required: false, default: "middle" },
+  orientation: { type: null, required: false, default: "horizontal" },
 });
 
-const dockRef = ref<HTMLElement | null>(null);
+const dockRef = ref(null);
 const mouseX = ref(Infinity);
 const mouseY = ref(Infinity);
 const magnification = computed(() => props.magnification);
@@ -39,7 +34,7 @@ const dockClass = computed(() => ({
   "items-end": props.direction === "bottom",
 }));
 
-function onMouseMove(e: MouseEvent) {
+function onMouseMove(e) {
   requestAnimationFrame(() => {
     mouseX.value = e.pageX;
     mouseY.value = e.pageY;

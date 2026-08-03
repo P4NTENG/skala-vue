@@ -3,18 +3,36 @@ import { ref } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { Icon } from '@iconify/vue'
 
-defineOptions({
-  name: 'AppTopBar',
-})
+defineOptions({ name: 'AppTopBar' })
 
 const route = useRoute()
 const practiceMenu = ref(null)
 const weatherMenu = ref(null)
 const mobileMenuOpen = ref(false)
 
-const navigationItems = [
-  { label: 'Home', to: '/', icon: 'lucide:home' },
-  { label: 'About', to: '/about', icon: 'lucide:info' },
+// Dark mode toggle
+const isDark = ref(false)
+
+function initTheme() {
+  const stored = localStorage.getItem('theme')
+  if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    isDark.value = true
+    document.documentElement.classList.add('dark')
+  }
+}
+
+function toggleTheme() {
+  isDark.value = !isDark.value
+  document.documentElement.classList.toggle('dark', isDark.value)
+  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+}
+
+initTheme()
+
+const links = [
+  { label: '실습실', to: '/practices', icon: 'solar:atom-linear' },
+  { label: '날씨', to: '/weathers', icon: 'solar:cloud-rain-linear' },
+  { label: '정보', to: '/about', icon: 'solar:info-circle-linear' },
 ]
 
 const practicePageModules = import.meta.glob('../../pages/practices/**/*.vue')
@@ -22,183 +40,188 @@ const practiceGroups = createPracticeGroups(Object.keys(practicePageModules))
 
 const weatherPageModules = import.meta.glob('../../pages/weathers/*.vue')
 const weatherPages = Object.keys(weatherPageModules)
-  .map((pagePath) => {
-    const fileName = pagePath.split('/').pop()?.replace(/\.vue$/, '')
-    if (!fileName) return null
-    return {
-      label: formatPageLabel(fileName),
-      to: `/weathers/${fileName}`,
-    }
+  .map((p) => {
+    const f = p.split('/').pop()?.replace('.vue', '')
+    return f ? { label: formatLabel(f), to: `/weathers/${f}` } : null
   })
-  .filter((item) => item !== null)
+  .filter(Boolean)
 
-function createPracticeGroups(pagePaths) {
+function createPracticeGroups(paths) {
   const groups = new Map()
-  for (const pagePath of pagePaths) {
-    const relativePath = pagePath.split('/pages/practices/')[1]?.replace(/\.vue$/, '')
-    if (!relativePath || relativePath.includes('[')) continue
-    const segments = relativePath.split('/')
-    const groupName = segments.shift()
-    const fileName = segments.at(-1)
-    if (!groupName || !fileName) continue
-    const routeSegments = fileName === 'index' ? [groupName, ...segments.slice(0, -1)] : [groupName, ...segments]
-    const item = {
-      label: fileName === 'index' ? 'Overview' : formatPageLabel(fileName),
-      to: `/practices/${routeSegments.join('/')}`,
-    }
-    if (!groups.has(groupName)) groups.set(groupName, [])
-    groups.get(groupName).push(item)
+  for (const p of paths) {
+    const rel = p.split('/pages/practices/')[1]?.replace('.vue', '')
+    if (!rel || rel.includes('[')) continue
+    const segs = rel.split('/')
+    const grp = segs.shift()
+    const fn = segs.at(-1)
+    if (!grp || !fn) continue
+    const routeSegs = fn === 'index' ? [grp, ...segs.slice(0, -1)] : [grp, ...segs]
+    groups.set(grp, [...(groups.get(grp) || []), {
+      label: fn === 'index' ? '개요' : formatLabel(fn),
+      to: `/practices/${routeSegs.join('/')}`,
+    }])
   }
   return [...groups.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
-    .map(([groupName, items]) => ({
-      label: formatGroupLabel(groupName),
-      description: `${items.length}개 실습`,
-      items: items.sort((a, b) => a.label.localeCompare(b.label)),
-    }))
+    .map(([g, items]) => ({ label: formatLabel(g), count: items.length, items }))
 }
 
-function formatGroupLabel(value) {
-  return value.split(/[-_.]+/).map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-}
-
-function formatPageLabel(value) {
-  return value.startsWith('v-') ? value : formatGroupLabel(value)
-}
-
-function closePracticeMenu() {
-  practiceMenu.value?.removeAttribute('open')
-  mobileMenuOpen.value = false
-}
-
-function closeWeatherMenu() {
-  weatherMenu.value?.removeAttribute('open')
-  mobileMenuOpen.value = false
-}
+function formatLabel(v) { return v.split(/[-_.]+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') }
+function closeMenus() { practiceMenu.value?.removeAttribute('open'); weatherMenu.value?.removeAttribute('open'); mobileMenuOpen.value = false }
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 border-b border-slate-200/60 bg-white/80 backdrop-blur-xl dark:border-slate-800/60 dark:bg-slate-950/80">
-    <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+  <header class="fixed top-0 left-0 right-0 z-40 flex justify-center pt-4 px-4">
+    <!-- Floating glass pill -->
+    <nav class="flex items-center gap-1 rounded-full border border-white/[0.08] bg-white/[0.04] px-2 py-2 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.06)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
       <!-- Brand -->
-      <RouterLink to="/" class="flex items-center gap-3 font-bold text-slate-900 no-underline dark:text-white">
-        <div class="flex size-8 items-center justify-center rounded-lg bg-emerald-500 text-xs font-extrabold text-white">
-          SV
-        </div>
-        <span class="text-sm tracking-tight">
-          <span>SKALA</span>
-          <span class="ml-1 text-slate-400 dark:text-slate-500">Vue Lab</span>
-        </span>
+      <RouterLink to="/" class="flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold text-[#FAFAFA] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white/[0.06]">
+        <div class="flex size-7 items-center justify-center rounded-full bg-[#3B82F6] text-[10px] font-extrabold text-white">SV</div>
+        <span class="hidden sm:inline">SKALA</span>
       </RouterLink>
 
-      <!-- Desktop Nav -->
-      <nav class="hidden items-center gap-1 md:flex">
-        <RouterLink
-          v-for="item in navigationItems"
-          :key="item.to"
-          :to="item.to"
-          class="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
-          :class="{ 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white': route.path === item.to }"
+      <div class="mx-1 h-5 w-px bg-white/[0.08]" />
+
+      <!-- Nav links -->
+      <RouterLink
+        v-for="link in links"
+        :key="link.to"
+        :to="link.to"
+        class="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+        :class="route.path.startsWith(link.to) ? 'bg-white/[0.08] text-[#FAFAFA]' : 'text-white/50 hover:text-white/80 hover:bg-white/[0.04]'"
+      >
+        <Icon :icon="link.icon" class="size-3.5" />
+        <span class="hidden sm:inline">{{ link.label }}</span>
+      </RouterLink>
+
+      <div class="mx-0.5 h-5 w-px bg-white/[0.08]" />
+
+      <!-- Practices dropdown -->
+      <details ref="practiceMenu" class="relative">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          :class="route.path.startsWith('/practices') ? 'bg-white/[0.08] text-[#FAFAFA]' : 'text-white/50 hover:text-white/80 hover:bg-white/[0.04]'"
         >
-          <Icon :icon="item.icon" class="size-4" />
-          {{ item.label }}
-        </RouterLink>
-
-        <!-- Practices Dropdown -->
-        <details ref="practiceMenu" class="relative">
-          <summary class="flex cursor-pointer list-none items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
-            :class="{ 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white': route.path.startsWith('/practices/') }"
-          >
-            <Icon icon="lucide:book-open" class="size-4" />
-            Practices
-            <Icon icon="lucide:chevron-down" class="size-3.5 transition-transform group-open:rotate-180" />
-          </summary>
-          <div class="absolute right-0 top-full mt-2 w-[560px] rounded-xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-700 dark:bg-slate-900">
-            <div class="mb-4 border-b border-slate-100 pb-3 dark:border-slate-800">
-              <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Practice Library</p>
-              <p class="mt-0.5 text-sm font-medium text-slate-900 dark:text-white">폴더별 실습 목록</p>
+          <Icon icon="solar:atom-linear" class="size-3.5" />
+          <span class="hidden sm:inline">실습실</span>
+        </summary>
+        <div
+          class="absolute left-0 top-full mt-3 w-[520px] rounded-2xl border border-white/[0.08] bg-[#18181B]/95 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.5)] backdrop-blur-2xl"
+        >
+          <p class="mb-3 text-[11px] font-semibold uppercase tracking-widest text-white/25 break-keep-all">
+            연구 영역
+          </p>
+          <div v-for="group in practiceGroups" :key="group.label" class="mb-3 last:mb-0">
+            <div class="mb-2 flex items-center gap-2">
+              <div class="h-4 w-0.5 rounded-full bg-[#3B82F6]" />
+              <strong class="text-sm font-semibold text-[#FAFAFA]">{{ group.label }}</strong>
+              <span class="text-xs text-white/25">{{ group.count }}개 항목</span>
             </div>
-            <div v-for="group in practiceGroups" :key="group.label" class="mb-4 last:mb-0">
-              <div class="mb-2 flex items-center gap-2 border-l-2 border-emerald-500 pl-2">
-                <strong class="text-sm font-semibold text-slate-900 dark:text-white">{{ group.label }}</strong>
-                <span class="text-xs text-slate-400">{{ group.description }}</span>
-              </div>
-              <div class="grid grid-cols-2 gap-1">
-                <RouterLink
-                  v-for="item in group.items"
-                  :key="item.to"
-                  :to="item.to"
-                  class="rounded-lg px-2.5 py-1.5 text-sm text-slate-600 transition-colors hover:bg-emerald-50 hover:text-emerald-700 dark:text-slate-400 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400"
-                  @click="closePracticeMenu"
-                >
-                  {{ item.label }}
-                </RouterLink>
-              </div>
+            <div class="grid grid-cols-2 gap-0.5">
+              <RouterLink
+                v-for="item in group.items"
+                :key="item.to"
+                :to="item.to"
+                class="rounded-lg px-2 py-1.5 text-sm text-white/50 transition-all duration-300 hover:bg-white/[0.06] hover:text-white/80"
+                @click="closeMenus"
+              >
+                {{ item.label }}
+              </RouterLink>
             </div>
           </div>
-        </details>
+        </div>
+      </details>
 
-        <!-- Weather Dropdown -->
-        <details ref="weatherMenu" class="relative">
-          <summary class="flex cursor-pointer list-none items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
-            :class="{ 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white': route.path.startsWith('/weathers/') }"
+      <!-- Weather dropdown -->
+      <details ref="weatherMenu" class="relative">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          :class="route.path.startsWith('/weathers') ? 'bg-white/[0.08] text-[#FAFAFA]' : 'text-white/50 hover:text-white/80 hover:bg-white/[0.04]'"
+        >
+          <Icon icon="solar:cloud-rain-linear" class="size-3.5" />
+          <span class="hidden sm:inline">날씨</span>
+        </summary>
+        <div
+          class="absolute left-0 top-full mt-3 w-48 rounded-2xl border border-white/[0.08] bg-[#18181B]/95 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.5)] backdrop-blur-2xl"
+        >
+          <RouterLink
+            v-for="item in weatherPages"
+            :key="item.to"
+            :to="item.to"
+            class="block rounded-lg px-3 py-2 text-sm text-white/50 transition-all duration-300 hover:bg-white/[0.06] hover:text-white/80"
+            @click="closeMenus"
           >
-            <Icon icon="lucide:cloud" class="size-4" />
-            Weather
-            <Icon icon="lucide:chevron-down" class="size-3.5 transition-transform group-open:rotate-180" />
-          </summary>
-          <div class="absolute right-0 top-full mt-2 w-48 rounded-xl border border-slate-200 bg-white p-2 shadow-xl dark:border-slate-700 dark:bg-slate-900">
-            <RouterLink
-              v-for="item in weatherPages"
-              :key="item.to"
-              :to="item.to"
-              class="block rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors hover:bg-emerald-50 hover:text-emerald-700 dark:text-slate-400 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400"
-              @click="closeWeatherMenu"
-            >
-              {{ item.label }}
-            </RouterLink>
-          </div>
-        </details>
-      </nav>
+            {{ item.label }}
+          </RouterLink>
+        </div>
+      </details>
 
-      <!-- Mobile Menu Toggle -->
+      <div class="mx-0.5 h-5 w-px bg-white/[0.08]" />
+
+      <!-- Theme toggle -->
       <button
-        class="rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-100 md:hidden dark:text-slate-400 dark:hover:bg-slate-800"
+        class="rounded-full p-1.5 text-white/50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white/[0.06] hover:text-white"
+        @click="toggleTheme"
+        :title="isDark ? '라이트 모드로 전환' : '다크 모드로 전환'"
+      >
+        <Icon :icon="isDark ? 'solar:sun-linear' : 'solar:moon-linear'" class="size-4" />
+      </button>
+
+      <!-- Mobile menu toggle -->
+      <button
+        class="ml-1 rounded-full p-1.5 text-white/50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white/[0.06] hover:text-white md:hidden"
         @click="mobileMenuOpen = !mobileMenuOpen"
       >
-        <Icon v-if="!mobileMenuOpen" icon="lucide:menu" class="size-5" />
-        <Icon v-else icon="lucide:x" class="size-5" />
+        <Icon :icon="mobileMenuOpen ? 'solar:close-circle-linear' : 'solar:menu-dots-linear'" class="size-5" />
       </button>
-    </div>
+    </nav>
 
-    <!-- Mobile Nav -->
-    <div v-if="mobileMenuOpen" class="border-t border-slate-200 bg-white px-6 pb-6 pt-2 md:hidden dark:border-slate-800 dark:bg-slate-950">
+    <!-- Mobile dropdown -->
+    <div
+      v-if="mobileMenuOpen"
+      class="absolute top-full left-4 right-4 mt-3 rounded-2xl border border-white/[0.08] bg-[#18181B]/95 p-4 shadow-[0_20px_60px_rgba(0,0,0,0.5)] backdrop-blur-2xl md:hidden"
+    >
       <RouterLink
-        v-for="item in navigationItems"
-        :key="item.to"
-        :to="item.to"
-        class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400"
+        v-for="link in links"
+        :key="link.to"
+        :to="link.to"
+        class="flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition-all duration-300 hover:bg-white/[0.05] hover:text-white"
         @click="mobileMenuOpen = false"
       >
-        <Icon :icon="item.icon" class="size-4" />
-        {{ item.label }}
+        <Icon :icon="link.icon" class="size-4" />
+        {{ link.label }}
       </RouterLink>
-      <RouterLink
-        to="/practices"
-        class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400"
-        @click="mobileMenuOpen = false"
-      >
-        <Icon icon="lucide:book-open" class="size-4" />
-        Practices
-      </RouterLink>
-      <RouterLink
-        to="/weathers"
-        class="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400"
-        @click="mobileMenuOpen = false"
-      >
-        <Icon icon="lucide:cloud" class="size-4" />
-        Weather
-      </RouterLink>
+
+      <!-- Mobile: Practices sub-items -->
+      <div class="mt-2 border-t border-white/[0.06] pt-3">
+        <p class="mb-2 px-4 text-[11px] font-semibold uppercase tracking-widest text-white/20 break-keep-all">연구 영역</p>
+        <div v-for="group in practiceGroups" :key="group.label">
+          <p class="px-4 py-1 text-xs font-semibold text-white/40">{{ group.label }}</p>
+          <RouterLink
+            v-for="item in group.items"
+            :key="item.to"
+            :to="item.to"
+            class="flex items-center gap-2 rounded-lg px-4 py-2 pl-8 text-sm text-white/50 transition-all duration-300 hover:bg-white/[0.05] hover:text-white/80"
+            @click="mobileMenuOpen = false"
+          >
+            {{ item.label }}
+          </RouterLink>
+        </div>
+      </div>
+
+      <!-- Mobile: Weather sub-items -->
+      <div class="mt-2 border-t border-white/[0.06] pt-3">
+        <p class="mb-1 px-4 text-[11px] font-semibold uppercase tracking-widest text-white/20 break-keep-all">날씨</p>
+        <RouterLink
+          v-for="item in weatherPages"
+          :key="item.to"
+          :to="item.to"
+          class="flex items-center gap-2 rounded-lg px-4 py-2 text-sm text-white/50 transition-all duration-300 hover:bg-white/[0.05] hover:text-white/80"
+          @click="mobileMenuOpen = false"
+        >
+          {{ item.label }}
+        </RouterLink>
+      </div>
     </div>
   </header>
 </template>
