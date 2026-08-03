@@ -63,7 +63,7 @@ watchEffect(() => {
 
       <!-- 검색 -->
       <BaseDashboardCard class="mt-6">
-        <SearchBar v-model="searchQuery" />
+        <SearchBar :model-value="searchQuery" @update-query="searchQuery = $event" />
       </BaseDashboardCard>
 
       <!-- 결과 -->

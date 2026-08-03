@@ -269,6 +269,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/weathers/weather5': RouteRecordInfo<
+      '/weathers/weather5',
+      '/weathers/weather5',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -549,6 +556,14 @@ declare module 'vue-router/auto-routes' {
     'src/pages/weathers/weather4/WeatherCard.vue': {
       routes:
         | '/weathers/weather4/WeatherCard'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/weathers/weather5.vue': {
+      routes:
+        | '/weathers/weather5'
       views:
         | never
       pathParamNames:
