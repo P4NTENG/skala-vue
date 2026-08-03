@@ -8,6 +8,7 @@ defineOptions({
 
 const route = useRoute()
 const practiceMenu = ref(null)
+const weatherMenu = ref(null)
 
 const navigationItems = [
   { label: 'Home', to: '/' },
@@ -16,6 +17,19 @@ const navigationItems = [
 
 const practicePageModules = import.meta.glob('../../pages/practices/**/*.vue')
 const practiceGroups = createPracticeGroups(Object.keys(practicePageModules))
+
+const weatherPageModules = import.meta.glob('../../pages/weathers/*.vue')
+const weatherPages = Object.keys(weatherPageModules)
+  .map((pagePath) => {
+    const fileName = pagePath.split('/').pop()?.replace(/\.vue$/, '')
+    if (!fileName) return null
+
+    return {
+      label: formatPageLabel(fileName),
+      to: `/weathers/${fileName}`,
+    }
+  })
+  .filter((item) => item !== null)
 
 function createPracticeGroups(pagePaths) {
   const groups = new Map()
@@ -74,6 +88,10 @@ function formatPageLabel(value) {
 
 function closePracticeMenu() {
   practiceMenu.value?.removeAttribute('open')
+}
+
+function closeWeatherMenu() {
+  weatherMenu.value?.removeAttribute('open')
 }
 </script>
 
@@ -139,10 +157,38 @@ function closePracticeMenu() {
           </div>
         </details>
 
-        <RouterLink class="top-bar__link" to="/weather">
-          <span class="top-bar__index" aria-hidden="true">04</span>
-          Weather
-        </RouterLink>
+        <details
+          ref="weatherMenu"
+          class="practice-menu"
+          :class="{ 'practice-menu--active': route.path.startsWith('/weathers/') }"
+        >
+          <summary class="top-bar__link practice-menu__trigger">
+            <span class="top-bar__index" aria-hidden="true">04</span>
+            Weather
+            <span class="practice-menu__chevron" aria-hidden="true">⌄</span>
+          </summary>
+
+          <div class="practice-menu__panel">
+            <div class="practice-menu__heading">
+              <span>Weather dashboard</span>
+              <strong>날씨 대시보드</strong>
+            </div>
+
+            <section v-if="weatherPages.length" class="practice-group">
+              <div class="practice-group__links practice-group__links--full">
+                <RouterLink
+                  v-for="item in weatherPages"
+                  :key="item.to"
+                  class="practice-group__link"
+                  :to="item.to"
+                  @click="closeWeatherMenu"
+                >
+                  {{ item.label }}
+                </RouterLink>
+              </div>
+            </section>
+          </div>
+        </details>
       </nav>
     </div>
   </header>
@@ -391,6 +437,10 @@ function closePracticeMenu() {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.35rem;
+}
+
+.practice-group__links--full {
+  grid-template-columns: 1fr;
 }
 
 .practice-group__link {

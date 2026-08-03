@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 
 defineOptions({
-  name: 'Weather2Page',
+  name: 'WeatherPage',
 })
 
 const searchTerm = ref('')
@@ -13,9 +13,9 @@ const weatherList = ref([
 ])
 
 const weatherPresentation = {
-  맑음: { color: 'warning', icon: 'mdi-weather-sunny' },
-  비: { color: 'info', icon: 'mdi-weather-rainy' },
-  구름: { color: 'secondary', icon: 'mdi-weather-cloudy' },
+  맑음: { accent: '#f59e0b', bg: 'rgba(245,158,11,.12)', icon: 'mdi-weather-sunny' },
+  비: { accent: '#3b82f6', bg: 'rgba(59,130,246,.12)', icon: 'mdi-weather-rainy' },
+  구름: { accent: '#64748b', bg: 'rgba(100,116,139,.12)', icon: 'mdi-weather-cloudy' },
 }
 
 const weatherAtmosphere = {
@@ -61,41 +61,46 @@ const showDetail = (cityName, status) => {
 
 <template>
   <div class="weather2">
-    <!-- Hero -- atmospheric sky banner -->
+    <!-- Hero — atmospheric sky banner -->
     <section class="hero">
       <div class="hero__atmosphere"></div>
       <div class="hero__inner">
         <div class="hero__icon-ring">
-          <VIcon icon="mdi-weather-partly-cloudy" size="36" />
+          <i class="mdi mdi-weather-partly-cloudy" :style="{ fontSize: '36px' }"></i>
         </div>
         <h1 class="hero__title">도시별 날씨</h1>
         <p class="hero__sub">실시간 기상 관측 대시보드</p>
 
         <div class="hero__search">
-          <VTextField
-            id="search-input"
-            v-model="searchTerm"
-            clearable
-            hide-details
-            placeholder="도시 이름으로 검색..."
-            prepend-inner-icon="mdi-magnify"
-            variant="solo-filled"
-            density="comfortable"
-            rounded="pill"
-            flat
-            bg-color="white"
-            color="primary"
-          />
+          <div class="search-field">
+            <i class="mdi mdi-magnify search-field__icon"></i>
+            <input
+              id="search-input"
+              v-model="searchTerm"
+              type="text"
+              class="search-field__input"
+              placeholder="도시 이름으로 검색..."
+            />
+            <button
+              v-if="searchTerm"
+              class="search-field__clear"
+              @click="searchTerm = ''"
+              type="button"
+              aria-label="검색어 지우기"
+            >
+              <i class="mdi mdi-close"></i>
+            </button>
+          </div>
         </div>
 
         <div class="hero__meta">
           <span class="hero__meta-item">
-            <VIcon icon="mdi-map-marker-outline" size="16" />
+            <i class="mdi mdi-map-marker-outline" :style="{ fontSize: '16px' }"></i>
             {{ searchTerm.trim() || '전체 도시' }}
           </span>
           <span class="hero__meta-divider"></span>
           <span class="hero__meta-item">
-            <VIcon icon="mdi-dots-grid" size="16" />
+            <i class="mdi mdi-dots-grid" :style="{ fontSize: '16px' }"></i>
             {{ filteredWeatherList.length }}개 관측
           </span>
         </div>
@@ -104,74 +109,69 @@ const showDetail = (cityName, status) => {
 
     <!-- City cards grid -->
     <section class="grid-section">
-      <VContainer fluid>
-        <VRow v-if="filteredWeatherList.length">
-          <VCol
-            v-for="(city, index) in filteredWeatherList"
-            :key="city.id"
-            cols="12"
-            md="4"
-            sm="6"
-          >
+      <div v-if="filteredWeatherList.length" class="grid-section__cards">
+        <div
+          v-for="(city, index) in filteredWeatherList"
+          :key="city.id"
+          :class="['city-card', `city-card--${city.status}`]"
+          :style="{
+            animationDelay: `${index * 0.12}s`,
+            '--accent': weatherAtmosphere[city.status].accent,
+            '--gradient': weatherAtmosphere[city.status].gradient,
+            '--shadow': weatherAtmosphere[city.status].shadow,
+          }"
+          tabindex="0"
+          role="button"
+          :aria-label="`${city.name} — ${city.status}, ${city.temp}도`"
+          @click="showDetail(city.name, city.status)"
+          @keydown.enter="showDetail(city.name, city.status)"
+          @keydown.space.prevent="showDetail(city.name, city.status)"
+        >
+          <div class="city-card__icon-wrap">
             <div
-              :class="['city-card', `city-card--${city.status}`]"
+              class="avatar-icon"
               :style="{
-                animationDelay: `${index * 0.12}s`,
-                '--accent': weatherAtmosphere[city.status].accent,
-                '--gradient': weatherAtmosphere[city.status].gradient,
-                '--shadow': weatherAtmosphere[city.status].shadow,
+                '--avatar-bg': weatherPresentation[city.status].bg,
+                '--avatar-color': weatherPresentation[city.status].accent,
               }"
-              tabindex="0"
-              role="button"
-              :aria-label="`${city.name} — ${city.status}, ${city.temp}도`"
-              @click="showDetail(city.name, city.status)"
-              @keydown.enter="showDetail(city.name, city.status)"
-              @keydown.space.prevent="showDetail(city.name, city.status)"
             >
-              <div class="city-card__icon-wrap">
-                <VAvatar
-                  :color="weatherPresentation[city.status].color"
-                  size="56"
-                  variant="tonal"
-                >
-                  <VIcon :icon="weatherPresentation[city.status].icon" size="32" />
-                </VAvatar>
-              </div>
-
-              <div class="city-card__reading" :style="{ color: tempColor(city.temp) }">
-                <span class="city-card__value">{{ city.temp }}</span>
-                <span class="city-card__unit">℃</span>
-              </div>
-
-              <div class="city-card__header">
-                <h3 class="city-card__name">{{ city.name }}</h3>
-                <VChip
-                  :color="weatherPresentation[city.status].color"
-                  size="x-small"
-                  variant="tonal"
-                  class="city-card__chip"
-                >
-                  {{ city.status }}
-                </VChip>
-              </div>
-
-              <p class="city-card__desc">
-                {{ city.temp >= 25 ? '다소 더운 날씨입니다' : '선선한 날씨입니다' }}
-              </p>
-
-              <div class="city-card__bar"></div>
+              <i :class="'mdi ' + weatherPresentation[city.status].icon" :style="{ fontSize: '32px' }"></i>
             </div>
-          </VCol>
-        </VRow>
-
-        <div v-else class="empty-state">
-          <div class="empty-state__icon">
-            <VIcon icon="mdi-cloud-search-outline" size="72" />
           </div>
-          <h2 class="empty-state__title">검색 결과가 없습니다</h2>
-          <p class="empty-state__desc">다른 도시 이름으로 검색해보세요</p>
+
+          <div class="city-card__reading" :style="{ color: tempColor(city.temp) }">
+            <span class="city-card__value">{{ city.temp }}</span>
+            <span class="city-card__unit">℃</span>
+          </div>
+
+          <div class="city-card__header">
+            <h3 class="city-card__name">{{ city.name }}</h3>
+            <span
+              class="city-card__chip"
+              :style="{
+                '--chip-bg': weatherPresentation[city.status].bg,
+                '--chip-color': weatherPresentation[city.status].accent,
+              }"
+            >
+              {{ city.status }}
+            </span>
+          </div>
+
+          <p class="city-card__desc">
+            {{ city.temp >= 25 ? '다소 더운 날씨입니다' : '선선한 날씨입니다' }}
+          </p>
+
+          <div class="city-card__bar"></div>
         </div>
-      </VContainer>
+      </div>
+
+      <div v-else class="empty-state">
+        <div class="empty-state__icon">
+          <i class="mdi mdi-cloud-search-outline" :style="{ fontSize: '72px' }"></i>
+        </div>
+        <h2 class="empty-state__title">검색 결과가 없습니다</h2>
+        <p class="empty-state__desc">다른 도시 이름으로 검색해보세요</p>
+      </div>
     </section>
   </div>
 </template>
@@ -183,6 +183,86 @@ const showDetail = (cityName, status) => {
   --hero-light: #1e5a7a;
   --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Search field ── */
+.search-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 999px;
+  padding: 0 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.search-field__icon {
+  color: #94a3b8;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.search-field__input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 12px 0;
+  font-size: 0.95rem;
+  background: transparent;
+  color: #1e293b;
+  font-family: inherit;
+}
+
+.search-field__input::placeholder {
+  color: #94a3b8;
+}
+
+.search-field__clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 50%;
+  cursor: pointer;
+  color: #64748b;
+  flex-shrink: 0;
+  margin-left: 8px;
+  font-size: 1rem;
+  padding: 0;
+}
+
+.search-field__clear:hover {
+  background: rgba(0, 0, 0, 0.12);
+  color: #334155;
+}
+
+/* ── Avatar icon ── */
+.avatar-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--avatar-bg);
+  color: var(--avatar-color);
+  transition: box-shadow 0.4s var(--ease-out);
+}
+
+.city-card:hover .avatar-icon {
+  box-shadow: 0 0 0 8px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
+.city-card__icon-wrap .mdi {
+  transition: transform 0.45s var(--ease-out);
+}
+
+.city-card:hover .city-card__icon-wrap .mdi {
+  transform: scale(1.12) rotate(-8deg);
 }
 
 /* ── Hero ── */
@@ -264,7 +344,7 @@ const showDetail = (cityName, status) => {
   color: rgba(255, 255, 255, 0.45);
 }
 
-.hero__meta-item .v-icon {
+.hero__meta-item .mdi {
   opacity: 0.55;
 }
 
@@ -273,6 +353,25 @@ const showDetail = (cityName, status) => {
   height: 3px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Grid ── */
+.grid-section__cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 600px) {
+  .grid-section__cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .grid-section__cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 /* ── City cards ── */
@@ -314,22 +413,6 @@ const showDetail = (cityName, status) => {
   margin-bottom: 16px;
 }
 
-.city-card__icon-wrap :deep(.v-avatar) {
-  transition: box-shadow 0.4s var(--ease-out);
-}
-
-.city-card:hover .city-card__icon-wrap :deep(.v-avatar) {
-  box-shadow: 0 0 0 8px color-mix(in srgb, var(--accent) 15%, transparent);
-}
-
-.city-card__icon-wrap :deep(.v-icon) {
-  transition: transform 0.45s var(--ease-out);
-}
-
-.city-card:hover .city-card__icon-wrap :deep(.v-icon) {
-  transform: scale(1.12) rotate(-8deg);
-}
-
 .city-card__reading {
   font-weight: 800;
   line-height: 1;
@@ -369,7 +452,14 @@ const showDetail = (cityName, status) => {
 }
 
 .city-card__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
   font-weight: 500;
+  background: var(--chip-bg);
+  color: var(--chip-color);
 }
 
 .city-card__desc {
@@ -475,13 +565,13 @@ const showDetail = (cityName, status) => {
     transform: none !important;
   }
 
-  .city-card__icon-wrap :deep(.v-icon),
+  .city-card__icon-wrap .mdi,
   .city-card__reading {
     transition: none !important;
   }
 
   .city-card:hover .city-card__reading,
-  .city-card:hover .city-card__icon-wrap :deep(.v-icon) {
+  .city-card:hover .city-card__icon-wrap .mdi {
     transform: none !important;
   }
 }

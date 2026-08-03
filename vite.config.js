@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueRouter from 'vue-router/vite'
 import vueDevTools from 'vite-plugin-vue-devtools'
-import vuetify from 'vite-plugin-vuetify'
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,8 +12,8 @@ export default defineConfig({
   plugins: [
     vueRouter(),
     vue(),
-    vuetify({ autoImport: true }),
     vueDevTools(),
+    tailwindcss(),
   ],
   resolve: {
     alias: {

@@ -199,16 +199,23 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/weather': RouteRecordInfo<
-      '/weather',
-      '/weather',
+    '/weathers/weather': RouteRecordInfo<
+      '/weathers/weather',
+      '/weathers/weather',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/weather_draft': RouteRecordInfo<
-      '/weather_draft',
-      '/weather_draft',
+    '/weathers/weather_draft': RouteRecordInfo<
+      '/weathers/weather_draft',
+      '/weathers/weather_draft',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/weathers/weather2': RouteRecordInfo<
+      '/weathers/weather2',
+      '/weathers/weather2',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -418,17 +425,25 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
-    'src/pages/weather.vue': {
+    'src/pages/weathers/weather.vue': {
       routes:
-        | '/weather'
+        | '/weathers/weather'
       views:
         | never
       pathParamNames:
         | never
     }
-    'src/pages/weather_draft.vue': {
+    'src/pages/weathers/weather_draft.vue': {
       routes:
-        | '/weather_draft'
+        | '/weathers/weather_draft'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/weathers/weather2.vue': {
+      routes:
+        | '/weathers/weather2'
       views:
         | never
       pathParamNames:
