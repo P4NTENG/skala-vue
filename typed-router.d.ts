@@ -45,6 +45,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/practices/': RouteRecordInfo<
+      '/practices/',
+      '/practices',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/practices/basic/sample-one': RouteRecordInfo<
       '/practices/basic/sample-one',
       '/practices/basic/sample-one',
@@ -199,6 +206,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/weathers/': RouteRecordInfo<
+      '/weathers/',
+      '/weathers',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/weathers/weather': RouteRecordInfo<
       '/weathers/weather',
       '/weathers/weather',
@@ -244,6 +258,14 @@ declare module 'vue-router/auto-routes' {
     'src/pages/about.vue': {
       routes:
         | '/about'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/practices/index.vue': {
+      routes:
+        | '/practices/'
       views:
         | never
       pathParamNames:
@@ -420,6 +442,14 @@ declare module 'vue-router/auto-routes' {
     'src/pages/practices/vue-style/vue-style-example.vue': {
       routes:
         | '/practices/vue-style/vue-style-example'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/weathers/index.vue': {
+      routes:
+        | '/weathers/'
       views:
         | never
       pathParamNames:
