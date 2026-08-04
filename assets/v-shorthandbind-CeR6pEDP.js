@@ -1,0 +1,1 @@
+import{B as e,C as t,b as n}from"./index-up-oSW7x.js";var r={class:`practice-section`},i=`user-profile-card`,a=`https://vuejs.org/images/logo.png`,o={__name:`v-shorthandbind`,setup(o){return(o,s)=>(e(),t(`div`,r,[s[0]||=n(`h2`,null,`v-bind 디렉티브 고급 (단축 문법)`,-1),n(`div`,{id:i},[n(`img`,{src:a,alt:`Vue 로고`,style:{width:`50px`}})])]))}};export{o as default};

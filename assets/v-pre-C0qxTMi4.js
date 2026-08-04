@@ -1,0 +1,1 @@
+import{B as e,C as t,b as n,rt as r,ut as i}from"./index-up-oSW7x.js";var a={class:`practice-section`},o={__name:`v-pre`,setup(o){let s=r(`안녕하세요!`);return(r,o)=>(e(),t(`div`,a,[o[0]||=n(`h2`,null,`v-pre 디렉티브 학습`,-1),n(`p`,null,`일반 출력: `+i(s.value),1),o[1]||=n(`p`,null,`v-pre 출력: {{ message }}`,-1)]))}};export{o as default};
