@@ -2,6 +2,7 @@
 import { SingularityBackground } from '@/components/ui/bg-singularity'
 import { RouterLink } from 'vue-router'
 import { Icon } from '@iconify/vue'
+import { LampEffect } from '@/components/ui/lamp-effect'
 
 defineOptions({ name: 'WeathersIndex' })
 

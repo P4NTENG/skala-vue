@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref, watch, watchEffect } from 'vue'
-import BaseDashboardCard from './BaseDashboardCard.vue'
-import SearchBar from './SearchBar.vue'
-import WeatherCard from './WeatherCard.vue'
+import BaseDashboardCard from '@/components/exercises/BaseDashboardCard.vue'
+import SearchBar from '@/components/exercises/SearchBar.vue'
+import WeatherCard from '@/components/exercises/WeatherCard.vue'
 
 defineOptions({ name: 'WeatherParent' })
 
