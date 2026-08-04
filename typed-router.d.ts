@@ -227,6 +227,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/weathers/weather10': RouteRecordInfo<
+      '/weathers/weather10',
+      '/weathers/weather10',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/weathers/weather2': RouteRecordInfo<
       '/weathers/weather2',
       '/weathers/weather2',
@@ -241,12 +248,14 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/weathers/weather4/': RouteRecordInfo<
-      '/weathers/weather4/',
+    '/weathers/weather4': RouteRecordInfo<
+      '/weathers/weather4',
       '/weathers/weather4',
       Record<never, never>,
       Record<never, never>,
-      | never
+      | '/weathers/weather4/BaseDashboardCard'
+      | '/weathers/weather4/SearchBar'
+      | '/weathers/weather4/WeatherCard'
     >,
     '/weathers/weather4/BaseDashboardCard': RouteRecordInfo<
       '/weathers/weather4/BaseDashboardCard',
@@ -272,6 +281,34 @@ declare module 'vue-router/auto-routes' {
     '/weathers/weather5': RouteRecordInfo<
       '/weathers/weather5',
       '/weathers/weather5',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/weathers/weather6': RouteRecordInfo<
+      '/weathers/weather6',
+      '/weathers/weather6',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/weathers/weather7': RouteRecordInfo<
+      '/weathers/weather7',
+      '/weathers/weather7',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/weathers/weather8': RouteRecordInfo<
+      '/weathers/weather8',
+      '/weathers/weather8',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/weathers/weather9': RouteRecordInfo<
+      '/weathers/weather9',
+      '/weathers/weather9',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -513,6 +550,14 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
+    'src/pages/weathers/weather10.vue': {
+      routes:
+        | '/weathers/weather10'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
     'src/pages/weathers/weather2.vue': {
       routes:
         | '/weathers/weather2'
@@ -529,11 +574,14 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
-    'src/pages/weathers/weather4/index.vue': {
+    'src/pages/weathers/weather4.vue': {
       routes:
-        | '/weathers/weather4/'
+        | '/weathers/weather4'
+        | '/weathers/weather4/BaseDashboardCard'
+        | '/weathers/weather4/SearchBar'
+        | '/weathers/weather4/WeatherCard'
       views:
-        | never
+        | 'default'
       pathParamNames:
         | never
     }
@@ -564,6 +612,38 @@ declare module 'vue-router/auto-routes' {
     'src/pages/weathers/weather5.vue': {
       routes:
         | '/weathers/weather5'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/weathers/weather6.vue': {
+      routes:
+        | '/weathers/weather6'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/weathers/weather7.vue': {
+      routes:
+        | '/weathers/weather7'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/weathers/weather8.vue': {
+      routes:
+        | '/weathers/weather8'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/weathers/weather9.vue': {
+      routes:
+        | '/weathers/weather9'
       views:
         | never
       pathParamNames:
