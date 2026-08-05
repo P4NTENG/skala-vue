@@ -131,6 +131,7 @@ const detailLoading = ref(false)
 const error = ref(null)
 const unit = ref('celsius')
 const hourlyData = ref([])
+const forecastData = ref([])
 const activeTab = ref('now')
 const favoritesStore = useWeatherFavoritesStore()
 
@@ -168,6 +169,13 @@ function windDir(deg) {
   return d[Math.round(deg / 45) % 8]
 }
 
+function convertWindSpeed(mps) {
+  if (unit.value === 'fahrenheit') {
+    return `${Math.round(mps * 2.237)} mph`
+  }
+  return `${Math.round(mps)} m/s`
+}
+
 async function fetchCoords(name) {
   const { data } = await axios.get('https://api.openweathermap.org/geo/1.0/direct', {
     params: { q: name, limit: 1, appid: apiKey },
@@ -185,7 +193,7 @@ async function fetchCurrent(lat, lon) {
 
 async function fetchForecast(lat, lon) {
   const { data } = await axios.get('https://api.openweathermap.org/data/2.5/forecast', {
-    params: { lat, lon, units: 'metric', lang: 'kr', cnt: 16, appid: apiKey },
+    params: { lat, lon, units: 'metric', lang: 'kr', cnt: 40, appid: apiKey },
   })
   return data
 }
@@ -241,6 +249,7 @@ async function loadDetail(city) {
   selectedCity.value = city
   try {
     const forecast = await fetchForecast(city.lat, city.lon)
+    forecastData.value = forecast.list
     hourlyData.value = forecast.list.slice(0, 8)
     const today = new Date().toISOString().slice(0, 10)
     const todayItems = forecast.list.filter((i) => i.dt_txt.startsWith(today))
@@ -265,6 +274,7 @@ function selectCity(city) {
 function resetSelection() {
   selectedCity.value = null
   hourlyData.value = []
+  forecastData.value = []
 }
 
 const filtered = computed(() => {
@@ -288,6 +298,32 @@ function toggleFavorite(city) {
 
 const currentPop = computed(() => Math.round((hourlyData.value[0]?.pop ?? 0) * 100))
 
+const lastUpdated = computed(() => {
+  if (!selectedCity.value) return ''
+  return formatTime(Number(selectedCity.value.id.split('_')[0]))
+})
+
+const daylightPct = computed(() => {
+  if (!selectedCity.value?.sunrise || !selectedCity.value?.sunset) return 0
+  const now = Math.floor(Date.now() / 1000)
+  const sr = selectedCity.value.sunrise
+  const ss = selectedCity.value.sunset
+  if (now <= sr) return 0
+  if (now >= ss) return 100
+  return Math.round(((now - sr) / (ss - sr)) * 100)
+})
+
+const daylightRemaining = computed(() => {
+  if (!selectedCity.value?.sunset) return ''
+  const now = Math.floor(Date.now() / 1000)
+  const ss = selectedCity.value.sunset
+  if (now >= ss) return ''
+  const diff = ss - now
+  const h = Math.floor(diff / 3600)
+  const m = Math.floor((diff % 3600) / 60)
+  return `${h}h ${m}m left`
+})
+
 const statusInfo = computed(() => {
   if (loading.value)
     return { icon: RotateCw, text: 'Loading…', sub: 'Fetching weather data', spin: true }
@@ -298,10 +334,10 @@ const statusInfo = computed(() => {
   return null
 })
 
-const threeDayForecast = computed(() => {
-  if (hourlyData.value.length < 8) return []
+const dailyForecast = computed(() => {
+  if (!forecastData.value.length) return []
   const map = {}
-  hourlyData.value.forEach((h) => {
+  forecastData.value.forEach((h) => {
     const date = new Date(h.dt * 1000).toLocaleDateString('ko-KR', {
       weekday: 'long',
       month: 'numeric',
@@ -311,8 +347,8 @@ const threeDayForecast = computed(() => {
     map[date].temps.push(h.main.temp)
     map[date].icons.push(h.weather[0].id)
   })
+  if (Object.keys(map).length <= 1) return []
   return Object.entries(map)
-    .slice(0, 3)
     .map(([date, data]) => ({
       date,
       high: Math.max(...data.temps),
@@ -447,6 +483,9 @@ onMounted(loadAll)
                 {{ getCondition(selectedCity.weatherCode).status }}
               </Badge>
             </div>
+            <span class="ml-auto mr-3 text-xs tabular-nums text-muted-foreground">
+              Updated {{ lastUpdated }}
+            </span>
             <Button variant="ghost" size="icon" :disabled="loading" @click="loadAll()">
               <RotateCw :size="16" :class="{ 'animate-spin': loading }" />
             </Button>
@@ -472,7 +511,7 @@ onMounted(loadAll)
                 <TabsList class="mb-4 grid w-full grid-cols-4">
                   <TabsTrigger value="now">Now</TabsTrigger>
                   <TabsTrigger value="hourly">Hourly</TabsTrigger>
-                  <TabsTrigger value="forecast">3-Day</TabsTrigger>
+                   <TabsTrigger value="forecast">5-Day</TabsTrigger>
                   <TabsTrigger value="details">Details</TabsTrigger>
                 </TabsList>
 
@@ -509,8 +548,7 @@ onMounted(loadAll)
                               value:
                                 windDir(selectedCity.windDeg) +
                                 ' ' +
-                                Math.round(selectedCity.windSpeed) +
-                                'm/s',
+                                convertWindSpeed(selectedCity.windSpeed),
                               icon: Wind,
                             },
                             { label: 'Clouds', value: selectedCity.clouds + '%', icon: Cloud },
@@ -586,11 +624,11 @@ onMounted(loadAll)
                 </TabsContent>
 
                 <TabsContent value="forecast">
-                  <Card v-if="threeDayForecast.length"
-                    ><CardHeader><CardTitle class="text-sm">3-Day Forecast</CardTitle></CardHeader>
+                  <Card v-if="dailyForecast.length"
+                    ><CardHeader><CardTitle class="text-sm">5-Day Forecast</CardTitle></CardHeader>
                     <CardContent class="flex flex-col gap-2">
                       <div
-                        v-for="(day, i) in threeDayForecast"
+                        v-for="(day, i) in dailyForecast"
                         :key="day.date"
                         class="flex items-center gap-3 rounded-xl px-4 py-3"
                         :class="i === 0 ? 'bg-primary/10' : ''"
@@ -619,7 +657,7 @@ onMounted(loadAll)
                     </CardContent>
                   </Card>
                   <p v-else class="text-center text-sm text-muted-foreground mt-10">
-                    Select a city to load 3-day forecast
+                    Select a city to load 5-day forecast
                   </p>
                 </TabsContent>
 
@@ -670,6 +708,31 @@ onMounted(loadAll)
                           </div></CardContent
                         ></Card
                       >
+                      <Card class="col-span-2">
+                        <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
+                          <Sun :size="24" class="text-yellow-500" />
+                          <div class="w-full max-w-[220px]">
+                            <div
+                              class="mb-1 flex justify-between text-xs tabular-nums text-muted-foreground"
+                            >
+                              <span>{{ formatTime(selectedCity.sunrise) }}</span>
+                              <span>{{ formatTime(selectedCity.sunset) }}</span>
+                            </div>
+                            <div class="h-2 w-full rounded-full bg-border">
+                              <div
+                                class="h-full rounded-full bg-yellow-500 transition-all"
+                                :style="{ width: daylightPct + '%' }"
+                              />
+                            </div>
+                            <p
+                              v-if="daylightRemaining"
+                              class="mt-1 text-xs tabular-nums text-muted-foreground"
+                            >
+                              {{ daylightRemaining }}
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
                     </template>
                     <Card v-else class="col-span-2"
                       ><CardContent class="flex flex-col items-center gap-3 pt-10"
