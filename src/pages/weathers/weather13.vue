@@ -600,7 +600,7 @@ const showRain = computed(() => {
   <AuroraBackground
     :status="weatherStatus"
     :radial-gradient="false"
-    class="!h-[100dvh] !justify-start !items-stretch !bg-transparent"
+    class="!h-[100dvh] !justify-start !items-stretch"
   >
     <SnowfallBg
       v-if="showSnow"
