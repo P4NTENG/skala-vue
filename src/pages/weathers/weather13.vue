@@ -25,6 +25,8 @@ import {
   Star,
   Plus,
   X,
+  Thermometer,
+  Waves,
 } from '@lucide/vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -144,6 +146,7 @@ function loadUnit() {
 }
 const hourlyData = ref([])
 const forecastData = ref([])
+const airQuality = ref(null)
 const activeTab = ref('now')
 const favoritesStore = useWeatherFavoritesStore()
 const userCities = ref(loadUserCities())
@@ -175,6 +178,14 @@ const WEATHER_CONDITION_MAP = {
   802: { status: 'Cloudy', icon: Cloud, color: '#141413', variant: 'outline' },
   803: { status: 'Broken Clouds', icon: Cloud, color: '#141413', variant: 'outline' },
   804: { status: 'Overcast', icon: Cloud, color: '#141413', variant: 'secondary' },
+}
+
+const AQI_LEVELS = {
+  1: { label: 'Good', color: 'text-green-500', bg: 'bg-green-500' },
+  2: { label: 'Fair', color: 'text-yellow-500', bg: 'bg-yellow-500' },
+  3: { label: 'Moderate', color: 'text-orange-500', bg: 'bg-orange-500' },
+  4: { label: 'Poor', color: 'text-red-500', bg: 'bg-red-500' },
+  5: { label: 'Very Poor', color: 'text-purple-500', bg: 'bg-purple-500' },
 }
 
 function getCondition(code) {
@@ -242,6 +253,14 @@ async function searchCities(query) {
   }))
 }
 
+async function fetchAirQuality(lat, lon) {
+  const { data } = await axios.get(
+    'https://api.openweathermap.org/data/2.5/air_pollution',
+    { params: { lat, lon, appid: apiKey } },
+  )
+  return data.list[0]
+}
+
 function mapCity(name, current, lat, lon) {
   return {
     id: `${current.dt}_${name}`,
@@ -298,6 +317,11 @@ async function loadDetail(city) {
     const forecast = await fetchForecast(city.lat, city.lon)
     forecastData.value = forecast.list
     hourlyData.value = forecast.list.slice(0, 8)
+    try {
+      airQuality.value = await fetchAirQuality(city.lat, city.lon)
+    } catch {
+      airQuality.value = null
+    }
     const today = new Date().toISOString().slice(0, 10)
     const todayItems = forecast.list.filter((i) => i.dt_txt.startsWith(today))
     if (todayItems.length) {
@@ -347,6 +371,7 @@ function resetSelection() {
   selectedCity.value = null
   hourlyData.value = []
   forecastData.value = []
+  airQuality.value = null
 }
 
 const filtered = computed(() => {
@@ -422,6 +447,33 @@ const daylightRemaining = computed(() => {
   const h = Math.floor(diff / 3600)
   const m = Math.floor((diff % 3600) / 60)
   return `${h}h ${m}m left`
+})
+
+const windChill = computed(() => {
+  const t = selectedCity.value?.temp
+  const w = selectedCity.value?.windSpeed
+  if (t == null || w == null || t > 10 || w < 1.34) return null
+  const v = Math.pow(w * 3.6, 0.16)
+  return Math.round(13.12 + 0.6215 * t - 11.37 * v + 0.3965 * t * v)
+})
+
+const heatIndex = computed(() => {
+  const t = selectedCity.value?.temp
+  const h = selectedCity.value?.humidity
+  if (t == null || h == null || t < 27 || h < 40) return null
+  const tf = (t * 9) / 5 + 32
+  const r = h
+  const hi =
+    -42.379 +
+    2.04901523 * tf +
+    10.14333127 * r -
+    0.22475541 * tf * r -
+    0.00683783 * tf ** 2 -
+    0.05481717 * r ** 2 +
+    0.00122874 * tf ** 2 * r +
+    0.00085282 * tf * r ** 2 -
+    0.00000199 * tf ** 2 * r ** 2
+  return Math.round(((hi - 32) * 5) / 9)
 })
 
 const statusInfo = computed(() => {
@@ -826,7 +878,7 @@ onMounted(loadAll)
                           </div></CardContent
                         ></Card
                       >
-                      <Card
+                        <Card
                         ><CardContent class="flex flex-col items-center gap-2 pt-5 text-center"
                           ><ArrowDown :size="24" class="text-primary" />
                           <div>
@@ -837,6 +889,28 @@ onMounted(loadAll)
                           </div></CardContent
                         ></Card
                       >
+                      <Card v-if="windChill !== null">
+                        <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
+                          <Wind :size="24" class="text-blue-400" />
+                          <div>
+                            <p class="text-xs text-muted-foreground">Wind Chill</p>
+                            <p class="tabular-nums text-sm font-semibold">
+                              {{ convertTemp(windChill) }}{{ tempUnit() }}
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      <Card v-if="heatIndex !== null">
+                        <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
+                          <Thermometer :size="24" class="text-orange-500" />
+                          <div>
+                            <p class="text-xs text-muted-foreground">Heat Index</p>
+                            <p class="tabular-nums text-sm font-semibold">
+                              {{ convertTemp(heatIndex) }}{{ tempUnit() }}
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
                       <Card class="col-span-2">
                         <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
                           <Sun :size="24" class="text-yellow-500" />
@@ -858,6 +932,40 @@ onMounted(loadAll)
                               class="mt-1 text-xs tabular-nums text-muted-foreground"
                             >
                               {{ daylightRemaining }}
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      <Card v-if="airQuality" class="col-span-2">
+                        <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
+                          <Waves :size="24" :class="AQI_LEVELS[airQuality.main.aqi].color" />
+                          <div>
+                            <p class="text-xs text-muted-foreground">Air Quality</p>
+                            <p
+                              class="text-sm font-semibold"
+                              :class="AQI_LEVELS[airQuality.main.aqi].color"
+                            >
+                              {{ AQI_LEVELS[airQuality.main.aqi].label }}
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      <Card v-if="airQuality">
+                        <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
+                          <div>
+                            <p class="text-xs text-muted-foreground">PM2.5</p>
+                            <p class="tabular-nums text-sm font-semibold">
+                              {{ airQuality.components.pm2_5 }} μg/m³
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      <Card v-if="airQuality">
+                        <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
+                          <div>
+                            <p class="text-xs text-muted-foreground">PM10</p>
+                            <p class="tabular-nums text-sm font-semibold">
+                              {{ airQuality.components.pm10 }} μg/m³
                             </p>
                           </div>
                         </CardContent>
