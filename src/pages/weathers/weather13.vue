@@ -463,7 +463,7 @@ onMounted(loadAll)
 
 <template>
   <div
-    class="flex h-[100dvh] pt-[72px] items-stretch overflow-hidden bg-background text-foreground"
+    class="flex h-[100dvh] items-stretch overflow-hidden bg-background text-foreground"
     style="
       font-family:
         system-ui,
@@ -471,7 +471,7 @@ onMounted(loadAll)
         sans-serif;
     "
   >
-    <Sidebar collapsible="icon" class="sticky top-0 max-h-[calc(100dvh-72px)] self-stretch">
+    <Sidebar collapsible="icon">
       <SidebarHeader class="gap-3">
         <SidebarMenu>
           <SidebarMenuItem>

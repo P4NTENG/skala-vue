@@ -94,12 +94,12 @@ initTheme()
 
 <template>
   <!-- Desktop: Dynamic Island -->
-  <header class="desktop-nav fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4">
+  <header class="desktop-nav pointer-events-none fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4">
     <nav
       ref="navRef"
       role="navigation"
       aria-label="Main navigation"
-      class="flex items-center rounded-full border border-white/[0.08] bg-black/40 backdrop-blur-xl dynamic-island"
+      class="pointer-events-auto flex items-center rounded-full border border-white/[0.08] bg-black/40 backdrop-blur-xl dynamic-island"
       :class="isExpanded ? 'gap-2 px-2 py-1.5' : 'gap-0 px-4 py-2'"
       @mouseenter="isExpanded = true"
       @mouseleave="isExpanded = false"
@@ -216,12 +216,12 @@ initTheme()
 
   <!-- Mobile: Bottom bar -->
   <nav
-    class="mobile-nav fixed bottom-0 left-0 right-0 z-50 flex justify-center pb-4 px-4"
+    class="mobile-nav pointer-events-none fixed bottom-0 left-0 right-0 z-50 flex justify-center pb-4 px-4"
     role="navigation"
     aria-label="Main navigation"
   >
     <div
-      class="flex items-center gap-1 rounded-2xl border border-white/[0.08] bg-black/60 backdrop-blur-xl px-2 py-2"
+      class="pointer-events-auto flex items-center gap-1 rounded-2xl border border-white/[0.08] bg-black/60 backdrop-blur-xl px-2 py-2"
     >
       <RouterLink
         to="/"
