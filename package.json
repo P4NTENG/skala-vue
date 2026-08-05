@@ -25,6 +25,8 @@
     "@mdi/font": "^7.4.47",
     "@splinetool/runtime": "^1.12.98",
     "@tailwindcss/vite": "^4.3.3",
+    "@unovis/ts": "^1.6.7",
+    "@unovis/vue": "^1.6.7",
     "@vueuse/core": "^14.4.0",
     "axios": "^1.19.0",
     "class-variance-authority": "^0.7.1",

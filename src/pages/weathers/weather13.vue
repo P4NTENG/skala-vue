@@ -3,6 +3,14 @@ import { computed, onMounted, onUnmounted, provide, ref, watch } from 'vue'
 import axios from 'axios'
 import { useDebounceFn } from '@vueuse/core'
 import {
+  VisXYContainer,
+  VisLine,
+  VisArea,
+  VisAxis,
+  VisCrosshair,
+  VisStackedBar,
+} from '@unovis/vue'
+import {
   CloudLightning,
   CloudDrizzle,
   CloudRain,
@@ -449,6 +457,23 @@ watch(unit, (val) => {
 
 const currentPop = computed(() => Math.round((hourlyData.value[0]?.pop ?? 0) * 100))
 
+const chartData = computed(() =>
+  hourlyData.value.map((h, i) => ({
+    time: h.dt,
+    label: i === 0 ? 'Now' : new Date(h.dt * 1000).getHours() + ':00',
+    temp: h.main.temp,
+    pop: Math.round((h.pop ?? 0) * 100),
+  })),
+)
+
+function crosshairTemp(d) {
+  return `${d.label} — ${Math.round(d.temp)}°`
+}
+
+function crosshairPop(d) {
+  return `${d.label} — ${d.pop}%`
+}
+
 const lastUpdated = computed(() => {
   if (!selectedCity.value) return ''
   return formatTime(Number(selectedCity.value.id.split('_')[0]))
@@ -832,6 +857,55 @@ onMounted(loadAll)
                           >{{ Math.round(hour.pop * 100) }}%</span
                         >
                       </div>
+                    </CardContent>
+                  </Card>
+                  <Card v-if="hourlyData.length" class="mt-4">
+                    <CardHeader class="pb-2"><CardTitle class="text-sm">Temperature Trend</CardTitle></CardHeader>
+                    <CardContent>
+                      <VisXYContainer
+                        :data="chartData"
+                        :height="160"
+                        :margin="{ left: 40, bottom: 24, right: 8, top: 4 }"
+                      >
+                        <VisArea
+                          :x="(d) => d.label"
+                          :y="(d) => d.temp"
+                          color="var(--chart-2)"
+                          :opacity="0.12"
+                        />
+                        <VisLine
+                          :x="(d) => d.label"
+                          :y="(d) => d.temp"
+                          color="var(--chart-2)"
+                        />
+                        <VisAxis type="x" />
+                        <VisAxis
+                          type="y"
+                          :tick-format="(v) => convertTemp(v) + tempUnit()"
+                        />
+                        <VisCrosshair :template="crosshairTemp" />
+                      </VisXYContainer>
+                    </CardContent>
+                  </Card>
+                  <Card v-if="hourlyData.length" class="mt-4">
+                    <CardHeader class="pb-2"><CardTitle class="text-sm">Precipitation</CardTitle></CardHeader>
+                    <CardContent>
+                      <VisXYContainer
+                        :data="chartData"
+                        :height="100"
+                        :margin="{ left: 40, bottom: 24, right: 8, top: 4 }"
+                      >
+                        <VisStackedBar
+                          :x="(d) => d.label"
+                          :y="[(d) => d.pop]"
+                          color="var(--chart-4)"
+                          :rounded-corners="4"
+                          :bar-padding="0.4"
+                        />
+                        <VisAxis type="x" />
+                        <VisAxis type="y" :tick-format="(v) => v + '%'" />
+                        <VisCrosshair :template="crosshairPop" />
+                      </VisXYContainer>
                     </CardContent>
                   </Card>
                   <p v-else class="text-center text-sm text-muted-foreground mt-10">
