@@ -61,6 +61,9 @@ import SidebarMenuButton from '@/components/ui/sidebar/SidebarMenuButton.vue'
 import SidebarTrigger from '@/components/ui/sidebar/SidebarTrigger.vue'
 import { SidebarSeparator } from '@/components/ui/sidebar/utils'
 import { useWeatherFavoritesStore } from '@/stores/weatherFavorites'
+import AuroraBackground from '@/components/ui/aurora-background/AuroraBackground.vue'
+import SnowfallBg from '@/components/ui/snowfall-bg/SnowfallBg.vue'
+import ParticlesBg from '@/components/ui/particles-bg/ParticlesBg.vue'
 
 defineOptions({ name: 'Weather13Page' })
 
@@ -571,11 +574,51 @@ const dailyForecast = computed(() => {
 })
 
 onMounted(loadAll)
+
+const weatherStatus = computed(() => {
+  if (!selectedCity.value) return '맑음'
+  const code = selectedCity.value.weatherCode
+  if (code === 800 || code === 801) return '맑음'
+  const group = Math.floor(code / 100)
+  if (group === 2 || group === 3 || group === 5) return '비'
+  return '구름'
+})
+
+const showSnow = computed(() => {
+  if (!selectedCity.value) return false
+  return Math.floor(selectedCity.value.weatherCode / 100) === 6
+})
+
+const showRain = computed(() => {
+  if (!selectedCity.value) return false
+  const g = Math.floor(selectedCity.value.weatherCode / 100)
+  return g === 2 || g === 3 || g === 5
+})
 </script>
 
 <template>
-  <div
-    class="flex h-[100dvh] items-stretch overflow-hidden bg-background text-foreground"
+  <AuroraBackground
+    :status="weatherStatus"
+    :radial-gradient="false"
+    class="!h-[100dvh] !justify-start !items-stretch !bg-transparent"
+  >
+    <SnowfallBg
+      v-if="showSnow"
+      :color="'#ccddff'"
+      :quantity="80"
+      :speed="0.8"
+      :max-radius="2.5"
+      class="absolute inset-0 z-0"
+    />
+    <ParticlesBg
+      v-if="showRain"
+      :color="'#88aadd'"
+      :quantity="150"
+      :staticity="70"
+      class="absolute inset-0 z-0"
+    />
+    <div
+    class="flex h-[100dvh] items-stretch overflow-hidden bg-transparent text-foreground"
     style="
       font-family:
         system-ui,
@@ -1095,4 +1138,16 @@ onMounted(loadAll)
       </main>
     </SidebarInset>
   </div>
+  </AuroraBackground>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.8s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
