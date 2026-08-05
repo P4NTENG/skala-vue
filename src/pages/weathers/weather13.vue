@@ -216,16 +216,24 @@ const AQI_LEVELS = {
   5: { label: 'Very Poor', color: 'text-purple-500', bg: 'bg-purple-500' },
 }
 
+const DARK_COLORS = {
+  '#141413': '#E5E5E0',
+  '#B53333': '#FCA5A5',
+  '#4682D5': '#93C5FD',
+  '#73726C': '#B0ADA6',
+}
+
 function getCondition(code) {
   const group = Math.floor(code / 100) * 100
   const condition =
     WEATHER_CONDITION_MAP[code] || WEATHER_CONDITION_MAP[group] || WEATHER_CONDITION_MAP[800]
-  if (condition.color === '#141413') {
-    try {
-      const isDark = localStorage.getItem('theme') === 'dark'
-      if (isDark) return { ...condition, color: '#E5E5E0' }
-    } catch {}
-  }
+  const color = condition.color
+  try {
+    const isDark = localStorage.getItem('theme') === 'dark'
+    if (isDark && DARK_COLORS[color]) {
+      return { ...condition, color: DARK_COLORS[color] }
+    }
+  } catch {}
   return condition
 }
 
