@@ -90,12 +90,22 @@ function checkMobile() {
   if (sidebarMobile.value) sidebarOpen.value = false
 }
 
+const isDark = ref(false)
+function syncDark() {
+  isDark.value = document.documentElement.classList.contains('dark')
+}
+let darkObserver = null
+
 onMounted(() => {
   checkMobile()
   window.addEventListener('resize', checkMobile)
+  syncDark()
+  darkObserver = new MutationObserver(syncDark)
+  darkObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
 })
 onUnmounted(() => {
   window.removeEventListener('resize', checkMobile)
+  if (darkObserver) darkObserver.disconnect()
 })
 
 const sidebarState = computed(() => (sidebarOpen.value ? 'expanded' : 'collapsed'))
@@ -228,12 +238,9 @@ function getCondition(code) {
   const condition =
     WEATHER_CONDITION_MAP[code] || WEATHER_CONDITION_MAP[group] || WEATHER_CONDITION_MAP[800]
   const color = condition.color
-  try {
-    const isDark = localStorage.getItem('theme') === 'dark'
-    if (isDark && DARK_COLORS[color]) {
-      return { ...condition, color: DARK_COLORS[color] }
-    }
-  } catch {}
+  if (isDark.value && DARK_COLORS[color]) {
+    return { ...condition, color: DARK_COLORS[color] }
+  }
   return condition
 }
 
