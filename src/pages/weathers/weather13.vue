@@ -74,6 +74,7 @@ function setSidebarCookie(v) {
 
 function checkMobile() {
   sidebarMobile.value = typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  if (sidebarMobile.value) sidebarOpen.value = false
 }
 
 onMounted(() => {
@@ -132,7 +133,15 @@ const weatherList = ref([])
 const loading = ref(false)
 const detailLoading = ref(false)
 const error = ref(null)
-const unit = ref('celsius')
+const unit = ref(loadUnit())
+
+function loadUnit() {
+  try {
+    return localStorage.getItem('weather13Unit') || 'celsius'
+  } catch {
+    return 'celsius'
+  }
+}
 const hourlyData = ref([])
 const forecastData = ref([])
 const activeTab = ref('now')
@@ -164,6 +173,8 @@ const WEATHER_CONDITION_MAP = {
   800: { status: 'Clear', icon: Sun, color: '#141413', variant: 'outline' },
   801: { status: 'Partly Cloudy', icon: CloudSun, color: '#141413', variant: 'outline' },
   802: { status: 'Cloudy', icon: Cloud, color: '#141413', variant: 'outline' },
+  803: { status: 'Broken Clouds', icon: Cloud, color: '#141413', variant: 'outline' },
+  804: { status: 'Overcast', icon: Cloud, color: '#141413', variant: 'secondary' },
 }
 
 function getCondition(code) {
@@ -379,6 +390,12 @@ watch(searchQuery, (newVal) => {
   debouncedSearch(q)
 })
 
+watch(unit, (val) => {
+  try {
+    localStorage.setItem('weather13Unit', val)
+  } catch {}
+})
+
 const currentPop = computed(() => Math.round((hourlyData.value[0]?.pop ?? 0) * 100))
 
 const lastUpdated = computed(() => {
@@ -432,6 +449,7 @@ const dailyForecast = computed(() => {
   })
   if (Object.keys(map).length <= 1) return []
   return Object.entries(map)
+    .slice(0, 5)
     .map(([date, data]) => ({
       date,
       high: Math.max(...data.temps),
@@ -445,7 +463,7 @@ onMounted(loadAll)
 
 <template>
   <div
-    class="flex h-[100dvh] items-stretch overflow-hidden bg-background text-foreground"
+    class="mt-[70px] flex h-[calc(100dvh-70px)] items-stretch overflow-hidden bg-background text-foreground"
     style="
       font-family:
         system-ui,
@@ -457,7 +475,7 @@ onMounted(loadAll)
       <SidebarHeader class="gap-3">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton>
+            <SidebarMenuButton class="cursor-pointer" @click="resetSelection">
               <CloudSun :size="16" class="text-primary" />
               <span>Weather</span>
             </SidebarMenuButton>
@@ -575,7 +593,7 @@ onMounted(loadAll)
           <template v-else>
             <CloudSun :size="64" class="text-muted-foreground/30" />
             <p class="text-lg font-medium">Select a city to view weather</p>
-            <p class="text-sm text-muted-foreground">13 cities · real-time OpenWeather data</p>
+            <p class="text-sm text-muted-foreground">{{ weatherList.length }} cities · real-time OpenWeather data</p>
           </template>
         </div>
 
@@ -719,7 +737,7 @@ onMounted(loadAll)
                           :style="{ color: getCondition(hour.weather[0].id).color }"
                         />
                         <span class="tabular-nums text-sm font-semibold"
-                          >{{ Math.round(hour.main.temp) }}°</span
+                          >{{ convertTemp(hour.main.temp) }}{{ tempUnit() }}</span
                         >
                         <span
                           v-if="hour.pop && hour.pop > 0"
@@ -751,7 +769,7 @@ onMounted(loadAll)
                           :style="{ color: getCondition(day.code).color }"
                         />
                         <span class="tabular-nums text-sm text-muted-foreground"
-                          >{{ Math.round(day.low) }}°</span
+                          >{{ convertTemp(day.low) }}{{ tempUnit() }}</span
                         >
                         <div class="h-1.5 w-16 rounded-full bg-border">
                           <div
@@ -762,7 +780,7 @@ onMounted(loadAll)
                           />
                         </div>
                         <span class="tabular-nums text-sm font-semibold"
-                          >{{ Math.round(day.high) }}°</span
+                          >{{ convertTemp(day.high) }}{{ tempUnit() }}</span
                         >
                       </div>
                     </CardContent>
