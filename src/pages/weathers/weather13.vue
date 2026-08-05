@@ -667,7 +667,7 @@ const showRain = computed(() => {
         </div>
       </SidebarHeader>
       <SidebarSeparator />
-      <SidebarContent>
+      <SidebarContent class="px-2">
         <div v-if="statusInfo" class="flex flex-col items-center gap-2 py-16 text-center">
           <component
             :is="statusInfo.icon"
