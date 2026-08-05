@@ -753,7 +753,7 @@ const showRain = computed(() => {
         </div>
 
         <template v-else>
-          <div class="flex items-center justify-between border-b border-border bg-card px-6 py-3">
+          <div class="flex items-center justify-between border-b border-border bg-card px-8 py-4">
             <div class="flex items-center gap-2">
               <SidebarTrigger />
               <span class="text-sm font-semibold">{{ selectedCity.name }}</span>
@@ -776,7 +776,7 @@ const showRain = computed(() => {
           </div>
 
           <ScrollArea v-if="detailLoading" class="flex-1">
-            <div class="flex flex-col gap-6 p-6">
+            <div class="flex flex-col gap-6 px-10 py-8">
               <Card
                 ><CardContent class="flex flex-col items-center gap-3 pt-10">
                   <Skeleton class="h-12 w-12 rounded-full" /><Skeleton class="h-24 w-48" /><Skeleton
@@ -790,7 +790,7 @@ const showRain = computed(() => {
           </ScrollArea>
 
           <ScrollArea v-else class="flex-1">
-            <div class="flex flex-col gap-6 p-6">
+            <div class="flex flex-col gap-6 px-10 py-8">
               <Tabs v-model="activeTab">
                 <TabsList class="mb-4 grid w-full grid-cols-4">
                   <TabsTrigger value="now">Now</TabsTrigger>
