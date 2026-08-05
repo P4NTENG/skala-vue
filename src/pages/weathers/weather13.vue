@@ -129,6 +129,23 @@ const DEFAULT_CITIES = [
   '춘천',
 ]
 
+const CITY_COORDS = {
+  서울: { lat: 37.5665, lon: 126.978 },
+  수원: { lat: 37.2636, lon: 127.0286 },
+  부산: { lat: 35.1796, lon: 129.0756 },
+  제주: { lat: 33.4996, lon: 126.5312 },
+  대전: { lat: 36.3504, lon: 127.3845 },
+  광주: { lat: 35.1595, lon: 126.8526 },
+  인천: { lat: 37.4563, lon: 126.7052 },
+  울산: { lat: 35.5384, lon: 129.3114 },
+  대구: { lat: 35.8714, lon: 128.6014 },
+  청주: { lat: 36.6424, lon: 127.489 },
+  전주: { lat: 35.8242, lon: 127.148 },
+  포항: { lat: 36.019, lon: 129.3434 },
+  여수: { lat: 34.7604, lon: 127.6622 },
+  춘천: { lat: 37.8813, lon: 127.73 },
+}
+
 const searchQuery = ref('')
 const selectedCity = ref(null)
 const weatherList = ref([])
@@ -190,7 +207,15 @@ const AQI_LEVELS = {
 
 function getCondition(code) {
   const group = Math.floor(code / 100) * 100
-  return WEATHER_CONDITION_MAP[code] || WEATHER_CONDITION_MAP[group] || WEATHER_CONDITION_MAP[800]
+  const condition =
+    WEATHER_CONDITION_MAP[code] || WEATHER_CONDITION_MAP[group] || WEATHER_CONDITION_MAP[800]
+  if (condition.color === '#141413') {
+    try {
+      const isDark = localStorage.getItem('theme') === 'dark'
+      if (isDark) return { ...condition, color: '#E5E5E0' }
+    } catch {}
+  }
+  return condition
 }
 
 function convertTemp(c) {
@@ -219,6 +244,7 @@ function convertWindSpeed(mps) {
 }
 
 async function fetchCoords(name) {
+  if (CITY_COORDS[name]) return CITY_COORDS[name]
   const { data } = await axios.get('https://api.openweathermap.org/geo/1.0/direct', {
     params: { q: name, limit: 1, appid: apiKey },
   })
@@ -500,14 +526,23 @@ const dailyForecast = computed(() => {
     map[date].icons.push(h.weather[0].id)
   })
   if (Object.keys(map).length <= 1) return []
-  return Object.entries(map)
-    .slice(0, 5)
-    .map(([date, data]) => ({
+  const dayEntries = Object.entries(map).slice(0, 5)
+  const allTemps = dayEntries.flatMap(([, d]) => d.temps)
+  const globalMin = Math.min(...allTemps)
+  const globalMax = Math.max(...allTemps)
+  const globalRange = globalMax - globalMin || 1
+  return dayEntries.map(([date, data]) => {
+    const high = Math.max(...data.temps)
+    const low = Math.min(...data.temps)
+    return {
       date,
-      high: Math.max(...data.temps),
-      low: Math.min(...data.temps),
+      high,
+      low,
       code: data.icons[Math.floor(data.icons.length / 2)],
-    }))
+      barLeft: ((low - globalMin) / globalRange) * 100,
+      barWidth: ((high - low) / globalRange) * 100,
+    }
+  })
 })
 
 onMounted(loadAll)
@@ -661,7 +696,7 @@ onMounted(loadAll)
                   class="mr-1"
                   :style="{ color: getCondition(selectedCity.weatherCode).color }"
                 />
-                {{ getCondition(selectedCity.weatherCode).status }}
+                {{ selectedCity.description }}
               </Badge>
             </div>
             <span class="ml-auto mr-3 text-xs tabular-nums text-muted-foreground">
@@ -823,11 +858,12 @@ onMounted(loadAll)
                         <span class="tabular-nums text-sm text-muted-foreground"
                           >{{ convertTemp(day.low) }}{{ tempUnit() }}</span
                         >
-                        <div class="h-1.5 w-16 rounded-full bg-border">
+                        <div class="relative h-1.5 w-16 rounded-full bg-border">
                           <div
-                            class="h-full rounded-full bg-primary"
+                            class="absolute h-full rounded-full bg-primary"
                             :style="{
-                              width: `${((day.high - day.low) / Math.max(day.high, 1)) * 100}%`,
+                              left: day.barLeft + '%',
+                              width: day.barWidth + '%',
                             }"
                           />
                         </div>
