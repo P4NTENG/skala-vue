@@ -286,6 +286,8 @@ function toggleFavorite(city) {
   favoritesStore.toggle(city.name)
 }
 
+const currentPop = computed(() => Math.round((hourlyData.value[0]?.pop ?? 0) * 100))
+
 const statusInfo = computed(() => {
   if (loading.value)
     return { icon: RotateCw, text: 'Loading…', sub: 'Fetching weather data', spin: true }
@@ -494,7 +496,7 @@ onMounted(loadAll)
                         Feels like {{ convertTemp(selectedCity.feelsLike) }}{{ tempUnit() }}
                       </p>
                       <p class="text-sm capitalize">{{ selectedCity.description }}</p>
-                      <div class="mt-4 grid w-full max-w-md grid-cols-4 gap-3">
+                      <div class="mt-4 grid w-full max-w-lg grid-cols-5 gap-3">
                         <div
                           v-for="stat in [
                             {
@@ -516,6 +518,11 @@ onMounted(loadAll)
                               label: 'Pressure',
                               value: selectedCity.pressure + 'hPa',
                               icon: Gauge,
+                            },
+                            {
+                              label: 'Precip.',
+                              value: currentPop + '%',
+                              icon: CloudRain,
                             },
                           ]"
                           :key="stat.label"
@@ -564,6 +571,11 @@ onMounted(loadAll)
                         />
                         <span class="tabular-nums text-sm font-semibold"
                           >{{ Math.round(hour.main.temp) }}°</span
+                        >
+                        <span
+                          v-if="hour.pop && hour.pop > 0"
+                          class="text-[11px] text-blue-400"
+                          >{{ Math.round(hour.pop * 100) }}%</span
                         >
                       </div>
                     </CardContent>
