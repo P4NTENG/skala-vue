@@ -1,6 +1,7 @@
 <script setup>
-import { computed, onMounted, onUnmounted, provide, ref } from 'vue'
+import { computed, onMounted, onUnmounted, provide, ref, watch } from 'vue'
 import axios from 'axios'
+import { useDebounceFn } from '@vueuse/core'
 import {
   CloudLightning,
   CloudDrizzle,
@@ -22,6 +23,8 @@ import {
   ArrowUp,
   ArrowDown,
   Star,
+  Plus,
+  X,
 } from '@lucide/vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -134,6 +137,23 @@ const hourlyData = ref([])
 const forecastData = ref([])
 const activeTab = ref('now')
 const favoritesStore = useWeatherFavoritesStore()
+const userCities = ref(loadUserCities())
+const searchResults = ref([])
+const searchLoading = ref(false)
+
+function loadUserCities() {
+  try {
+    return JSON.parse(localStorage.getItem('weather13UserCities') || '[]')
+  } catch {
+    return []
+  }
+}
+function saveUserCities() {
+  localStorage.setItem('weather13UserCities', JSON.stringify(userCities.value))
+}
+function isUserCity(name) {
+  return userCities.value.includes(name)
+}
 
 const WEATHER_CONDITION_MAP = {
   200: { status: 'Thunderstorm', icon: CloudLightning, color: '#B53333', variant: 'destructive' },
@@ -198,6 +218,19 @@ async function fetchForecast(lat, lon) {
   return data
 }
 
+async function searchCities(query) {
+  const { data } = await axios.get('https://api.openweathermap.org/geo/1.0/direct', {
+    params: { q: query, limit: 5, appid: apiKey },
+  })
+  return data.map((d) => ({
+    name: d.name,
+    lat: d.lat,
+    lon: d.lon,
+    country: d.country,
+    state: d.state || '',
+  }))
+}
+
 function mapCity(name, current, lat, lon) {
   return {
     id: `${current.dt}_${name}`,
@@ -225,14 +258,17 @@ async function loadAll() {
   loading.value = true
   error.value = null
   try {
-    const results = await Promise.all(
-      DEFAULT_CITIES.map(async (name) => {
+    const allCities = [...new Set([...DEFAULT_CITIES, ...userCities.value])]
+    const results = await Promise.allSettled(
+      allCities.map(async (name) => {
         const c = await fetchCoords(name)
         const cur = await fetchCurrent(c.lat, c.lon)
         return mapCity(name, cur, c.lat, c.lon)
       }),
     )
     weatherList.value = results
+      .filter((r) => r.status === 'fulfilled')
+      .map((r) => r.value)
   } catch (e) {
     error.value = e.message
   } finally {
@@ -271,6 +307,31 @@ function selectCity(city) {
   else loadDetail(city)
 }
 
+async function addUserCity(city) {
+  userCities.value.push(city.name)
+  saveUserCities()
+  searchResults.value = []
+  searchQuery.value = ''
+  try {
+    const cur = await fetchCurrent(city.lat, city.lon)
+    const newCity = mapCity(city.name, cur, city.lat, city.lon)
+    weatherList.value.push(newCity)
+    await loadDetail(newCity)
+  } catch (e) {
+    error.value = e.message
+  }
+}
+
+function removeUserCity(cityName) {
+  const idx = userCities.value.indexOf(cityName)
+  if (idx > -1) {
+    userCities.value.splice(idx, 1)
+    saveUserCities()
+  }
+  weatherList.value = weatherList.value.filter((c) => c.name !== cityName)
+  if (selectedCity.value?.name === cityName) resetSelection()
+}
+
 function resetSelection() {
   selectedCity.value = null
   hourlyData.value = []
@@ -295,6 +356,28 @@ const favoriteCities = computed(() =>
 function toggleFavorite(city) {
   favoritesStore.toggle(city.name)
 }
+
+const debouncedSearch = useDebounceFn(async (query) => {
+  searchLoading.value = true
+  try {
+    const results = await searchCities(query)
+    const existingNames = new Set(weatherList.value.map((c) => c.name))
+    searchResults.value = results.filter((r) => !existingNames.has(r.name))
+  } catch {
+    searchResults.value = []
+  } finally {
+    searchLoading.value = false
+  }
+}, 300)
+
+watch(searchQuery, (newVal) => {
+  const q = newVal.trim()
+  if (q.length < 2) {
+    searchResults.value = []
+    return
+  }
+  debouncedSearch(q)
+})
 
 const currentPop = computed(() => Math.round((hourlyData.value[0]?.pop ?? 0) * 100))
 
@@ -386,6 +469,28 @@ onMounted(loadAll)
             class="pointer-events-none absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-muted-foreground"
           />
           <Input v-model="searchQuery" placeholder="Search city…" class="h-8 pl-8 text-xs" />
+          <div
+            v-if="searchResults.length || searchLoading"
+            class="absolute left-1 right-1 top-full z-50 mt-1 rounded-md border bg-popover shadow-md"
+          >
+            <div v-if="searchLoading" class="px-3 py-2 text-xs text-muted-foreground">
+              Searching…
+            </div>
+            <div v-else class="max-h-48 overflow-y-auto">
+              <button
+                v-for="city in searchResults"
+                :key="city.lat + '_' + city.lon"
+                class="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-xs hover:bg-accent"
+                @click="addUserCity(city)"
+              >
+                <MapPin :size="12" class="shrink-0 text-muted-foreground" />
+                <span class="font-medium">{{ city.name }}</span>
+                <span v-if="city.state" class="text-muted-foreground">{{ city.state }},</span>
+                <span class="text-muted-foreground">{{ city.country }}</span>
+                <Plus :size="12" class="ml-auto shrink-0 text-primary" />
+              </button>
+            </div>
+          </div>
         </div>
       </SidebarHeader>
       <SidebarSeparator />
@@ -416,6 +521,12 @@ onMounted(loadAll)
                 :fill="favoritesStore.isFavorite(city.name) ? 'currentColor' : 'none'"
                 class="shrink-0 text-yellow-500"
                 @click.stop="toggleFavorite(city)"
+              />
+              <X
+                v-if="isUserCity(city.name)"
+                :size="12"
+                class="shrink-0 text-muted-foreground hover:text-destructive"
+                @click.stop="removeUserCity(city.name)"
               />
             </SidebarMenuButton>
           </SidebarMenuItem>
