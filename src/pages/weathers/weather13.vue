@@ -641,7 +641,7 @@ const showRain = computed(() => {
         sans-serif;
     "
   >
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" class="!bg-sidebar/80 backdrop-blur-sm">
       <SidebarHeader class="gap-3">
         <SidebarMenu>
           <SidebarMenuItem>
@@ -733,7 +733,7 @@ const showRain = computed(() => {
       </SidebarFooter>
     </Sidebar>
 
-    <SidebarInset>
+    <SidebarInset class="!bg-transparent">
       <main class="flex flex-1 flex-col items-stretch overflow-hidden">
         <div v-if="!selectedCity" class="flex flex-1 flex-col items-center justify-center gap-4">
           <template v-if="favoriteCities.length">
