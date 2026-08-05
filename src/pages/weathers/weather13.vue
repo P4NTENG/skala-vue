@@ -632,11 +632,11 @@ const showRain = computed(() => {
           <SidebarMenuItem>
             <SidebarMenuButton class="cursor-pointer" @click="resetSelection">
               <CloudSun :size="16" class="text-primary" />
-              <span>Weather</span>
+              <span v-if="sidebarState === 'expanded'">Weather</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-        <div class="relative px-1">
+        <div v-if="sidebarState === 'expanded'" class="relative px-1">
           <Search
             :size="14"
             class="pointer-events-none absolute left-3.5 top-1/2 z-10 -translate-y-1/2 text-muted-foreground"
@@ -685,18 +685,19 @@ const showRain = computed(() => {
                 :size="16"
                 :style="{ color: getCondition(city.weatherCode).color }"
               />
-              <span>{{ city.name }}</span>
-              <span class="ml-auto tabular-nums text-xs text-muted-foreground"
+              <span v-if="sidebarState === 'expanded'">{{ city.name }}</span>
+              <span v-if="sidebarState === 'expanded'" class="ml-auto tabular-nums text-xs text-muted-foreground"
                 >{{ convertTemp(city.temp) }}{{ tempUnit() }}</span
               >
               <Star
+                v-if="sidebarState === 'expanded'"
                 :size="13"
                 :fill="favoritesStore.isFavorite(city.name) ? 'currentColor' : 'none'"
                 class="shrink-0 text-yellow-500"
                 @click.stop="toggleFavorite(city)"
               />
               <X
-                v-if="isUserCity(city.name)"
+                v-if="isUserCity(city.name) && sidebarState === 'expanded'"
                 :size="12"
                 class="shrink-0 text-muted-foreground hover:text-destructive"
                 @click.stop="removeUserCity(city.name)"
@@ -707,7 +708,7 @@ const showRain = computed(() => {
       </SidebarContent>
       <SidebarSeparator />
       <SidebarFooter>
-        <Select v-model="unit">
+        <Select v-if="sidebarState === 'expanded'" v-model="unit">
           <SelectTrigger class="h-8 text-xs"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="celsius">°C</SelectItem>
