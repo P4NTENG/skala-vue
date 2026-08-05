@@ -1,1 +1,0 @@
-import{B as e,C as t,b as n,n as r,rt as i,ut as a}from"./index-up-oSW7x.js";var o={class:`practice-section`},s=r({__name:`v-cloak`,setup(r){let s=i(`느린 네트워크에서도 안전하게 출력되는 메시지!`);return(r,i)=>(e(),t(`div`,o,[i[0]||=n(`h2`,null,`v-cloak 디렉티브 학습`,-1),n(`p`,null,a(s.value),1)]))}},[[`__scopeId`,`data-v-9ae9a9e5`]]);export{s as default};

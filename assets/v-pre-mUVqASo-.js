@@ -1,0 +1,1 @@
+import{_ as e,b as t,mt as n,tr as r,vn as i}from"./runtime-core.esm-bundler-CJOrt7RF.js";var a={class:`practice-section`},o={__name:`v-pre`,setup(o){let s=i(`안녕하세요!`);return(i,o)=>(n(),t(`div`,a,[o[0]||=e(`h2`,null,`v-pre 디렉티브 학습`,-1),e(`p`,null,`일반 출력: `+r(s.value),1),o[1]||=e(`p`,null,`v-pre 출력: {{ message }}`,-1)]))}};export{o as default};

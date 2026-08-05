@@ -1,1 +1,0 @@
-import{B as e,C as t,b as n,ut as r}from"./index-up-oSW7x.js";var i={class:`practice-section`},a=`Welcome to Skala-Vue`,o={__name:`sample-two`,setup(o){return(o,s)=>(e(),t(`div`,i,[n(`h2`,null,r(a)),n(`p`,null,r(a.toUpperCase()),1),n(`p`,null,r(`Random number: `+Math.ceil(Math.random()*100)),1)]))}};export{o as default};

@@ -1,0 +1,1 @@
+import{_ as e,b as t,mt as n,tr as r}from"./runtime-core.esm-bundler-CJOrt7RF.js";var i={class:`practice-section`},a=`Welcome to Skala-Vue`,o={__name:`sample-two`,setup(o){return(o,s)=>(n(),t(`div`,i,[e(`h2`,null,r(a)),e(`p`,null,r(a.toUpperCase()),1),e(`p`,null,r(`Random number: `+Math.ceil(Math.random()*100)),1)]))}};export{o as default};

@@ -1,0 +1,1 @@
+import{_ as e,b as t,mt as n}from"./runtime-core.esm-bundler-CJOrt7RF.js";var r={class:`practice-section`},i=`user-profile-card`,a=`https://vuejs.org/images/logo.png`,o={__name:`v-shorthandbind`,setup(o){return(o,s)=>(n(),t(`div`,r,[s[0]||=e(`h2`,null,`v-bind 디렉티브 고급 (단축 문법)`,-1),e(`div`,{id:i},[e(`img`,{src:a,alt:`Vue 로고`,style:{width:`50px`}})])]))}};export{o as default};
