@@ -1,8 +1,8 @@
 <script setup>
-import { cn } from "@inspira-ui/plugins";
-import { gsap } from "gsap";
-import { SplitText } from "gsap/SplitText";
-import { onMounted, onUnmounted, ref } from "vue";
+import { cn } from '@inspira-ui/plugins'
+import { gsap } from 'gsap'
+import { SplitText } from 'gsap/SplitText'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 const props = defineProps({
   class: {
@@ -18,23 +18,23 @@ const props = defineProps({
   duration: { type: Number, required: false, default: 0.6 },
   delay: { type: Number, required: false, default: 0.2 },
   stagger: { type: Number, required: false, default: 0.1 },
-});
+})
 
-gsap.registerPlugin(SplitText);
+gsap.registerPlugin(SplitText)
 
-const textContainer = ref(null);
-let split;
+const textContainer = ref(null)
+let split
 
 onMounted(() => {
-  if (!textContainer.value) return;
+  if (!textContainer.value) return
 
-  gsap.set(textContainer.value, { opacity: 1 });
+  gsap.set(textContainer.value, { opacity: 1 })
 
   SplitText.create(textContainer.value, {
-    type: "words,lines",
-    linesClass: "line",
+    type: 'words,lines',
+    linesClass: 'line',
     autoSplit: true,
-    mask: "lines",
+    mask: 'lines',
     onSplit: (splitText) => {
       split = gsap.from(splitText.lines, {
         duration: props.duration,
@@ -42,15 +42,15 @@ onMounted(() => {
         yPercent: 100,
         opacity: 0,
         stagger: props.stagger,
-        ease: "expo.out",
-      });
+        ease: 'expo.out',
+      })
     },
-  });
-});
+  })
+})
 
 onUnmounted(() => {
-  split?.kill();
-});
+  split?.kill()
+})
 </script>
 
 <template>

@@ -6,6 +6,8 @@
       "name": "skala-vue",
       "dependencies": {
         "@fontsource/geist-sans": "^5.3.0",
+        "@fontsource/jaro": "^5.3.0",
+        "@fontsource/staatliches": "^5.3.0",
         "@iconify/vue": "^5.0.1",
         "@inspira-ui/plugins": "^0.0.2",
         "@lucide/vue": "^1.28.0",
@@ -148,6 +150,10 @@
     "@floating-ui/vue": ["@floating-ui/vue@1.1.11", "", { "dependencies": { "@floating-ui/dom": "^1.7.6", "@floating-ui/utils": "^0.2.11", "vue-demi": ">=0.13.0" } }, "sha512-HzHKCNVxnGS35r9fCHBc3+uCnjw9IWIlCPL683cGgM9Kgj2BiAl8x1mS7vtvP6F9S/e/q4O6MApwSHj8hNLGfw=="],
 
     "@fontsource/geist-sans": ["@fontsource/geist-sans@5.3.0", "", {}, "sha512-AmG7cE1AvE4NHROPaOl1sN+a02cB5xy6pA/ZV76HXqWTCsJTV2SCBc9DTFHfJqnVOODm7HhXIYtUIb75NP5QXQ=="],
+
+    "@fontsource/jaro": ["@fontsource/jaro@5.3.0", "", {}, "sha512-ytCnPjGzjfEOlk/NVoKG0MG8bkE+6tY36HPTTTe5ySv3UWW1M4kvelV/II5CeTXJhp6C0a3ZlQAbRcyKYUYxOg=="],
+
+    "@fontsource/staatliches": ["@fontsource/staatliches@5.3.0", "", {}, "sha512-vYQgZ76FapaXZeiZQLUqy49+XmpyPLNgOsmqqqyX8pMFvb+rdODYDtc/vIgO/g5oTsESnSoD85DQozd8D6mUEA=="],
 
     "@hono/node-server": ["@hono/node-server@2.0.12", "", { "peerDependencies": { "hono": "^4" } }, "sha512-eWpQYr67tqJLeaSUl0Q+TquuYfUdTibpOJlUMV2FfUP7+KqCC5TufnwnlXL6mobZBJbGAYRd7ZvEBDCbLInjhg=="],
 

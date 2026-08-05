@@ -1,14 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 const fruits = ref(['사과', '바나나', '딸기'])
 const user = ref({
-name: '홍길동',
-age: 25,
-role: '개발자',
+  name: '홍길동',
+  age: 25,
+  role: '개발자',
 })
 const items = ref([
-{ id: 'prod_101', name: '아이폰' },
-{ id: 'prod_102', name: '갤럭시' },
+  { id: 'prod_101', name: '아이폰' },
+  { id: 'prod_102', name: '갤럭시' },
 ])
 </script>
 

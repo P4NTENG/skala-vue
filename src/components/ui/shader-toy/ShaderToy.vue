@@ -1,10 +1,10 @@
 <script setup>
-import { cn } from "@/lib/utils";
-import { computed, onMounted, onUnmounted, shallowRef, useTemplateRef, watch } from "vue";
-import { InspiraShaderToy } from "./InspiraShaderToy";
+import { cn } from '@/lib/utils'
+import { computed, onMounted, onUnmounted, shallowRef, useTemplateRef, watch } from 'vue'
+import { InspiraShaderToy } from './InspiraShaderToy'
 
 const props = defineProps({
-  mouseMode: { type: null, required: false, default: "click" },
+  mouseMode: { type: null, required: false, default: 'click' },
   class: {
     type: [Boolean, null, String, Object, Array],
     required: false,
@@ -23,57 +23,53 @@ const props = defineProps({
   autoPause: { type: Boolean, required: false, default: true },
   interactive: { type: Boolean, required: false, default: true },
   noise: { type: Object, required: false },
-});
+})
 
-const emit = defineEmits(["ready", "error"]);
+const emit = defineEmits(['ready', 'error'])
 
-const containerRef = useTemplateRef("containerRef");
-const isInViewport = shallowRef(true);
-const isDocumentVisible = shallowRef(true);
+const containerRef = useTemplateRef('containerRef')
+const isInViewport = shallowRef(true)
+const isDocumentVisible = shallowRef(true)
 
-let shader;
-let intersectionObserver;
+let shader
+let intersectionObserver
 
-const backgroundSize = computed(() => `${(props.noise?.scale || 0) * 200}%`);
-const noiseOpacity = computed(() =>
-  Math.min(1, Math.max(0, (props.noise?.opacity ?? 0) / 2)),
-);
+const backgroundSize = computed(() => `${(props.noise?.scale || 0) * 200}%`)
+const noiseOpacity = computed(() => Math.min(1, Math.max(0, (props.noise?.opacity ?? 0) / 2)))
 const shouldPlay = computed(
-  () =>
-    !props.paused &&
-    (!props.autoPause || (isInViewport.value && isDocumentVisible.value)),
-);
+  () => !props.paused && (!props.autoPause || (isInViewport.value && isDocumentVisible.value)),
+)
 
 function updatePlayback() {
-  if (!shader) return;
+  if (!shader) return
 
   if (shouldPlay.value) {
-    shader.play();
+    shader.play()
   } else {
-    shader.pause();
+    shader.pause()
   }
 }
 
 function setShaderSource(source) {
-  if (!shader) return;
+  if (!shader) return
 
-  const success = shader.setShader({ source });
+  const success = shader.setShader({ source })
 
   if (!success) {
-    emit("error", "Failed to compile shader");
-    return;
+    emit('error', 'Failed to compile shader')
+    return
   }
 
-  emit("ready");
-  updatePlayback();
+  emit('ready')
+  updatePlayback()
 }
 
 function handleVisibilityChange() {
-  isDocumentVisible.value = document.visibilityState === "visible";
+  isDocumentVisible.value = document.visibilityState === 'visible'
 }
 
 onMounted(() => {
-  if (!containerRef.value) return;
+  if (!containerRef.value) return
 
   try {
     shader = new InspiraShaderToy(
@@ -81,131 +77,128 @@ onMounted(() => {
       props.mouseMode,
       props.frameRate,
       props.pixelRatio,
-    );
+    )
   } catch (error) {
-    emit(
-      "error",
-      error instanceof Error ? error.message : "Failed to initialize WebGL",
-    );
-    return;
+    emit('error', error instanceof Error ? error.message : 'Failed to initialize WebGL')
+    return
   }
 
   shader.setHSV({
     hue: props.hue,
     saturation: props.saturation,
     brightness: props.brightness,
-  });
-  shader.setSpeed(props.speed);
-  shader.setMouseSensitivity(props.mouseSensitivity);
-  shader.setMouseDamping(props.damping);
-  setShaderSource(props.shaderCode);
+  })
+  shader.setSpeed(props.speed)
+  shader.setMouseSensitivity(props.mouseSensitivity)
+  shader.setMouseDamping(props.damping)
+  setShaderSource(props.shaderCode)
 
   if (props.autoPause) {
     intersectionObserver = new IntersectionObserver(([entry]) => {
-      isInViewport.value = entry?.isIntersecting ?? true;
-    });
-    intersectionObserver.observe(containerRef.value);
+      isInViewport.value = entry?.isIntersecting ?? true
+    })
+    intersectionObserver.observe(containerRef.value)
   }
 
-  document.addEventListener("visibilitychange", handleVisibilityChange);
-  handleVisibilityChange();
-  updatePlayback();
-});
+  document.addEventListener('visibilitychange', handleVisibilityChange)
+  handleVisibilityChange()
+  updatePlayback()
+})
 
 onUnmounted(() => {
-  document.removeEventListener("visibilitychange", handleVisibilityChange);
-  intersectionObserver?.disconnect();
-  shader?.dispose();
-  shader = undefined;
-});
+  document.removeEventListener('visibilitychange', handleVisibilityChange)
+  intersectionObserver?.disconnect()
+  shader?.dispose()
+  shader = undefined
+})
 
 watch(
   () => props.shaderCode,
   (v) => setShaderSource(v),
-);
+)
 
 watch(
   () => props.mouseMode,
   (v) => {
     if (shader) {
-      shader.mouseMode = v;
+      shader.mouseMode = v
     }
   },
-);
+)
 
 watch(
   () => props.hue,
   (v) => {
     if (v !== undefined && shader) {
-      shader.setHue(v);
+      shader.setHue(v)
     }
   },
-);
+)
 
 watch(
   () => props.saturation,
   (v) => {
     if (v !== undefined && shader) {
-      shader.setSaturation(v);
+      shader.setSaturation(v)
     }
   },
-);
+)
 
 watch(
   () => props.brightness,
   (v) => {
     if (v !== undefined && shader) {
-      shader.setBrightness(v);
+      shader.setBrightness(v)
     }
   },
-);
+)
 
 watch(
   () => props.speed,
   (v) => {
     if (v !== undefined && shader) {
-      shader.setSpeed(v);
+      shader.setSpeed(v)
     }
   },
-);
+)
 
 watch(
   () => props.mouseSensitivity,
   (v) => {
     if (v !== undefined && shader) {
-      shader.setMouseSensitivity(v);
+      shader.setMouseSensitivity(v)
     }
   },
-);
+)
 
 watch(
   () => props.damping,
   (v) => {
     if (v !== undefined && shader) {
-      shader.setMouseDamping(v);
+      shader.setMouseDamping(v)
     }
   },
-);
+)
 
 watch(
   () => props.frameRate,
   (v) => {
     if (v !== undefined && shader) {
-      shader.setFrameRate(v);
+      shader.setFrameRate(v)
     }
   },
-);
+)
 
 watch(
   () => props.pixelRatio,
   (v) => {
     if (v !== undefined && shader) {
-      shader.setPixelRatio(v);
+      shader.setPixelRatio(v)
     }
   },
-);
+)
 
-watch(shouldPlay, updatePlayback);
+watch(shouldPlay, updatePlayback)
 </script>
 
 <template>

@@ -1,10 +1,10 @@
 <script setup>
-import { cn } from "@inspira-ui/plugins";
-import { computed } from "vue";
+import { cn } from '@inspira-ui/plugins'
+import { computed } from 'vue'
 
 const props = defineProps({
   borderRadius: { type: Number, required: false, default: 10 },
-  color: { type: [String, Array], required: false, default: "#FFF" },
+  color: { type: [String, Array], required: false, default: '#FFF' },
   borderWidth: { type: Number, required: false, default: 2 },
   duration: { type: Number, required: false, default: 10 },
   class: {
@@ -12,25 +12,25 @@ const props = defineProps({
     required: false,
     skipCheck: true,
   },
-});
+})
 
 const styles = computed(() => {
   return {
-    "--border-radius": `${props.borderRadius}px`,
-    "--border-width": `${props.borderWidth}px`,
-    "--duration": `${props.duration}s`,
+    '--border-radius': `${props.borderRadius}px`,
+    '--border-width': `${props.borderWidth}px`,
+    '--duration': `${props.duration}s`,
     backgroundImage: `radial-gradient(transparent,transparent, ${
-      Array.isArray(props.color) ? props.color.join(",") : props.color
+      Array.isArray(props.color) ? props.color.join(',') : props.color
     },transparent,transparent)`,
-    backgroundSize: "300% 300%",
+    backgroundSize: '300% 300%',
     mask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
     WebkitMask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
-    WebkitMaskComposite: "xor",
-    maskComposite: "exclude",
-    padding: "var(--border-width)",
-    borderRadius: "var(--border-radius)",
-  };
-});
+    WebkitMaskComposite: 'xor',
+    maskComposite: 'exclude',
+    padding: 'var(--border-width)',
+    borderRadius: 'var(--border-radius)',
+  }
+})
 </script>
 
 <template>

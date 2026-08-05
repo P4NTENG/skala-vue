@@ -1,5 +1,5 @@
 <script setup>
-import { cn } from "@inspira-ui/plugins";
+import { cn } from '@inspira-ui/plugins'
 
 const props = defineProps({
   class: {
@@ -7,7 +7,7 @@ const props = defineProps({
     required: false,
     skipCheck: true,
   },
-});
+})
 </script>
 
 <template>
@@ -22,14 +22,10 @@ const props = defineProps({
     <slot name="header" />
     <div class="transition duration-200 group-hover/bento:translate-x-2">
       <slot name="icon" />
-      <div
-        class="my-2 font-sans font-bold text-neutral-600 dark:text-neutral-200"
-      >
+      <div class="my-2 font-sans font-bold text-neutral-600 dark:text-neutral-200">
         <slot name="title" />
       </div>
-      <div
-        class="font-sans text-xs font-normal text-neutral-600 dark:text-neutral-300"
-      >
+      <div class="font-sans text-xs font-normal text-neutral-600 dark:text-neutral-300">
         <slot name="description" />
       </div>
     </div>

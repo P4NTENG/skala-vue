@@ -1,13 +1,13 @@
 <script setup>
-import { cn } from "@inspira-ui/plugins";
-import { animate } from "motion-v";
+import { cn } from '@inspira-ui/plugins'
+import { animate } from 'motion-v'
 
 const props = defineProps({
   blur: { type: Number, required: false, default: 0 },
   inactiveZone: { type: Number, required: false, default: 0.7 },
   proximity: { type: Number, required: false, default: 0 },
   spread: { type: Number, required: false, default: 20 },
-  variant: { type: String, required: false, default: "default" },
+  variant: { type: String, required: false, default: 'default' },
   glow: { type: Boolean, required: false, default: false },
   class: {
     type: [Boolean, null, String, Object, Array],
@@ -17,25 +17,25 @@ const props = defineProps({
   disabled: { type: Boolean, required: false, default: true },
   movementDuration: { type: Number, required: false, default: 2 },
   borderWidth: { type: Number, required: false, default: 1 },
-});
+})
 
-const containerRef = useTemplateRef("containerRef");
+const containerRef = useTemplateRef('containerRef')
 const lastPosition = ref({
   x: 0,
   y: 0,
-});
-const animationFrame = ref(0);
+})
+const animationFrame = ref(0)
 
 const containerStyles = computed(() => {
   return {
-    "--blur": `${props.blur}px`,
-    "--spread": props.spread,
-    "--start": "0",
-    "--active": "0",
-    "--glowingeffect-border-width": `${props.borderWidth}px`,
-    "--repeating-conic-gradient-times": "5",
-    "--gradient":
-      props.variant === "white"
+    '--blur': `${props.blur}px`,
+    '--spread': props.spread,
+    '--start': '0',
+    '--active': '0',
+    '--glowingeffect-border-width': `${props.borderWidth}px`,
+    '--repeating-conic-gradient-times': '5',
+    '--gradient':
+      props.variant === 'white'
         ? `repeating-conic-gradient(
                   from 236.84deg at 50% 50%,
                   var(--black),
@@ -53,94 +53,89 @@ const containerStyles = computed(() => {
                   #4c7894 calc(75% / var(--repeating-conic-gradient-times)),
                   #dd7bbb calc(100% / var(--repeating-conic-gradient-times))
                 )`,
-  };
-});
+  }
+})
 
 onMounted(() => {
-  if (props.disabled) return;
+  if (props.disabled) return
 
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  document.body.addEventListener("pointermove", handlePointerMove, {
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  document.body.addEventListener('pointermove', handlePointerMove, {
     passive: true,
-  });
-});
+  })
+})
 
 onUnmounted(() => {
   if (animationFrame.value) {
-    cancelAnimationFrame(animationFrame.value);
+    cancelAnimationFrame(animationFrame.value)
   }
 
-  window.removeEventListener("scroll", handleScroll);
-  document.body.removeEventListener("pointermove", handlePointerMove);
-});
+  window.removeEventListener('scroll', handleScroll)
+  document.body.removeEventListener('pointermove', handlePointerMove)
+})
 
 function handlePointerMove(e) {
-  handleMove(e);
+  handleMove(e)
 }
 
 function handleScroll() {
-  handleMove();
+  handleMove()
 }
 
 function handleMove(e) {
-  if (!containerRef.value) return;
+  if (!containerRef.value) return
 
   if (animationFrame.value) {
-    cancelAnimationFrame(animationFrame.value);
+    cancelAnimationFrame(animationFrame.value)
   }
 
   animationFrame.value = requestAnimationFrame(() => {
-    const element = containerRef.value;
+    const element = containerRef.value
 
-    if (!element) return;
+    if (!element) return
 
-    const { left, top, width, height } = element.getBoundingClientRect();
+    const { left, top, width, height } = element.getBoundingClientRect()
 
-    const mouseX = e?.x ?? lastPosition.value.x;
-    const mouseY = e?.y ?? lastPosition.value.y;
+    const mouseX = e?.x ?? lastPosition.value.x
+    const mouseY = e?.y ?? lastPosition.value.y
 
     if (e) {
-      lastPosition.value = { x: mouseX, y: mouseY };
+      lastPosition.value = { x: mouseX, y: mouseY }
     }
 
-    const center = [left + width * 0.5, top + height * 0.5];
-    const distanceFromCenter = Math.hypot(
-      mouseX - center[0],
-      mouseY - center[1],
-    );
-    const inactiveRadius = 0.5 * Math.min(width, height) * props.inactiveZone;
+    const center = [left + width * 0.5, top + height * 0.5]
+    const distanceFromCenter = Math.hypot(mouseX - center[0], mouseY - center[1])
+    const inactiveRadius = 0.5 * Math.min(width, height) * props.inactiveZone
 
     if (distanceFromCenter < inactiveRadius) {
-      element.style.setProperty("--active", "0");
-      return;
+      element.style.setProperty('--active', '0')
+      return
     }
 
     const isActive =
       mouseX > left - props.proximity &&
       mouseX < left + width + props.proximity &&
       mouseY > top - props.proximity &&
-      mouseY < top + height + props.proximity;
+      mouseY < top + height + props.proximity
 
-    element.style.setProperty("--active", isActive ? "1" : "0");
+    element.style.setProperty('--active', isActive ? '1' : '0')
 
-    if (!isActive) return;
+    if (!isActive) return
 
-    const currentAngle =
-      Number.parseFloat(element.style.getPropertyValue("--start")) || 0;
-    const targetAngle =
-      (180 * Math.atan2(mouseY - center[1], mouseX - center[0])) / Math.PI + 90;
+    const currentAngle = Number.parseFloat(element.style.getPropertyValue('--start')) || 0
+    const targetAngle = (180 * Math.atan2(mouseY - center[1], mouseX - center[0])) / Math.PI + 90
 
-    const angleDiff = ((targetAngle - currentAngle + 180) % 360) - 180;
-    const newAngle = currentAngle + angleDiff;
+    const angleDiff = ((targetAngle - currentAngle + 180) % 360) - 180
+    const newAngle = currentAngle + angleDiff
 
     animate(currentAngle, newAngle, {
       duration: props.movementDuration,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (value) => {
-        element.style.setProperty("--start", String(value));
+        element.style.setProperty('--start', String(value))
       },
-    });
-  });
+    })
+  })
 }
 </script>
 

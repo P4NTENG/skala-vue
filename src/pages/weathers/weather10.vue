@@ -30,18 +30,22 @@ function onWindowMouseMove(e) {
     rafId = requestAnimationFrame(() => {
       rafId = null
       if (!splineCanvas) return
-      splineCanvas.dispatchEvent(new MouseEvent('mousemove', {
-        clientX: lastClientX,
-        clientY: lastClientY,
-        bubbles: true,
-      }))
-      splineCanvas.dispatchEvent(new PointerEvent('pointermove', {
-        clientX: lastClientX,
-        clientY: lastClientY,
-        bubbles: true,
-        pointerId: 1,
-        pointerType: 'mouse',
-      }))
+      splineCanvas.dispatchEvent(
+        new MouseEvent('mousemove', {
+          clientX: lastClientX,
+          clientY: lastClientY,
+          bubbles: true,
+        }),
+      )
+      splineCanvas.dispatchEvent(
+        new PointerEvent('pointermove', {
+          clientX: lastClientX,
+          clientY: lastClientY,
+          bubbles: true,
+          pointerId: 1,
+          pointerType: 'mouse',
+        }),
+      )
     })
   }
 }

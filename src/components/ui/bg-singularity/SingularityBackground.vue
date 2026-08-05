@@ -1,6 +1,6 @@
 <script setup>
-import { cn } from "@/lib/utils";
-import { ShaderToy } from "@/components/ui/shader-toy";
+import { cn } from '@/lib/utils'
+import { ShaderToy } from '@/components/ui/shader-toy'
 
 const props = defineProps({
   class: {
@@ -15,7 +15,7 @@ const props = defineProps({
   mouseSensitivity: { type: Number, required: false, default: 0.5 },
   damping: { type: Number, required: false, default: 1 },
   noise: { type: Object, required: false },
-});
+})
 
 const shader = `
 // ShaderToy URL: https://www.shadertoy.com/view/3csSWB
@@ -67,7 +67,7 @@ void mainImage(out vec4 O, vec2 F)
     / (.03 + abs(length(p) - .7))
   );
 }
-`;
+`
 </script>
 
 <template>

@@ -20,9 +20,7 @@ const weatherList = ref([
 // 2. Computed: 검색어로 필터링
 const filteredWeatherList = computed(() => {
   if (!searchQuery.value.trim()) return weatherList.value
-  return weatherList.value.filter(city =>
-    city.name.includes(searchQuery.value.trim())
-  )
+  return weatherList.value.filter((city) => city.name.includes(searchQuery.value.trim()))
 })
 
 function selectCity(city) {
@@ -38,7 +36,9 @@ watch(selectedCityInfo, (newCity) => {
 
 // 3. watchEffect: searchQuery 변화 감시
 watchEffect(() => {
-  console.log(`[watchEffect] 현재 검색어: "${searchQuery.value}" → ${filteredWeatherList.value.length}개 결과`)
+  console.log(
+    `[watchEffect] 현재 검색어: "${searchQuery.value}" → ${filteredWeatherList.value.length}개 결과`,
+  )
 })
 </script>
 
@@ -55,8 +55,8 @@ watchEffect(() => {
         v-if="selectedCityInfo"
         class="mt-6 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-700 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300"
       >
-        선택된 도시: <strong>{{ selectedCityInfo.name }}</strong>
-        — {{ selectedCityInfo.temp }}°C, {{ selectedCityInfo.status }}
+        선택된 도시: <strong>{{ selectedCityInfo.name }}</strong> — {{ selectedCityInfo.temp }}°C,
+        {{ selectedCityInfo.status }}
       </div>
 
       <!-- 검색 입력 -->
@@ -79,9 +79,13 @@ watchEffect(() => {
               @click="selectCity(city)"
               class="flex w-full items-center gap-3 rounded-xl border border-zinc-100 bg-zinc-50 px-4 py-3 text-left transition-all hover:border-blue-200 hover:bg-blue-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-blue-800 dark:hover:bg-blue-950"
             >
-              <span class="text-lg font-semibold text-zinc-800 dark:text-white">{{ city.name }}</span>
+              <span class="text-lg font-semibold text-zinc-800 dark:text-white">{{
+                city.name
+              }}</span>
               <span class="text-sm text-zinc-500 dark:text-zinc-400">{{ city.temp }}°C</span>
-              <span class="ml-auto rounded-full bg-zinc-200 px-3 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
+              <span
+                class="ml-auto rounded-full bg-zinc-200 px-3 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300"
+              >
                 {{ city.status }}
               </span>
             </button>
@@ -100,10 +104,14 @@ watchEffect(() => {
               @click="selectCity(city)"
               class="flex w-full items-center gap-3 rounded-xl border border-blue-100 bg-blue-50/50 px-4 py-3 text-left transition-all hover:border-blue-300 hover:bg-blue-50 dark:border-blue-900 dark:bg-blue-950/50 dark:hover:border-blue-700 dark:hover:bg-blue-950"
             >
-              <span class="text-lg font-semibold text-zinc-800 dark:text-white">{{ city.name }}</span>
+              <span class="text-lg font-semibold text-zinc-800 dark:text-white">{{
+                city.name
+              }}</span>
               <span class="text-sm text-zinc-500 dark:text-zinc-400">{{ city.temp }}°C</span>
               <span class="text-xs text-zinc-400 dark:text-zinc-500">{{ city.description }}</span>
-              <span class="ml-auto rounded-full bg-blue-200 px-3 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-800 dark:text-blue-200">
+              <span
+                class="ml-auto rounded-full bg-blue-200 px-3 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-800 dark:text-blue-200"
+              >
                 {{ city.status }}
               </span>
             </button>
@@ -112,7 +120,9 @@ watchEffect(() => {
 
         <!-- 검색 결과 없음 -->
         <template v-else>
-          <div class="rounded-xl border border-zinc-100 bg-zinc-50 px-6 py-12 text-center dark:border-zinc-800 dark:bg-zinc-900">
+          <div
+            class="rounded-xl border border-zinc-100 bg-zinc-50 px-6 py-12 text-center dark:border-zinc-800 dark:bg-zinc-900"
+          >
             <p class="text-zinc-400 dark:text-zinc-500">
               "{{ searchQuery }}"와 일치하는 도시가 없습니다.
             </p>

@@ -1,93 +1,91 @@
 <script setup>
-import { cn } from "@inspira-ui/plugins";
-import { onMounted, onUnmounted, ref } from "vue";
+import { cn } from '@inspira-ui/plugins'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 const props = defineProps({
   class: { type: String, required: false },
   texts: { type: Array, required: true },
   morphTime: { type: Number, required: false, default: 1.5 },
   coolDownTime: { type: Number, required: false, default: 0.5 },
-});
+})
 
-const TEXT_CLASSES = "absolute inset-x-0 top-0 m-auto inline-block w-full";
+const TEXT_CLASSES = 'absolute inset-x-0 top-0 m-auto inline-block w-full'
 
-const textIndex = ref(0);
-const morph = ref(0);
-const coolDown = ref(0);
-const time = ref(new Date());
+const textIndex = ref(0)
+const morph = ref(0)
+const coolDown = ref(0)
+const time = ref(new Date())
 
-const text1Ref = ref();
-const text2Ref = ref();
+const text1Ref = ref()
+const text2Ref = ref()
 
 function setStyles(fraction) {
-  if (!text1Ref.value || !text2Ref.value) return;
+  if (!text1Ref.value || !text2Ref.value) return
 
-  text2Ref.value.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
-  text2Ref.value.style.opacity = `${fraction ** 0.4 * 100}%`;
+  text2Ref.value.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`
+  text2Ref.value.style.opacity = `${fraction ** 0.4 * 100}%`
 
-  const invertedFraction = 1 - fraction;
-  text1Ref.value.style.filter = `blur(${Math.min(8 / invertedFraction - 8, 100)}px)`;
-  text1Ref.value.style.opacity = `${invertedFraction ** 0.4 * 100}%`;
+  const invertedFraction = 1 - fraction
+  text1Ref.value.style.filter = `blur(${Math.min(8 / invertedFraction - 8, 100)}px)`
+  text1Ref.value.style.opacity = `${invertedFraction ** 0.4 * 100}%`
 
-  text1Ref.value.textContent =
-    props.texts[textIndex.value % props.texts.length];
-  text2Ref.value.textContent =
-    props.texts[(textIndex.value + 1) % props.texts.length];
+  text1Ref.value.textContent = props.texts[textIndex.value % props.texts.length]
+  text2Ref.value.textContent = props.texts[(textIndex.value + 1) % props.texts.length]
 }
 
 function doMorph() {
-  morph.value -= coolDown.value;
-  coolDown.value = 0;
+  morph.value -= coolDown.value
+  coolDown.value = 0
 
-  let fraction = morph.value / props.morphTime;
+  let fraction = morph.value / props.morphTime
 
   if (fraction > 1) {
-    coolDown.value = props.coolDownTime;
-    fraction = 1;
+    coolDown.value = props.coolDownTime
+    fraction = 1
   }
 
-  setStyles(fraction);
+  setStyles(fraction)
 
   if (fraction === 1) {
-    textIndex.value++;
+    textIndex.value++
   }
 }
 
 function doCoolDown() {
-  morph.value = 0;
+  morph.value = 0
 
   if (text1Ref.value && text2Ref.value) {
-    text2Ref.value.style.filter = "none";
-    text2Ref.value.style.opacity = "100%";
-    text1Ref.value.style.filter = "none";
-    text1Ref.value.style.opacity = "0%";
+    text2Ref.value.style.filter = 'none'
+    text2Ref.value.style.opacity = '100%'
+    text1Ref.value.style.filter = 'none'
+    text1Ref.value.style.opacity = '0%'
   }
 }
 
-let animationFrameId = 0;
+let animationFrameId = 0
 function animate() {
-  animationFrameId = requestAnimationFrame(animate);
+  animationFrameId = requestAnimationFrame(animate)
 
-  const newTime = new Date();
-  const dt = (newTime.getTime() - time.value.getTime()) / 1000;
-  time.value = newTime;
+  const newTime = new Date()
+  const dt = (newTime.getTime() - time.value.getTime()) / 1000
+  time.value = newTime
 
-  coolDown.value -= dt;
+  coolDown.value -= dt
 
   if (coolDown.value <= 0) {
-    doMorph();
+    doMorph()
   } else {
-    doCoolDown();
+    doCoolDown()
   }
 }
 
 onMounted(() => {
-  animate();
-});
+  animate()
+})
 
 onUnmounted(() => {
-  cancelAnimationFrame(animationFrameId);
-});
+  cancelAnimationFrame(animationFrameId)
+})
 </script>
 
 <template>

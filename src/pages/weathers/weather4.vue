@@ -23,9 +23,7 @@ const weatherList = ref([
 // 2. Computed
 const filteredWeatherList = computed(() => {
   if (!searchQuery.value.trim()) return weatherList.value
-  return weatherList.value.filter(city =>
-    city.name.includes(searchQuery.value.trim())
-  )
+  return weatherList.value.filter((city) => city.name.includes(searchQuery.value.trim()))
 })
 
 function selectCity(city) {
@@ -40,7 +38,9 @@ watch(selectedCityInfo, (newCity) => {
 })
 
 watchEffect(() => {
-  console.log(`[watchEffect] 현재 검색어: "${searchQuery.value}" → ${filteredWeatherList.value.length}개 결과`)
+  console.log(
+    `[watchEffect] 현재 검색어: "${searchQuery.value}" → ${filteredWeatherList.value.length}개 결과`,
+  )
 })
 </script>
 
@@ -57,8 +57,8 @@ watchEffect(() => {
         v-if="selectedCityInfo"
         class="mt-6 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-700 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300"
       >
-        선택된 도시: <strong>{{ selectedCityInfo.name }}</strong>
-        — {{ selectedCityInfo.temp }}°C, {{ selectedCityInfo.status }}
+        선택된 도시: <strong>{{ selectedCityInfo.name }}</strong> — {{ selectedCityInfo.temp }}°C,
+        {{ selectedCityInfo.status }}
       </div>
 
       <!-- 검색 -->

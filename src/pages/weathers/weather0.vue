@@ -105,7 +105,10 @@ const showDetail = (cityName, status) => {
                 '--avatar-color': weatherPresentation[city.status].accent,
               }"
             >
-              <i :class="'mdi ' + weatherPresentation[city.status].icon" :style="{ fontSize: '24px' }"></i>
+              <i
+                :class="'mdi ' + weatherPresentation[city.status].icon"
+                :style="{ fontSize: '24px' }"
+              ></i>
             </div>
             <div class="draft-card__titles">
               <h3 class="draft-card__name">{{ city.name }}</h3>

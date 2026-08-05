@@ -1,1 +1,1 @@
-export { default as DesignTestimonials } from "./DesignTestimonials.vue";
+export { default as DesignTestimonials } from './DesignTestimonials.vue'

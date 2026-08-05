@@ -1,6 +1,6 @@
 <script setup>
-import { cn } from "@inspira-ui/plugins";
-import { computed } from "vue";
+import { cn } from '@inspira-ui/plugins'
+import { computed } from 'vue'
 
 const props = defineProps({
   class: { type: String, required: false },
@@ -8,20 +8,24 @@ const props = defineProps({
   duration: { type: Number, required: false, default: 15000 },
   borderWidth: { type: Number, required: false, default: 1.5 },
   anchor: { type: Number, required: false, default: 90 },
-  colorFrom: { type: String, required: false, default: "#ffaa40" },
-  colorTo: { type: String, required: false, default: "#9c40ff" },
+  colorFrom: { type: String, required: false, default: '#ffaa40' },
+  colorTo: { type: String, required: false, default: '#9c40ff' },
   delay: { type: Number, required: false, default: 0 },
-});
+})
 
-const durationInSeconds = computed(() => `${props.duration}s`);
-const delayInSeconds = computed(() => `${props.delay}s`);
+const durationInSeconds = computed(() => `${props.duration}s`)
+const delayInSeconds = computed(() => `${props.delay}s`)
 </script>
 
 <template>
-  <div :class="cn(
-  `border-beam animate-border-beam pointer-events-none absolute inset-0 rounded-[inherit] mask-intersect! [mask-clip:padding-box,border-box]! [border:calc(var(--border-width)*1px)_solid_transparent] [mask:linear-gradient(transparent,transparent),linear-gradient(white,white)] after:absolute after:aspect-square after:w-[calc(var(--size)*1px)] after:[animation-delay:var(--delay)] after:[background:linear-gradient(to_left,var(--color-from),var(--color-to),transparent)] after:[offset-anchor:calc(var(--anchor)*1%)_50%] after:[offset-path:rect(0_auto_auto_0_round_calc(var(--size)*1px))]`,
-  props.class,
-)" />
+  <div
+    :class="
+      cn(
+        `border-beam animate-border-beam pointer-events-none absolute inset-0 rounded-[inherit] mask-intersect! [mask-clip:padding-box,border-box]! [border:calc(var(--border-width)*1px)_solid_transparent] [mask:linear-gradient(transparent,transparent),linear-gradient(white,white)] after:absolute after:aspect-square after:w-[calc(var(--size)*1px)] after:[animation-delay:var(--delay)] after:[background:linear-gradient(to_left,var(--color-from),var(--color-to),transparent)] after:[offset-anchor:calc(var(--anchor)*1%)_50%] after:[offset-path:rect(0_auto_auto_0_round_calc(var(--size)*1px))]`,
+        props.class,
+      )
+    "
+  />
 </template>
 
 <style scoped>

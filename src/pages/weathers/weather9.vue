@@ -20,26 +20,111 @@ const sortBy = ref('name')
 const loading = ref(false)
 
 const weatherList = ref([
-  { id: 'city_01', name: '서울', temp: 28, status: '맑음', description: '화창한 하루', high: 31, low: 19, humidity: 45, wind: 3.2 },
-  { id: 'city_02', name: '수원', temp: 24, status: '비', description: '우산을 챙기세요', high: 26, low: 18, humidity: 78, wind: 5.1 },
-  { id: 'city_03', name: '부산', temp: 26, status: '구름', description: '선선한 바람', high: 28, low: 21, humidity: 62, wind: 4.8 },
-  { id: 'city_04', name: '제주', temp: 30, status: '맑음', description: '완벽한 해변 날씨', high: 32, low: 24, humidity: 55, wind: 6.3 },
-  { id: 'city_05', name: '강릉', temp: 22, status: '비', description: '동해안 장마', high: 24, low: 17, humidity: 82, wind: 7.2 },
-  { id: 'city_06', name: '대전', temp: 27, status: '구름', description: '흐린 오후', high: 29, low: 20, humidity: 58, wind: 2.9 },
-  { id: 'city_07', name: '광주', temp: 29, status: '맑음', description: '무더위 주의', high: 33, low: 22, humidity: 48, wind: 2.1 },
-  { id: 'city_08', name: '인천', temp: 25, status: '구름', description: '해무 가능성', high: 27, low: 19, humidity: 71, wind: 5.5 },
+  {
+    id: 'city_01',
+    name: '서울',
+    temp: 28,
+    status: '맑음',
+    description: '화창한 하루',
+    high: 31,
+    low: 19,
+    humidity: 45,
+    wind: 3.2,
+  },
+  {
+    id: 'city_02',
+    name: '수원',
+    temp: 24,
+    status: '비',
+    description: '우산을 챙기세요',
+    high: 26,
+    low: 18,
+    humidity: 78,
+    wind: 5.1,
+  },
+  {
+    id: 'city_03',
+    name: '부산',
+    temp: 26,
+    status: '구름',
+    description: '선선한 바람',
+    high: 28,
+    low: 21,
+    humidity: 62,
+    wind: 4.8,
+  },
+  {
+    id: 'city_04',
+    name: '제주',
+    temp: 30,
+    status: '맑음',
+    description: '완벽한 해변 날씨',
+    high: 32,
+    low: 24,
+    humidity: 55,
+    wind: 6.3,
+  },
+  {
+    id: 'city_05',
+    name: '강릉',
+    temp: 22,
+    status: '비',
+    description: '동해안 장마',
+    high: 24,
+    low: 17,
+    humidity: 82,
+    wind: 7.2,
+  },
+  {
+    id: 'city_06',
+    name: '대전',
+    temp: 27,
+    status: '구름',
+    description: '흐린 오후',
+    high: 29,
+    low: 20,
+    humidity: 58,
+    wind: 2.9,
+  },
+  {
+    id: 'city_07',
+    name: '광주',
+    temp: 29,
+    status: '맑음',
+    description: '무더위 주의',
+    high: 33,
+    low: 22,
+    humidity: 48,
+    wind: 2.1,
+  },
+  {
+    id: 'city_08',
+    name: '인천',
+    temp: 25,
+    status: '구름',
+    description: '해무 가능성',
+    high: 27,
+    low: 19,
+    humidity: 71,
+    wind: 5.5,
+  },
 ])
 
 const favorites = ref(loadFavorites())
 
 function loadFavorites() {
-  try { return JSON.parse(localStorage.getItem('weatherFavorites') || '[]') }
-  catch { return [] }
+  try {
+    return JSON.parse(localStorage.getItem('weatherFavorites') || '[]')
+  } catch {
+    return []
+  }
 }
 
 function simulateLoad() {
   loading.value = true
-  setTimeout(() => { loading.value = false }, 800)
+  setTimeout(() => {
+    loading.value = false
+  }, 800)
 }
 
 function toggleFavorite(cityId) {
@@ -48,19 +133,23 @@ function toggleFavorite(cityId) {
   else favorites.value.push(cityId)
 }
 
-function isFavorite(cityId) { return favorites.value.includes(cityId) }
+function isFavorite(cityId) {
+  return favorites.value.includes(cityId)
+}
 
 function convertTemp(celsius) {
   return unit.value === 'fahrenheit' ? Math.round((celsius * 9) / 5 + 32) : celsius
 }
-function tempUnit() { return unit.value === 'celsius' ? '°C' : '°F' }
+function tempUnit() {
+  return unit.value === 'celsius' ? '°C' : '°F'
+}
 
 function selectCity(cityId) {
   selectedCityId.value = cityId
 }
 
-const selectedCity = computed(() =>
-  weatherList.value.find((c) => c.id === selectedCityId.value) || weatherList.value[0],
+const selectedCity = computed(
+  () => weatherList.value.find((c) => c.id === selectedCityId.value) || weatherList.value[0],
 )
 
 const stats = computed(() => {
@@ -90,52 +179,76 @@ const otherCities = computed(() =>
 
 function weatherColor(status) {
   switch (status) {
-    case '맑음': return 'text-amber-400'
-    case '비': return 'text-blue-400'
-    case '구름': return 'text-zinc-300'
-    default: return 'text-zinc-300'
+    case '맑음':
+      return 'text-amber-400'
+    case '비':
+      return 'text-blue-400'
+    case '구름':
+      return 'text-zinc-300'
+    default:
+      return 'text-zinc-300'
   }
 }
 
 function weatherIcon(status) {
   switch (status) {
-    case '맑음': return 'solar:sun-bold-duotone'
-    case '비': return 'solar:cloud-rain-bold-duotone'
-    case '구름': return 'solar:cloud-bold-duotone'
-    default: return 'solar:cloud-bold-duotone'
+    case '맑음':
+      return 'solar:sun-bold-duotone'
+    case '비':
+      return 'solar:cloud-rain-bold-duotone'
+    case '구름':
+      return 'solar:cloud-bold-duotone'
+    default:
+      return 'solar:cloud-bold-duotone'
   }
 }
 
 function weatherBgColor(status) {
   switch (status) {
-    case '맑음': return 'from-amber-500/20 to-orange-500/10'
-    case '비': return 'from-blue-500/20 to-cyan-500/10'
-    case '구름': return 'from-zinc-500/20 to-slate-500/10'
-    default: return 'from-zinc-500/20 to-slate-500/10'
+    case '맑음':
+      return 'from-amber-500/20 to-orange-500/10'
+    case '비':
+      return 'from-blue-500/20 to-cyan-500/10'
+    case '구름':
+      return 'from-zinc-500/20 to-slate-500/10'
+    default:
+      return 'from-zinc-500/20 to-slate-500/10'
   }
 }
 
 function weatherBeamColors(status) {
   switch (status) {
-    case '맑음': return { from: '#f59e0b', to: '#fbbf24' }
-    case '비': return { from: '#3b82f6', to: '#06b6d4' }
-    case '구름': return { from: '#94a3b8', to: '#64748b' }
-    default: return { from: '#7c3aed', to: '#06b6d4' }
+    case '맑음':
+      return { from: '#f59e0b', to: '#fbbf24' }
+    case '비':
+      return { from: '#3b82f6', to: '#06b6d4' }
+    case '구름':
+      return { from: '#94a3b8', to: '#64748b' }
+    default:
+      return { from: '#7c3aed', to: '#06b6d4' }
   }
 }
 
 const favoriteCount = computed(() => favorites.value.length)
 const filteredCount = computed(() => filteredWeatherList.value.length)
 
-watch(sortBy, (newVal) => { console.log(`[watch] 정렬 기준 변경: ${newVal}`) })
+watch(sortBy, (newVal) => {
+  console.log(`[watch] 정렬 기준 변경: ${newVal}`)
+})
 
-watch(favorites, (newVal) => {
-  localStorage.setItem('weatherFavorites', JSON.stringify(newVal))
-  console.log(`[watch] 즐겨찾기 저장됨: ${newVal.length}개`)
-}, { deep: true })
+watch(
+  favorites,
+  (newVal) => {
+    localStorage.setItem('weatherFavorites', JSON.stringify(newVal))
+    console.log(`[watch] 즐겨찾기 저장됨: ${newVal.length}개`)
+  },
+  { deep: true },
+)
 
 watchEffect(() => {
-  console.log(`[watchEffect] 검색어: "${searchQuery.value}" → ${filteredCount.value}개, 정렬: ${sortBy.value}`)
+  console.log(
+    `[watchEffect] 검색어: "${searchQuery.value}" → ${filteredCount.value}개, 정렬: ${sortBy.value}`,
+  )
 })
 </script>
 
@@ -155,10 +268,14 @@ watchEffect(() => {
     />
 
     <!-- Content -->
-    <div class="relative z-10 mx-auto flex min-h-[100dvh] max-w-4xl flex-col items-center px-4 pt-20 pb-16">
+    <div
+      class="relative z-10 mx-auto flex min-h-[100dvh] max-w-4xl flex-col items-center px-4 pt-20 pb-16"
+    >
       <!-- Header -->
       <header class="mb-8 w-full text-center">
-        <p class="mb-3 font-mono text-[10px] font-medium tracking-[0.3em] text-violet-400/70 uppercase">
+        <p
+          class="mb-3 font-mono text-[10px] font-medium tracking-[0.3em] text-violet-400/70 uppercase"
+        >
           Atmospheric Observatory
         </p>
         <SparklesText
@@ -174,9 +291,7 @@ watchEffect(() => {
 
       <!-- Stats Bento -->
       <BentoGrid class="mb-8 w-full max-w-md md:grid-cols-3">
-        <BentoGridItem
-          class="col-span-1 row-span-1 bg-white/[0.03] border border-white/[0.06]"
-        >
+        <BentoGridItem class="col-span-1 row-span-1 bg-white/[0.03] border border-white/[0.06]">
           <template #header>
             <p class="text-[10px] font-medium tracking-wider text-zinc-500 uppercase">Avg Temp</p>
           </template>
@@ -192,9 +307,7 @@ watchEffect(() => {
             </div>
           </template>
         </BentoGridItem>
-        <BentoGridItem
-          class="col-span-1 row-span-1 bg-white/[0.03] border border-white/[0.06]"
-        >
+        <BentoGridItem class="col-span-1 row-span-1 bg-white/[0.03] border border-white/[0.06]">
           <template #header>
             <p class="text-[10px] font-medium tracking-wider text-zinc-500 uppercase">High</p>
           </template>
@@ -208,9 +321,7 @@ watchEffect(() => {
             <p class="mt-1 text-[10px] text-zinc-600">{{ stats.highest?.name || '' }}</p>
           </template>
         </BentoGridItem>
-        <BentoGridItem
-          class="col-span-1 row-span-1 bg-white/[0.03] border border-white/[0.06]"
-        >
+        <BentoGridItem class="col-span-1 row-span-1 bg-white/[0.03] border border-white/[0.06]">
           <template #header>
             <p class="text-[10px] font-medium tracking-wider text-zinc-500 uppercase">Low</p>
           </template>
@@ -245,17 +356,23 @@ watchEffect(() => {
             <div class="mb-6 flex items-center justify-between">
               <span
                 class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium"
-                :class="selectedCity.status === '맑음'
-                  ? 'border-amber-500/20 bg-amber-500/10 text-amber-400'
-                  : selectedCity.status === '비'
-                    ? 'border-blue-500/20 bg-blue-500/10 text-blue-400'
-                    : 'border-zinc-500/20 bg-zinc-500/10 text-zinc-400'"
+                :class="
+                  selectedCity.status === '맑음'
+                    ? 'border-amber-500/20 bg-amber-500/10 text-amber-400'
+                    : selectedCity.status === '비'
+                      ? 'border-blue-500/20 bg-blue-500/10 text-blue-400'
+                      : 'border-zinc-500/20 bg-zinc-500/10 text-zinc-400'
+                "
               >
                 {{ selectedCity.status }}
               </span>
               <button
                 class="rounded-full p-2 transition-all hover:scale-110 active:scale-95"
-                :class="isFavorite(selectedCity.id) ? 'text-amber-400' : 'text-zinc-600 hover:text-zinc-400'"
+                :class="
+                  isFavorite(selectedCity.id)
+                    ? 'text-amber-400'
+                    : 'text-zinc-600 hover:text-zinc-400'
+                "
                 @click="toggleFavorite(selectedCity.id)"
               >
                 <Icon
@@ -366,7 +483,10 @@ watchEffect(() => {
       </div>
 
       <!-- Loading skeleton -->
-      <div v-if="loading" class="grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+      <div
+        v-if="loading"
+        class="grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
+      >
         <div
           v-for="i in 4"
           :key="i"
@@ -389,10 +509,7 @@ watchEffect(() => {
           <p class="mt-1 text-xs text-zinc-600">다른 검색어를 시도해보세요</p>
         </div>
 
-        <div
-          v-else
-          class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
-        >
+        <div v-else class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           <GlareCard
             v-for="city in otherCities"
             :key="city.id"
@@ -401,13 +518,13 @@ watchEffect(() => {
           >
             <div
               class="relative flex h-full flex-col justify-between rounded-[32px] p-5 border border-white/[0.06]"
-              :class="[
-                isFavorite(city.id) ? 'bg-amber-500/[0.04]' : 'bg-white/[0.01]',
-              ]"
+              :class="[isFavorite(city.id) ? 'bg-amber-500/[0.04]' : 'bg-white/[0.01]']"
             >
               <button
                 class="absolute top-3 right-3 z-10 rounded-lg p-1 transition-all hover:scale-110 active:scale-95"
-                :class="isFavorite(city.id) ? 'text-amber-400' : 'text-zinc-700 hover:text-zinc-400'"
+                :class="
+                  isFavorite(city.id) ? 'text-amber-400' : 'text-zinc-700 hover:text-zinc-400'
+                "
                 @click.stop="toggleFavorite(city.id)"
               >
                 <Icon
@@ -433,7 +550,8 @@ watchEffect(() => {
 
               <div class="mt-3">
                 <span class="text-xl font-bold tracking-tight text-white tabular-nums">
-                  {{ convertTemp(city.temp) }}<span class="text-xs font-normal text-zinc-600">{{ tempUnit() }}</span>
+                  {{ convertTemp(city.temp)
+                  }}<span class="text-xs font-normal text-zinc-600">{{ tempUnit() }}</span>
                 </span>
               </div>
             </div>

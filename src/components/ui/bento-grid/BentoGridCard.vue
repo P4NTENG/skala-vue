@@ -1,5 +1,5 @@
 <script setup>
-import { cn } from "@inspira-ui/plugins";
+import { cn } from '@inspira-ui/plugins'
 
 const props = defineProps({
   name: { type: String, required: true },
@@ -12,7 +12,7 @@ const props = defineProps({
   description: { type: String, required: true },
   href: { type: String, required: true },
   cta: { type: String, required: true },
-});
+})
 </script>
 
 <template>

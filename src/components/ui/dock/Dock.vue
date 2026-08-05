@@ -1,6 +1,6 @@
 <script setup>
-import { cn } from "@/lib/utils";
-import { computed, provide, ref } from "vue";
+import { cn } from '@/lib/utils'
+import { computed, provide, ref } from 'vue'
 
 import {
   DISTANCE_INJECTION_KEY,
@@ -8,7 +8,7 @@ import {
   MOUSE_X_INJECTION_KEY,
   MOUSE_Y_INJECTION_KEY,
   ORIENTATION_INJECTION_KEY,
-} from "./injectionKeys";
+} from './injectionKeys'
 
 const props = defineProps({
   class: {
@@ -18,40 +18,40 @@ const props = defineProps({
   },
   magnification: { type: Number, required: false, default: 60 },
   distance: { type: Number, required: false, default: 140 },
-  direction: { type: null, required: false, default: "middle" },
-  orientation: { type: null, required: false, default: "horizontal" },
-});
+  direction: { type: null, required: false, default: 'middle' },
+  orientation: { type: null, required: false, default: 'horizontal' },
+})
 
-const dockRef = ref(null);
-const mouseX = ref(Infinity);
-const mouseY = ref(Infinity);
-const magnification = computed(() => props.magnification);
-const distance = computed(() => props.distance);
+const dockRef = ref(null)
+const mouseX = ref(Infinity)
+const mouseY = ref(Infinity)
+const magnification = computed(() => props.magnification)
+const distance = computed(() => props.distance)
 
 const dockClass = computed(() => ({
-  "items-start": props.direction === "top",
-  "items-center": props.direction === "middle",
-  "items-end": props.direction === "bottom",
-}));
+  'items-start': props.direction === 'top',
+  'items-center': props.direction === 'middle',
+  'items-end': props.direction === 'bottom',
+}))
 
 function onMouseMove(e) {
   requestAnimationFrame(() => {
-    mouseX.value = e.pageX;
-    mouseY.value = e.pageY;
-  });
+    mouseX.value = e.pageX
+    mouseY.value = e.pageY
+  })
 }
 
 function onMouseLeave() {
   requestAnimationFrame(() => {
-    mouseX.value = Infinity;
-    mouseY.value = Infinity;
-  });
+    mouseX.value = Infinity
+    mouseY.value = Infinity
+  })
 }
-provide(MOUSE_X_INJECTION_KEY, mouseX);
-provide(MOUSE_Y_INJECTION_KEY, mouseY);
-provide(ORIENTATION_INJECTION_KEY, props.orientation);
-provide(MAGNIFICATION_INJECTION_KEY, magnification);
-provide(DISTANCE_INJECTION_KEY, distance);
+provide(MOUSE_X_INJECTION_KEY, mouseX)
+provide(MOUSE_Y_INJECTION_KEY, mouseY)
+provide(ORIENTATION_INJECTION_KEY, props.orientation)
+provide(MAGNIFICATION_INJECTION_KEY, magnification)
+provide(DISTANCE_INJECTION_KEY, distance)
 </script>
 
 <template>

@@ -1,8 +1,8 @@
 <script setup>
-import { Application } from "@splinetool/runtime";
-import { useDebounceFn, useIntersectionObserver } from "@vueuse/core";
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
-import ParentSize from "./ParentSize.vue";
+import { Application } from '@splinetool/runtime'
+import { useDebounceFn, useIntersectionObserver } from '@vueuse/core'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import ParentSize from './ParentSize.vue'
 
 const props = defineProps({
   scene: {
@@ -15,143 +15,136 @@ const props = defineProps({
     default: true,
   },
   style: Object,
-});
+})
 
 const emit = defineEmits([
-  "error",
-  "spline-mouse-down",
-  "spline-mouse-up",
-  "spline-mouse-hover",
-  "spline-key-down",
-  "spline-key-up",
-  "spline-start",
-  "spline-look-at",
-  "spline-follow",
-  "spline-scroll",
-]);
+  'error',
+  'spline-mouse-down',
+  'spline-mouse-up',
+  'spline-mouse-hover',
+  'spline-key-down',
+  'spline-key-up',
+  'spline-start',
+  'spline-look-at',
+  'spline-follow',
+  'spline-scroll',
+])
 
-const canvasRef = ref(null);
-const isLoading = ref(false);
-const splineApp = ref(null);
-const isVisible = ref(true);
+const canvasRef = ref(null)
+const isLoading = ref(false)
+const splineApp = ref(null)
+const isVisible = ref(true)
 
-let cleanup = () => {};
+let cleanup = () => {}
 
 const parentSizeStyles = computed(() => ({
-  overflow: "hidden",
+  overflow: 'hidden',
   ...props.style,
-}));
+}))
 
 const canvasStyle = computed(() => ({
-  display: "block",
-  width: "100%",
-  height: "100%",
-}));
+  display: 'block',
+  width: '100%',
+  height: '100%',
+}))
 
 // Use IntersectionObserver to detect when component is visible
 const { stop: stopIntersectionObserver } = useIntersectionObserver(
   canvasRef,
   ([{ isIntersecting }]) => {
-    isVisible.value = isIntersecting;
+    isVisible.value = isIntersecting
     if (isIntersecting && splineApp.value) {
       // When becoming visible again, force a resize
       nextTick(() => {
         if (canvasRef.value && splineApp.value) {
-          splineApp.value.requestRender();
-          splineApp.value.setSize(
-            canvasRef.value.clientWidth,
-            canvasRef.value.clientHeight,
-          );
+          splineApp.value.requestRender()
+          splineApp.value.setSize(canvasRef.value.clientWidth, canvasRef.value.clientHeight)
         }
-      });
+      })
     }
   },
   { threshold: 0.1 },
-);
+)
 
 function eventHandler(name, handler) {
-  if (!handler || !splineApp.value) return;
-  const debouncedHandler = useDebounceFn(handler, 50, { maxWait: 100 });
-  splineApp.value.addEventListener(name, debouncedHandler);
-  return () => splineApp.value?.removeEventListener(name, debouncedHandler);
+  if (!handler || !splineApp.value) return
+  const debouncedHandler = useDebounceFn(handler, 50, { maxWait: 100 })
+  splineApp.value.addEventListener(name, debouncedHandler)
+  return () => splineApp.value?.removeEventListener(name, debouncedHandler)
 }
 
 async function initSpline() {
-  if (!canvasRef.value) return;
+  if (!canvasRef.value) return
 
-  isLoading.value = true;
+  isLoading.value = true
 
   try {
     // Clean up previous instance if exists
     if (splineApp.value) {
-      splineApp.value.dispose();
-      splineApp.value = null;
+      splineApp.value.dispose()
+      splineApp.value = null
     }
 
     splineApp.value = new Application(canvasRef.value, {
       renderOnDemand: props.renderOnDemand,
-    });
+    })
 
-    await splineApp.value.load(props.scene);
+    await splineApp.value.load(props.scene)
 
     // Set up event listeners
     const cleanUpFns = [
-      eventHandler("mouseDown", (e) => emit("spline-mouse-down", e)),
-      eventHandler("mouseUp", (e) => emit("spline-mouse-up", e)),
-      eventHandler("mouseHover", (e) => emit("spline-mouse-hover", e)),
-      eventHandler("keyDown", (e) => emit("spline-key-down", e)),
-      eventHandler("keyUp", (e) => emit("spline-key-up", e)),
-      eventHandler("start", (e) => emit("spline-start", e)),
-      eventHandler("lookAt", (e) => emit("spline-look-at", e)),
-      eventHandler("follow", (e) => emit("spline-follow", e)),
-      eventHandler("scroll", (e) => emit("spline-scroll", e)),
-    ].filter(Boolean);
+      eventHandler('mouseDown', (e) => emit('spline-mouse-down', e)),
+      eventHandler('mouseUp', (e) => emit('spline-mouse-up', e)),
+      eventHandler('mouseHover', (e) => emit('spline-mouse-hover', e)),
+      eventHandler('keyDown', (e) => emit('spline-key-down', e)),
+      eventHandler('keyUp', (e) => emit('spline-key-up', e)),
+      eventHandler('start', (e) => emit('spline-start', e)),
+      eventHandler('lookAt', (e) => emit('spline-look-at', e)),
+      eventHandler('follow', (e) => emit('spline-follow', e)),
+      eventHandler('scroll', (e) => emit('spline-scroll', e)),
+    ].filter(Boolean)
 
-    isLoading.value = false;
-    props.onLoad?.(splineApp.value);
+    isLoading.value = false
+    props.onLoad?.(splineApp.value)
 
     return () => {
-      cleanUpFns.forEach((fn) => fn?.());
-    };
+      cleanUpFns.forEach((fn) => fn?.())
+    }
   } catch (err) {
-    console.error("Spline initialization error:", err);
-    emit("error", err);
-    isLoading.value = false;
-    return () => {};
+    console.error('Spline initialization error:', err)
+    emit('error', err)
+    isLoading.value = false
+    return () => {}
   }
 }
 
 async function initialize() {
-  cleanup();
-  cleanup = (await initSpline()) ?? (() => {});
+  cleanup()
+  cleanup = (await initSpline()) ?? (() => {})
 }
 
 onMounted(async () => {
-  await initialize();
+  await initialize()
 
   // Reinitialize when becoming visible again
   watch(isVisible, (visible) => {
     if (visible) {
-      initialize();
+      initialize()
     }
-  });
-});
+  })
+})
 
 onUnmounted(() => {
-  stopIntersectionObserver();
+  stopIntersectionObserver()
   if (splineApp.value) {
-    splineApp.value.dispose();
-    splineApp.value = null;
+    splineApp.value.dispose()
+    splineApp.value = null
   }
-});
+})
 </script>
 
 <template>
-  <ParentSize
-    :parent-size-styles="parentSizeStyles"
-    :debounce-time="50"
-    v-bind="$attrs"
-  >
+  <ParentSize :parent-size-styles="parentSizeStyles" :debounce-time="50" v-bind="$attrs">
     <template #default>
       <canvas ref="canvasRef" :style="canvasStyle" />
       <slot v-if="isLoading" />

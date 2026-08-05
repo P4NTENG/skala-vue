@@ -1,5 +1,5 @@
 <script setup>
-import { cn } from "@inspira-ui/plugins";
+import { cn } from '@inspira-ui/plugins'
 
 const props = defineProps({
   class: {
@@ -7,7 +7,7 @@ const props = defineProps({
     required: false,
     skipCheck: true,
   },
-});
+})
 </script>
 
 <template>

@@ -1,34 +1,34 @@
-import { Camera, Geometry, Mesh, Program, Renderer, Transform } from "ogl";
+import { Camera, Geometry, Mesh, Program, Renderer, Transform } from 'ogl'
 
 export class InspiraShaderToy {
-  program = null;
-  mesh = null;
-  animationFrameId = 0;
-  removeEventListeners = [];
+  program = null
+  mesh = null
+  animationFrameId = 0
+  removeEventListeners = []
 
   // Timing
-  isPlaying = false;
-  firstDrawTime = 0;
-  prevDrawTime = 0;
-  targetFPS = 60;
-  frameInterval = 1000 / 60;
-  lastFrameTime = 0;
+  isPlaying = false
+  firstDrawTime = 0
+  prevDrawTime = 0
+  targetFPS = 60
+  frameInterval = 1000 / 60
+  lastFrameTime = 0
 
   // Callback
 
   // Uniforms
-  iFrame = 0;
-  iMouse = { x: 0, y: 0, clickX: 0, clickY: 0 };
-  hsv = { hue: 0, saturation: 1, brightness: 1 };
-  _mouseMode = "click";
-  _mouseSensitivity = 1.0;
-  _mouseDamping = 0.9;
+  iFrame = 0
+  iMouse = { x: 0, y: 0, clickX: 0, clickY: 0 }
+  hsv = { hue: 0, saturation: 1, brightness: 1 }
+  _mouseMode = 'click'
+  _mouseSensitivity = 1.0
+  _mouseDamping = 0.9
 
-  _speed = 1;
-  _pixelRatio = 1;
+  _speed = 1
+  _pixelRatio = 1
 
   // Shader source
-  shaderSource = "";
+  shaderSource = ''
 
   vertexShader = `#version 300 es
     #ifdef GL_ES
@@ -39,7 +39,7 @@ export class InspiraShaderToy {
     void main() {
         gl_Position = vec4(position, 0.0, 1.0);
     }
-  `;
+  `
 
   fragmentShaderHeader = `#version 300 es
     #ifdef GL_ES
@@ -98,17 +98,17 @@ export class InspiraShaderToy {
         
         fragColor = color;
     }
-  `;
+  `
 
   constructor(container, mouseMode, fps, pixelRatio = 1) {
-    this.container = container;
+    this.container = container
     if (mouseMode) {
-      this._mouseMode = mouseMode;
+      this._mouseMode = mouseMode
     }
     if (fps) {
-      this.setFrameRate(fps);
+      this.setFrameRate(fps)
     }
-    this.setPixelRatio(pixelRatio);
+    this.setPixelRatio(pixelRatio)
 
     // Create renderer with WebGL 2 context
     this.renderer = new Renderer({
@@ -119,26 +119,23 @@ export class InspiraShaderToy {
       depth: false,
       stencil: false,
       antialias: true,
-      powerPreference: "high-performance",
-    });
+      powerPreference: 'high-performance',
+    })
 
     // Ensure WebGL 2 context
-    if (
-      !this.renderer.gl ||
-      !(this.renderer.gl instanceof WebGL2RenderingContext)
-    ) {
-      throw new Error("WebGL 2 not supported");
+    if (!this.renderer.gl || !(this.renderer.gl instanceof WebGL2RenderingContext)) {
+      throw new Error('WebGL 2 not supported')
     }
 
     // Append canvas to container
-    this.container.appendChild(this.renderer.gl.canvas);
+    this.container.appendChild(this.renderer.gl.canvas)
 
     // Setup camera (orthographic for full-screen quad)
-    this.camera = new Camera(this.renderer.gl);
-    this.camera.position.z = 1;
+    this.camera = new Camera(this.renderer.gl)
+    this.camera.position.z = 1
 
     // Setup scene
-    this.scene = new Transform();
+    this.scene = new Transform()
 
     // Setup geometry (full-screen quad)
     this.geometry = new Geometry(this.renderer.gl, {
@@ -146,167 +143,165 @@ export class InspiraShaderToy {
         size: 2,
         data: new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1, -1, 1, 1, -1]),
       },
-    });
+    })
 
-    this.setup();
+    this.setup()
   }
 
   setup() {
-    this.setupMouseEvents();
-    this.setupResizeHandler();
+    this.setupMouseEvents()
+    this.setupResizeHandler()
   }
 
   getSafeWidth() {
-    return Math.max(1, this.container.clientWidth);
+    return Math.max(1, this.container.clientWidth)
   }
 
   getSafeHeight() {
-    return Math.max(1, this.container.clientHeight);
+    return Math.max(1, this.container.clientHeight)
   }
 
   getResolution() {
-    const width = this.getSafeWidth();
-    const height = this.getSafeHeight();
-    const dpr = this._pixelRatio;
+    const width = this.getSafeWidth()
+    const height = this.getSafeHeight()
+    const dpr = this._pixelRatio
 
-    return [width * dpr, height * dpr, dpr];
+    return [width * dpr, height * dpr, dpr]
   }
 
   updateProgramResolution() {
     if (this.program) {
-      this.program.uniforms.iResolution.value = this.getResolution();
+      this.program.uniforms.iResolution.value = this.getResolution()
     }
   }
 
   resize() {
-    const width = this.getSafeWidth();
-    const height = this.getSafeHeight();
-    const dpr = this._pixelRatio;
+    const width = this.getSafeWidth()
+    const height = this.getSafeHeight()
+    const dpr = this._pixelRatio
 
-    this.renderer.dpr = dpr;
-    this.renderer.setSize(width, height);
-    this.renderer.setViewport(width * dpr, height * dpr);
-    this.updateProgramResolution();
+    this.renderer.dpr = dpr
+    this.renderer.setSize(width, height)
+    this.renderer.setViewport(width * dpr, height * dpr)
+    this.updateProgramResolution()
   }
 
   addEventListener(target, type, listener, options) {
-    target.addEventListener(type, listener, options);
+    target.addEventListener(type, listener, options)
     this.removeEventListeners.push(() => {
-      target.removeEventListener(type, listener, options);
-    });
+      target.removeEventListener(type, listener, options)
+    })
   }
 
   setupMouseEvents() {
-    const canvas = this.renderer.gl.canvas;
-    let isMouseDown = false;
+    const canvas = this.renderer.gl.canvas
+    let isMouseDown = false
 
     const getScaledMousePos = (event) => {
-      const rect = canvas.getBoundingClientRect();
-      const dpr = this._pixelRatio;
+      const rect = canvas.getBoundingClientRect()
+      const dpr = this._pixelRatio
 
       // Get mouse position relative to canvas
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
+      const x = event.clientX - rect.left
+      const y = event.clientY - rect.top
 
       // Scale by DPR, apply sensitivity, and flip Y-axis
       return {
         x: x * dpr * this._mouseSensitivity,
         y: (canvas.height - y * dpr) * this._mouseSensitivity, // Flip Y to match GLSL coordinates
-      };
-    };
+      }
+    }
 
     const onMouseMove = (event) => {
-      const mouseEvent = event;
-      const { x: newX, y: newY } = getScaledMousePos(mouseEvent);
+      const mouseEvent = event
+      const { x: newX, y: newY } = getScaledMousePos(mouseEvent)
 
       // Apply damping with configurable factor
-      this.iMouse.x =
-        this.iMouse.x * this._mouseDamping + newX * (1 - this._mouseDamping);
-      this.iMouse.y =
-        this.iMouse.y * this._mouseDamping + newY * (1 - this._mouseDamping);
+      this.iMouse.x = this.iMouse.x * this._mouseDamping + newX * (1 - this._mouseDamping)
+      this.iMouse.y = this.iMouse.y * this._mouseDamping + newY * (1 - this._mouseDamping)
 
       // Handle click coordinates based on mode
-      if (this._mouseMode === "hover" && !isMouseDown) {
-        this.iMouse.clickX = this.iMouse.x;
-        this.iMouse.clickY = this.iMouse.y;
+      if (this._mouseMode === 'hover' && !isMouseDown) {
+        this.iMouse.clickX = this.iMouse.x
+        this.iMouse.clickY = this.iMouse.y
       } else if (isMouseDown) {
-        this.iMouse.clickX = newX;
-        this.iMouse.clickY = newY;
+        this.iMouse.clickX = newX
+        this.iMouse.clickY = newY
       }
-    };
+    }
 
     const onMouseDown = (event) => {
-      const mouseEvent = event;
-      isMouseDown = true;
-      const { x: clickX, y: clickY } = getScaledMousePos(mouseEvent);
+      const mouseEvent = event
+      isMouseDown = true
+      const { x: clickX, y: clickY } = getScaledMousePos(mouseEvent)
 
-      if (this._mouseMode === "click") {
-        this.iMouse.clickX = clickX;
-        this.iMouse.clickY = clickY;
+      if (this._mouseMode === 'click') {
+        this.iMouse.clickX = clickX
+        this.iMouse.clickY = clickY
       }
-    };
+    }
 
     const stopPress = () => {
-      isMouseDown = false;
-    };
+      isMouseDown = false
+    }
 
     // Handle touch events for mobile
     const onTouchMove = (event) => {
-      const touchEvent = event;
-      touchEvent.preventDefault();
-      const touch = touchEvent.touches[0];
-      if (!touch) return;
-      const { x: newX, y: newY } = getScaledMousePos(touch);
+      const touchEvent = event
+      touchEvent.preventDefault()
+      const touch = touchEvent.touches[0]
+      if (!touch) return
+      const { x: newX, y: newY } = getScaledMousePos(touch)
 
-      this.iMouse.x = newX;
-      this.iMouse.y = newY;
+      this.iMouse.x = newX
+      this.iMouse.y = newY
 
-      if (this._mouseMode === "hover") {
-        this.iMouse.clickX = newX;
-        this.iMouse.clickY = newY;
+      if (this._mouseMode === 'hover') {
+        this.iMouse.clickX = newX
+        this.iMouse.clickY = newY
       }
-    };
+    }
 
     const onTouchStart = (event) => {
-      const touchEvent = event;
-      touchEvent.preventDefault();
-      isMouseDown = true;
-      const touch = touchEvent.touches[0];
-      if (!touch) return;
-      const { x: clickX, y: clickY } = getScaledMousePos(touch);
+      const touchEvent = event
+      touchEvent.preventDefault()
+      isMouseDown = true
+      const touch = touchEvent.touches[0]
+      if (!touch) return
+      const { x: clickX, y: clickY } = getScaledMousePos(touch)
 
-      if (this._mouseMode === "click") {
-        this.iMouse.clickX = clickX;
-        this.iMouse.clickY = clickY;
+      if (this._mouseMode === 'click') {
+        this.iMouse.clickX = clickX
+        this.iMouse.clickY = clickY
       }
-    };
+    }
 
-    this.addEventListener(canvas, "mousemove", onMouseMove);
-    this.addEventListener(canvas, "mousedown", onMouseDown);
-    this.addEventListener(canvas, "mouseup", stopPress);
-    this.addEventListener(canvas, "mouseleave", stopPress);
-    this.addEventListener(window, "mouseup", stopPress);
-    this.addEventListener(canvas, "touchmove", onTouchMove, { passive: false });
-    this.addEventListener(canvas, "touchstart", onTouchStart, {
+    this.addEventListener(canvas, 'mousemove', onMouseMove)
+    this.addEventListener(canvas, 'mousedown', onMouseDown)
+    this.addEventListener(canvas, 'mouseup', stopPress)
+    this.addEventListener(canvas, 'mouseleave', stopPress)
+    this.addEventListener(window, 'mouseup', stopPress)
+    this.addEventListener(canvas, 'touchmove', onTouchMove, { passive: false })
+    this.addEventListener(canvas, 'touchstart', onTouchStart, {
       passive: false,
-    });
-    this.addEventListener(canvas, "touchend", stopPress);
-    this.addEventListener(canvas, "touchcancel", stopPress);
+    })
+    this.addEventListener(canvas, 'touchend', stopPress)
+    this.addEventListener(canvas, 'touchcancel', stopPress)
   }
 
   setupResizeHandler() {
     this.resizeObserver = new ResizeObserver(() => {
-      this.resize();
-    });
+      this.resize()
+    })
 
-    this.resizeObserver.observe(this.container);
-    this.resize();
+    this.resizeObserver.observe(this.container)
+    this.resize()
   }
 
   compileProgram() {
-    if (!this.shaderSource) return false;
+    if (!this.shaderSource) return false
 
-    const fullFragmentShader = this.fragmentShaderHeader + this.shaderSource;
+    const fullFragmentShader = this.fragmentShaderHeader + this.shaderSource
 
     try {
       const program = new Program(this.renderer.gl, {
@@ -327,287 +322,276 @@ export class InspiraShaderToy {
           },
           iSpeed: { value: this._speed },
         },
-      });
+      })
 
       const mesh = new Mesh(this.renderer.gl, {
         geometry: this.geometry,
         program,
-      });
+      })
 
-      this.program?.remove();
-      this.program = program;
-      this.mesh = mesh;
+      this.program?.remove()
+      this.program = program
+      this.mesh = mesh
 
-      return true;
+      return true
     } catch (error) {
-      console.error("Failed to compile shader:", error);
-      return false;
+      console.error('Failed to compile shader:', error)
+      return false
     }
   }
 
   draw() {
     if (!this.program || !this.mesh) {
-      console.warn("Program or mesh not initialized");
-      return;
+      console.warn('Program or mesh not initialized')
+      return
     }
 
-    const now = this.isPlaying ? Date.now() : this.prevDrawTime;
-    const date = new Date(now);
+    const now = this.isPlaying ? Date.now() : this.prevDrawTime
+    const date = new Date(now)
 
     if (this.firstDrawTime === 0) {
-      this.firstDrawTime = now;
+      this.firstDrawTime = now
     }
 
     if (this.onDrawCallback) {
-      this.onDrawCallback();
+      this.onDrawCallback()
     }
 
-    const iTimeDelta = (now - this.prevDrawTime) * 0.001 * this._speed;
-    const iTime = (now - this.firstDrawTime) * 0.001 * this._speed;
-    const iDate = [
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      date.getTime() * 0.001,
-    ];
+    const iTimeDelta = (now - this.prevDrawTime) * 0.001 * this._speed
+    const iTime = (now - this.firstDrawTime) * 0.001 * this._speed
+    const iDate = [date.getFullYear(), date.getMonth(), date.getDate(), date.getTime() * 0.001]
 
     if (this.program && this.mesh) {
       // Update uniforms
-      this.program.uniforms.iResolution.value = this.getResolution();
-      this.program.uniforms.iTime.value = iTime;
-      this.program.uniforms.iTimeDelta.value = iTimeDelta;
-      this.program.uniforms.iFrameRate.value = this.targetFPS;
-      this.program.uniforms.iFrame.value = this.iFrame;
+      this.program.uniforms.iResolution.value = this.getResolution()
+      this.program.uniforms.iTime.value = iTime
+      this.program.uniforms.iTimeDelta.value = iTimeDelta
+      this.program.uniforms.iFrameRate.value = this.targetFPS
+      this.program.uniforms.iFrame.value = this.iFrame
       this.program.uniforms.iMouse.value = [
         this.iMouse.x,
         this.iMouse.y,
         this.iMouse.clickX,
         this.iMouse.clickY,
-      ];
-      this.program.uniforms.iDate.value = iDate;
-      this.program.uniforms.iHSV.value = [
-        this.hsv.hue,
-        this.hsv.saturation,
-        this.hsv.brightness,
-      ];
-      this.program.uniforms.iSpeed.value = this._speed;
+      ]
+      this.program.uniforms.iDate.value = iDate
+      this.program.uniforms.iHSV.value = [this.hsv.hue, this.hsv.saturation, this.hsv.brightness]
+      this.program.uniforms.iSpeed.value = this._speed
 
       // Render
-      this.renderer.render({ scene: this.mesh, camera: this.camera });
+      this.renderer.render({ scene: this.mesh, camera: this.camera })
     }
 
-    this.prevDrawTime = now;
-    this.iFrame++;
+    this.prevDrawTime = now
+    this.iFrame++
   }
 
   animate = () => {
-    this.animationFrameId = 0;
+    this.animationFrameId = 0
 
-    if (!this.isPlaying) return;
+    if (!this.isPlaying) return
 
-    let shouldDraw = true;
+    let shouldDraw = true
 
     if (this.targetFPS < 60) {
-      const now = Date.now();
-      const elapsed = now - this.lastFrameTime;
+      const now = Date.now()
+      const elapsed = now - this.lastFrameTime
 
       if (elapsed < this.frameInterval) {
-        shouldDraw = false;
+        shouldDraw = false
       } else {
-        this.lastFrameTime = now - (elapsed % this.frameInterval);
+        this.lastFrameTime = now - (elapsed % this.frameInterval)
       }
     }
 
     if (shouldDraw) {
-      this.draw();
+      this.draw()
     }
 
-    this.animationFrameId = requestAnimationFrame(this.animate);
-  };
+    this.animationFrameId = requestAnimationFrame(this.animate)
+  }
 
   // Public methods
   setShader(config) {
-    this.shaderSource = config.source;
-    const success = this.compileProgram();
+    this.shaderSource = config.source
+    const success = this.compileProgram()
 
     // If playing, trigger a redraw
     if (success && this.isPlaying) {
-      this.draw();
+      this.draw()
     }
 
-    return success;
+    return success
   }
 
   setHSV(hsv) {
-    if (hsv.hue !== undefined) this.hsv.hue = hsv.hue;
-    if (hsv.saturation !== undefined) this.hsv.saturation = hsv.saturation;
-    if (hsv.brightness !== undefined) this.hsv.brightness = hsv.brightness;
+    if (hsv.hue !== undefined) this.hsv.hue = hsv.hue
+    if (hsv.saturation !== undefined) this.hsv.saturation = hsv.saturation
+    if (hsv.brightness !== undefined) this.hsv.brightness = hsv.brightness
 
     // Update immediately if not playing
     if (!this.isPlaying && this.program && this.mesh) {
-      this.draw();
+      this.draw()
     }
   }
 
   setHue(val) {
-    this.hsv.hue = val;
+    this.hsv.hue = val
 
     // Update immediately if not playing
     if (!this.isPlaying && this.program && this.mesh) {
-      this.draw();
+      this.draw()
     }
   }
 
   setSaturation(val) {
-    this.hsv.saturation = val;
+    this.hsv.saturation = val
 
     // Update immediately if not playing
     if (!this.isPlaying && this.program && this.mesh) {
-      this.draw();
+      this.draw()
     }
   }
 
   setBrightness(val) {
-    this.hsv.brightness = val;
+    this.hsv.brightness = val
 
     // Update immediately if not playing
     if (!this.isPlaying && this.program && this.mesh) {
-      this.draw();
+      this.draw()
     }
   }
 
   getHSV() {
-    return { ...this.hsv };
+    return { ...this.hsv }
   }
   // New speed methods
   setSpeed(val) {
-    this._speed = Math.max(0, val);
+    this._speed = Math.max(0, val)
 
     // Update immediately if not playing
     if (!this.isPlaying && this.program && this.mesh) {
-      this.draw();
+      this.draw()
     }
   }
 
   getSpeed() {
-    return this._speed;
+    return this._speed
   }
 
   setFrameRate(fps) {
-    this.targetFPS = Math.max(1, Math.min(60, fps));
-    this.frameInterval = 1000 / this.targetFPS;
+    this.targetFPS = Math.max(1, Math.min(60, fps))
+    this.frameInterval = 1000 / this.targetFPS
   }
 
   getFrameRate() {
-    return this.targetFPS;
+    return this.targetFPS
   }
 
   setPixelRatio(pixelRatio) {
-    this._pixelRatio = Math.max(0.25, Math.min(2, pixelRatio));
+    this._pixelRatio = Math.max(0.25, Math.min(2, pixelRatio))
 
     if (this.renderer) {
-      this.resize();
+      this.resize()
       if (!this.isPlaying && this.program && this.mesh) {
-        this.draw();
+        this.draw()
       }
     }
   }
 
   getPixelRatio() {
-    return this._pixelRatio;
+    return this._pixelRatio
   }
 
   setOnDraw(callback) {
-    this.onDrawCallback = callback;
+    this.onDrawCallback = callback
   }
 
   time() {
-    return (this.prevDrawTime - this.firstDrawTime) * 0.001 * this._speed;
+    return (this.prevDrawTime - this.firstDrawTime) * 0.001 * this._speed
   }
 
   isPlayingState() {
-    return this.isPlaying;
+    return this.isPlaying
   }
 
   reset() {
-    const now = Date.now();
-    this.firstDrawTime = now;
-    this.prevDrawTime = now;
-    this.lastFrameTime = now;
-    this.iFrame = 0;
-    this.draw();
+    const now = Date.now()
+    this.firstDrawTime = now
+    this.prevDrawTime = now
+    this.lastFrameTime = now
+    this.iFrame = 0
+    this.draw()
   }
 
   pause() {
-    this.isPlaying = false;
+    this.isPlaying = false
     if (this.animationFrameId) {
-      cancelAnimationFrame(this.animationFrameId);
-      this.animationFrameId = 0;
+      cancelAnimationFrame(this.animationFrameId)
+      this.animationFrameId = 0
     }
   }
 
   play() {
     if (!this.isPlaying) {
-      this.isPlaying = true;
-      const now = Date.now();
-      const elapsed = this.prevDrawTime - this.firstDrawTime;
-      this.firstDrawTime = now - elapsed;
-      this.prevDrawTime = now;
-      this.lastFrameTime = now;
-      this.draw();
-      this.animationFrameId = requestAnimationFrame(this.animate);
+      this.isPlaying = true
+      const now = Date.now()
+      const elapsed = this.prevDrawTime - this.firstDrawTime
+      this.firstDrawTime = now - elapsed
+      this.prevDrawTime = now
+      this.lastFrameTime = now
+      this.draw()
+      this.animationFrameId = requestAnimationFrame(this.animate)
     }
   }
 
   dispose() {
-    this.pause();
-    this.resizeObserver?.disconnect();
-    this.resizeObserver = undefined;
-    this.removeEventListeners.forEach((remove) => remove());
-    this.removeEventListeners = [];
-    this.program?.remove();
-    this.program = null;
-    this.mesh = null;
-    this.geometry.remove();
+    this.pause()
+    this.resizeObserver?.disconnect()
+    this.resizeObserver = undefined
+    this.removeEventListeners.forEach((remove) => remove())
+    this.removeEventListeners = []
+    this.program?.remove()
+    this.program = null
+    this.mesh = null
+    this.geometry.remove()
 
     if (this.renderer.gl.canvas.parentElement) {
-      this.renderer.gl.canvas.parentElement.removeChild(
-        this.renderer.gl.canvas,
-      );
+      this.renderer.gl.canvas.parentElement.removeChild(this.renderer.gl.canvas)
     }
   }
 
   // Getters and Setters
   get mouseMode() {
-    return this._mouseMode;
+    return this._mouseMode
   }
 
   set mouseMode(val) {
-    this._mouseMode = val;
+    this._mouseMode = val
   }
   get speed() {
-    return this._speed;
+    return this._speed
   }
 
   set speed(val) {
-    this.setSpeed(val);
+    this.setSpeed(val)
   }
 
   // New mouse sensitivity methods
   setMouseSensitivity(sensitivity) {
-    this._mouseSensitivity = Math.max(0.1, Math.min(5.0, sensitivity)); // Clamp between 0.1 and 5.0
+    this._mouseSensitivity = Math.max(0.1, Math.min(5.0, sensitivity)) // Clamp between 0.1 and 5.0
   }
 
   getMouseSensitivity() {
-    return this._mouseSensitivity;
+    return this._mouseSensitivity
   }
 
   // New mouse damping methods
   setMouseDamping(damping) {
-    this._mouseDamping = Math.max(0, Math.min(0.99, damping)); // Clamp between 0 and 0.99
+    this._mouseDamping = Math.max(0, Math.min(0.99, damping)) // Clamp between 0 and 0.99
   }
 
   getMouseDamping() {
-    return this._mouseDamping;
+    return this._mouseDamping
   }
 }

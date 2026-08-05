@@ -12,9 +12,27 @@ const favoritesStore = useWeatherFavoritesStore()
 defineOptions({ name: 'Weather12Page' })
 
 const DEFAULT_CITIES = [
-  '서울', '수원', '부산', '제주', '대전', '광주', '인천',
-  '울산', '대구', '청주', '전주', '포항', '여수', '춘천',
-  '통영', '진주', '순천', '군산', '안동', '경주', '원주',
+  '서울',
+  '수원',
+  '부산',
+  '제주',
+  '대전',
+  '광주',
+  '인천',
+  '울산',
+  '대구',
+  '청주',
+  '전주',
+  '포항',
+  '여수',
+  '춘천',
+  '통영',
+  '진주',
+  '순천',
+  '군산',
+  '안동',
+  '경주',
+  '원주',
 ]
 
 const WEATHER_CONDITION_MAP = {
@@ -304,13 +322,34 @@ const stats = computed(() => {
 })
 
 const listStatus = computed(() => {
-  if (loading.value) return { icon: 'solar:refresh-circle-bold-duotone', title: '로딩 중…', description: '날씨 데이터를 불러오고 있습니다', animate: true, type: 'loading' }
-  if (error.value) return { icon: 'solar:danger-triangle-bold-duotone', title: '오류 발생', description: error.value, type: 'error' }
-  if (filteredCount.value === 0) return { icon: 'solar:map-point-search-bold-duotone', title: '일치하는 도시가 없습니다', description: '다른 검색어를 시도해보세요', type: 'empty' }
+  if (loading.value)
+    return {
+      icon: 'solar:refresh-circle-bold-duotone',
+      title: '로딩 중…',
+      description: '날씨 데이터를 불러오고 있습니다',
+      animate: true,
+      type: 'loading',
+    }
+  if (error.value)
+    return {
+      icon: 'solar:danger-triangle-bold-duotone',
+      title: '오류 발생',
+      description: error.value,
+      type: 'error',
+    }
+  if (filteredCount.value === 0)
+    return {
+      icon: 'solar:map-point-search-bold-duotone',
+      title: '일치하는 도시가 없습니다',
+      description: '다른 검색어를 시도해보세요',
+      type: 'empty',
+    }
   return null
 })
 
-watch(sortBy, (newVal) => { console.log(`[watch] 정렬 기준 변경: ${newVal}`) })
+watch(sortBy, (newVal) => {
+  console.log(`[watch] 정렬 기준 변경: ${newVal}`)
+})
 
 watchEffect(() => {
   console.log(
@@ -477,38 +516,38 @@ onMounted(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 0.875rem;   /* text-sm */
+  font-size: 0.875rem; /* text-sm */
   line-height: 1.25rem;
   transition:
     font-size 0.55s cubic-bezier(0.16, 1, 0.3, 1),
     line-height 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .city-row.is-compact .city-name-text {
-  font-size: 0.75rem;    /* text-xs */
+  font-size: 0.75rem; /* text-xs */
   line-height: 1rem;
 }
 
 .city-temp-text {
-  font-size: 1.25rem;    /* text-xl */
+  font-size: 1.25rem; /* text-xl */
   line-height: 1.75rem;
   transition:
     font-size 0.55s cubic-bezier(0.16, 1, 0.3, 1),
     line-height 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .city-row.is-compact .city-temp-text {
-  font-size: 0.75rem;    /* text-xs */
+  font-size: 0.75rem; /* text-xs */
   line-height: 1rem;
 }
 
 .city-icon {
-  width: 1.25rem;         /* size-5 */
+  width: 1.25rem; /* size-5 */
   height: 1.25rem;
   transition:
     width 0.55s cubic-bezier(0.16, 1, 0.3, 1),
     height 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .city-row.is-compact .city-icon {
-  width: 1rem;            /* size-4 */
+  width: 1rem; /* size-4 */
   height: 1rem;
 }
 
@@ -538,15 +577,17 @@ onMounted(() => {
 /* detail 카드: opacity는 진입 시 150ms 만에 끝내고,
    나머지 350ms는 transform만 진행 → 카드가 반투명 상태로 오래 머무는 문제 해결 */
 .detail-card-enter-active {
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.15s ease-out;
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.15s ease-out;
 }
 
 /* 이탈 시에는 opacity를 뒤로 지연시켜, 마지막 120ms 동안만 사라지게 함
    (transform은 0.3s 내내 진행, opacity는 delay 0.18s + duration 0.12s = 0.3s로 총 시간 일치) */
 .detail-card-leave-active {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 1, 1),
-              opacity 0.12s ease-in 0.18s;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 1, 1),
+    opacity 0.12s ease-in 0.18s;
 }
 
 /* dashboard 상단 섹션(stat-card 포함): 동일한 원리 적용
@@ -603,14 +644,30 @@ select:focus {
   font-variant-numeric: tabular-nums;
 }
 
-.stagger-1 { animation-delay: 0ms; }
-.stagger-2 { animation-delay: 50ms; }
-.stagger-3 { animation-delay: 100ms; }
-.stagger-4 { animation-delay: 150ms; }
-.stagger-5 { animation-delay: 200ms; }
-.stagger-6 { animation-delay: 250ms; }
-.stagger-7 { animation-delay: 300ms; }
-.stagger-8 { animation-delay: 350ms; }
+.stagger-1 {
+  animation-delay: 0ms;
+}
+.stagger-2 {
+  animation-delay: 50ms;
+}
+.stagger-3 {
+  animation-delay: 100ms;
+}
+.stagger-4 {
+  animation-delay: 150ms;
+}
+.stagger-5 {
+  animation-delay: 200ms;
+}
+.stagger-6 {
+  animation-delay: 250ms;
+}
+.stagger-7 {
+  animation-delay: 300ms;
+}
+.stagger-8 {
+  animation-delay: 350ms;
+}
 </style>
 
 <template>
@@ -639,131 +696,145 @@ select:focus {
           v-if="selectedCity"
           class="pointer-events-none fixed inset-0 z-30 flex items-center justify-center px-4"
         >
-          <div class="glass-card glass-card-detail pointer-events-auto relative w-full max-w-md overflow-hidden rounded-3xl p-10">
+          <div
+            class="glass-card glass-card-detail pointer-events-auto relative w-full max-w-md overflow-hidden rounded-3xl p-10"
+          >
             <GlowBorder :border-width="2" :border-radius="24" color="rgba(139,92,246,0.4)" />
             <div class="relative z-10">
-            <div class="mb-8 flex items-center justify-between">
-              <span
-                class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium"
-                :class="
-                  weatherIconColor(selectedCity).replace('text-', 'border-') + '/30 ' +
-                  weatherIconColor(selectedCity).replace('text-', 'bg-') + '/10 ' +
-                  weatherIconColor(selectedCity)
-                "
-              >
-                {{ selectedCity.status }}
-              </span>
-              <button
-                @click="favoritesStore.toggle(selectedCity.id)"
-                class="rounded-full p-2 transition-all hover:scale-110 active:scale-95"
-                :class="
-                  favoritesStore.isFavorite(selectedCity.id)
-                    ? 'text-amber-400'
-                    : 'text-zinc-400 hover:text-zinc-600'
-                "
-              >
+              <div class="mb-8 flex items-center justify-between">
+                <span
+                  class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium"
+                  :class="
+                    weatherIconColor(selectedCity).replace('text-', 'border-') +
+                    '/30 ' +
+                    weatherIconColor(selectedCity).replace('text-', 'bg-') +
+                    '/10 ' +
+                    weatherIconColor(selectedCity)
+                  "
+                >
+                  {{ selectedCity.status }}
+                </span>
+                <button
+                  @click="favoritesStore.toggle(selectedCity.id)"
+                  class="rounded-full p-2 transition-all hover:scale-110 active:scale-95"
+                  :class="
+                    favoritesStore.isFavorite(selectedCity.id)
+                      ? 'text-amber-400'
+                      : 'text-zinc-400 hover:text-zinc-600'
+                  "
+                >
+                  <Icon
+                    :icon="
+                      favoritesStore.isFavorite(selectedCity.id)
+                        ? 'solar:star-bold'
+                        : 'solar:star-linear'
+                    "
+                    class="size-5"
+                  />
+                </button>
+              </div>
+
+              <h2 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
+                {{ selectedCity.name }}
+              </h2>
+              <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                {{ selectedCity.description }}
+              </p>
+
+              <div class="mt-6 flex items-baseline gap-2 tabular-nums">
+                <span class="text-8xl font-black tracking-tighter text-zinc-900 dark:text-white">{{
+                  convertTemp(selectedCity.temp)
+                }}</span>
+                <span class="text-3xl font-light text-zinc-400">{{ tempUnit() }}</span>
+              </div>
+
+              <p class="mt-1 text-sm text-zinc-400">
+                체감 {{ convertTemp(selectedCity.feelsLike) }}{{ tempUnit() }}
+              </p>
+
+              <div class="mt-6 flex justify-center">
                 <Icon
-                  :icon="favoritesStore.isFavorite(selectedCity.id) ? 'solar:star-bold' : 'solar:star-linear'"
-                  class="size-5"
+                  :icon="weatherIcon(selectedCity)"
+                  class="size-20 opacity-15"
+                  :class="weatherIconColor(selectedCity)"
                 />
-              </button>
-            </div>
+              </div>
 
-            <h2 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
-              {{ selectedCity.name }}
-            </h2>
-            <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-              {{ selectedCity.description }}
-            </p>
-
-            <div class="mt-6 flex items-baseline gap-2 tabular-nums">
-              <span class="text-8xl font-black tracking-tighter text-zinc-900 dark:text-white">{{
-                convertTemp(selectedCity.temp)
-              }}</span>
-              <span class="text-3xl font-light text-zinc-400">{{ tempUnit() }}</span>
-            </div>
-
-            <p class="mt-1 text-sm text-zinc-400">
-              체감 {{ convertTemp(selectedCity.feelsLike) }}{{ tempUnit() }}
-            </p>
-
-            <div class="mt-6 flex justify-center">
-              <Icon
-                :icon="weatherIcon(selectedCity)"
-                class="size-20 opacity-15"
-                :class="weatherIconColor(selectedCity)"
-              />
-            </div>
-
-            <div class="mt-8 grid grid-cols-2 gap-3">
-              <div class="rounded-xl bg-zinc-100/50 p-4 text-center dark:bg-zinc-800/30">
-                <p class="text-xs font-medium text-zinc-400 uppercase mb-1">최고</p>
-                <p
-                  v-if="selectedCity.detailLoaded"
-                  class="text-lg font-bold text-amber-500 tabular-nums"
+              <div class="mt-8 grid grid-cols-2 gap-3">
+                <div class="rounded-xl bg-zinc-100/50 p-4 text-center dark:bg-zinc-800/30">
+                  <p class="text-xs font-medium text-zinc-400 uppercase mb-1">최고</p>
+                  <p
+                    v-if="selectedCity.detailLoaded"
+                    class="text-lg font-bold text-amber-500 tabular-nums"
+                  >
+                    {{ convertTemp(selectedCity.high) }}°
+                  </p>
+                  <div
+                    v-else
+                    class="mx-auto h-5 w-10 animate-pulse rounded bg-zinc-300/50 dark:bg-zinc-600/50"
+                  />
+                </div>
+                <div class="rounded-xl bg-zinc-100/50 p-4 text-center dark:bg-zinc-800/30">
+                  <p class="text-xs font-medium text-zinc-400 uppercase mb-1">최저</p>
+                  <p
+                    v-if="selectedCity.detailLoaded"
+                    class="text-lg font-bold text-blue-500 tabular-nums"
+                  >
+                    {{ convertTemp(selectedCity.low) }}°
+                  </p>
+                  <div
+                    v-else
+                    class="mx-auto h-5 w-10 animate-pulse rounded bg-zinc-300/50 dark:bg-zinc-600/50"
+                  />
+                </div>
+                <div class="rounded-xl bg-zinc-100/50 p-4 text-center dark:bg-zinc-800/30">
+                  <p class="text-xs font-medium text-zinc-400 uppercase mb-1">습도</p>
+                  <p class="text-lg font-bold tabular-nums text-cyan-500">
+                    {{ selectedCity.humidity }}%
+                  </p>
+                </div>
+                <div class="rounded-xl bg-zinc-100/50 p-4 text-center dark:bg-zinc-800/30">
+                  <p class="text-xs font-medium text-zinc-400 uppercase mb-1">기압</p>
+                  <p class="text-lg font-bold tabular-nums text-violet-400">
+                    {{ selectedCity.pressure }} hPa
+                  </p>
+                </div>
+                <div class="rounded-xl bg-zinc-100/50 p-4 text-center dark:bg-zinc-800/30">
+                  <p class="text-xs font-medium text-zinc-400 uppercase mb-1">바람</p>
+                  <p class="text-xs font-bold tabular-nums text-zinc-600 dark:text-zinc-300">
+                    {{ windDirectionLabel(selectedCity.windDeg) }} {{ selectedCity.windSpeed }}m/s
+                  </p>
+                </div>
+                <div class="rounded-xl bg-zinc-100/50 p-4 text-center dark:bg-zinc-800/30">
+                  <p class="text-xs font-medium text-zinc-400 uppercase mb-1">구름</p>
+                  <p class="text-lg font-bold tabular-nums text-zinc-500">
+                    {{ selectedCity.clouds }}%
+                  </p>
+                </div>
+                <div
+                  v-if="selectedCity.rain1h != null"
+                  class="rounded-xl bg-blue-50/50 p-4 text-center dark:bg-blue-900/20 col-span-2"
                 >
-                  {{ convertTemp(selectedCity.high) }}°
-                </p>
-                <div v-else class="mx-auto h-5 w-10 animate-pulse rounded bg-zinc-300/50 dark:bg-zinc-600/50" />
-              </div>
-              <div class="rounded-xl bg-zinc-100/50 p-4 text-center dark:bg-zinc-800/30">
-                <p class="text-xs font-medium text-zinc-400 uppercase mb-1">최저</p>
-                <p
-                  v-if="selectedCity.detailLoaded"
-                  class="text-lg font-bold text-blue-500 tabular-nums"
+                  <p class="text-xs font-medium text-blue-400 uppercase mb-1">시간당 강수량</p>
+                  <p class="text-lg font-bold tabular-nums text-blue-500">
+                    {{ selectedCity.rain1h }} mm
+                  </p>
+                </div>
+                <div
+                  v-if="selectedCity.snow1h != null"
+                  class="rounded-xl bg-blue-50/50 p-4 text-center dark:bg-blue-900/20 col-span-2"
                 >
-                  {{ convertTemp(selectedCity.low) }}°
-                </p>
-                <div v-else class="mx-auto h-5 w-10 animate-pulse rounded bg-zinc-300/50 dark:bg-zinc-600/50" />
+                  <p class="text-xs font-medium text-blue-400 uppercase mb-1">시간당 적설량</p>
+                  <p class="text-lg font-bold tabular-nums text-blue-500">
+                    {{ selectedCity.snow1h }} mm
+                  </p>
+                </div>
               </div>
-              <div class="rounded-xl bg-zinc-100/50 p-4 text-center dark:bg-zinc-800/30">
-                <p class="text-xs font-medium text-zinc-400 uppercase mb-1">습도</p>
-                <p class="text-lg font-bold tabular-nums text-cyan-500">
-                  {{ selectedCity.humidity }}%
-                </p>
-              </div>
-              <div class="rounded-xl bg-zinc-100/50 p-4 text-center dark:bg-zinc-800/30">
-                <p class="text-xs font-medium text-zinc-400 uppercase mb-1">기압</p>
-                <p class="text-lg font-bold tabular-nums text-violet-400">
-                  {{ selectedCity.pressure }} hPa
-                </p>
-              </div>
-              <div class="rounded-xl bg-zinc-100/50 p-4 text-center dark:bg-zinc-800/30">
-                <p class="text-xs font-medium text-zinc-400 uppercase mb-1">바람</p>
-                <p class="text-xs font-bold tabular-nums text-zinc-600 dark:text-zinc-300">
-                  {{ windDirectionLabel(selectedCity.windDeg) }} {{ selectedCity.windSpeed }}m/s
-                </p>
-              </div>
-              <div class="rounded-xl bg-zinc-100/50 p-4 text-center dark:bg-zinc-800/30">
-                <p class="text-xs font-medium text-zinc-400 uppercase mb-1">구름</p>
-                <p class="text-lg font-bold tabular-nums text-zinc-500">
-                  {{ selectedCity.clouds }}%
-                </p>
-              </div>
-              <div
-                v-if="selectedCity.rain1h != null"
-                class="rounded-xl bg-blue-50/50 p-4 text-center dark:bg-blue-900/20 col-span-2"
-              >
-                <p class="text-xs font-medium text-blue-400 uppercase mb-1">시간당 강수량</p>
-                <p class="text-lg font-bold tabular-nums text-blue-500">
-                  {{ selectedCity.rain1h }} mm
-                </p>
-              </div>
-              <div
-                v-if="selectedCity.snow1h != null"
-                class="rounded-xl bg-blue-50/50 p-4 text-center dark:bg-blue-900/20 col-span-2"
-              >
-                <p class="text-xs font-medium text-blue-400 uppercase mb-1">시간당 적설량</p>
-                <p class="text-lg font-bold tabular-nums text-blue-500">
-                  {{ selectedCity.snow1h }} mm
-                </p>
-              </div>
-            </div>
 
-            <div class="mt-4 flex justify-between text-xs text-zinc-400">
-              <span>일출 {{ formatTime(selectedCity.sunrise) }}</span>
-              <span>일몰 {{ formatTime(selectedCity.sunset) }}</span>
-            </div>
+              <div class="mt-4 flex justify-between text-xs text-zinc-400">
+                <span>일출 {{ formatTime(selectedCity.sunrise) }}</span>
+                <span>일몰 {{ formatTime(selectedCity.sunset) }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -797,7 +868,8 @@ select:focus {
               <p
                 class="tabular-nums text-3xl font-bold tracking-tight text-zinc-900 dark:text-white"
               >
-                {{ convertTemp(stats.avg) }}<span class="ml-0.5 text-lg text-zinc-400">{{ tempUnit() }}</span>
+                {{ convertTemp(stats.avg)
+                }}<span class="ml-0.5 text-lg text-zinc-400">{{ tempUnit() }}</span>
               </p>
             </div>
             <div class="stat-card glass-card rounded-2xl p-5">
@@ -972,13 +1044,11 @@ select:focus {
                 <span
                   class="whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium"
                   :class="
+                    weatherIconColor(city).replace('text-', 'bg-') +
+                    '/10 ' +
+                    weatherIconColor(city).replace('text-', '') +
+                    ' ' +
                     weatherIconColor(city)
-                      .replace('text-', 'bg-') +
-                      '/10 ' +
-                      weatherIconColor(city)
-                      .replace('text-', '') +
-                      ' ' +
-                      weatherIconColor(city)
                   "
                 >
                   {{ city.status }}
@@ -992,11 +1062,15 @@ select:focus {
                       : 'text-zinc-300 hover:text-zinc-400 dark:text-zinc-600 dark:hover:text-zinc-500'
                   "
                   :aria-label="
-                    favoritesStore.isFavorite(city.id) ? `${city.name} 즐겨찾기 해제` : `${city.name} 즐겨찾기 추가`
+                    favoritesStore.isFavorite(city.id)
+                      ? `${city.name} 즐겨찾기 해제`
+                      : `${city.name} 즐겨찾기 추가`
                   "
                 >
                   <Icon
-                    :icon="favoritesStore.isFavorite(city.id) ? 'solar:star-bold' : 'solar:star-linear'"
+                    :icon="
+                      favoritesStore.isFavorite(city.id) ? 'solar:star-bold' : 'solar:star-linear'
+                    "
                     class="size-4"
                   />
                 </button>

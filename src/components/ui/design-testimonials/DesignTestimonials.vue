@@ -1,21 +1,18 @@
 <script setup>
-import {
-  AnimatePresence,
-  Motion,
-} from "motion-v"
-import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from "vue"
+import { AnimatePresence, Motion } from 'motion-v'
+import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from 'vue'
 
 const {
-  title = "날씨",
+  title = '날씨',
   testimonials,
   duration = 4000,
   selected = -1,
 } = defineProps({
-  title: { type: String, required: false, default: "날씨" },
+  title: { type: String, required: false, default: '날씨' },
   duration: { type: Number, required: false, default: 4000 },
   testimonials: { type: Array, required: true },
   selected: { type: Number, required: false, default: -1 },
-});
+})
 
 const activeIndex = ref(0)
 const current = computed(() => testimonials[activeIndex.value])
@@ -29,8 +26,10 @@ const weatherGradient = computed(() => {
 
 const auroraColors = computed(() => {
   const s = current.value?.status || '맑음'
-  if (s === '맑음') return 'repeating-linear-gradient(100deg,#fbbf24_10%,#f59e0b_15%,#fcd34d_20%,#fef3c7_25%,#fbbf24_30%)'
-  if (s === '비') return 'repeating-linear-gradient(100deg,#60a5fa_10%,#93c5fd_15%,#3b82f6_20%,#bfdbfe_25%,#60a5fa_30%)'
+  if (s === '맑음')
+    return 'repeating-linear-gradient(100deg,#fbbf24_10%,#f59e0b_15%,#fcd34d_20%,#fef3c7_25%,#fbbf24_30%)'
+  if (s === '비')
+    return 'repeating-linear-gradient(100deg,#60a5fa_10%,#93c5fd_15%,#3b82f6_20%,#bfdbfe_25%,#60a5fa_30%)'
   return 'repeating-linear-gradient(100deg,#94a3b8_10%,#cbd5e1_15%,#64748b_20%,#e2e8f0_25%,#94a3b8_30%)'
 })
 
@@ -46,22 +45,33 @@ function goPrev() {
 }
 
 let timer = null
-onMounted(() => { timer = window.setInterval(goNext, duration) })
-onBeforeUnmount(() => { if (timer) window.clearInterval(timer) })
-
-watch(() => selected, (idx) => {
-  if (idx >= 0 && idx < testimonials.length) {
-    if (timer) window.clearInterval(timer)
-    activeIndex.value = idx
-    emit('update:active', idx)
-    timer = window.setInterval(goNext, duration)
-  }
+onMounted(() => {
+  timer = window.setInterval(goNext, duration)
 })
+onBeforeUnmount(() => {
+  if (timer) window.clearInterval(timer)
+})
+
+watch(
+  () => selected,
+  (idx) => {
+    if (idx >= 0 && idx < testimonials.length) {
+      if (timer) window.clearInterval(timer)
+      activeIndex.value = idx
+      emit('update:active', idx)
+      timer = window.setInterval(goNext, duration)
+    }
+  },
+)
 </script>
 
 <template>
   <div class="flex items-center justify-center px-4 pt-10 pb-4">
-    <div class="relative w-full max-w-xl overflow-hidden rounded-[2rem] backdrop-blur-xl" :class="weatherGradient" style="box-shadow: 0 0 0 1px rgba(255,255,255,0.08)">
+    <div
+      class="relative w-full max-w-xl overflow-hidden rounded-[2rem] backdrop-blur-xl"
+      :class="weatherGradient"
+      style="box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08)"
+    >
       <!-- Aurora overlay -->
       <div
         class="pointer-events-none absolute inset-0 opacity-20 blur-xl"
@@ -90,11 +100,33 @@ watch(() => selected, (idx) => {
           </AnimatePresence>
 
           <div class="flex gap-2">
-            <button class="flex size-8 items-center justify-center rounded-full bg-white/15 transition-colors hover:bg-white/25" @click="goPrev">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <button
+              class="flex size-8 items-center justify-center rounded-full bg-white/15 transition-colors hover:bg-white/25"
+              @click="goPrev"
+            >
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M10 12L6 8L10 4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </button>
-            <button class="flex size-8 items-center justify-center rounded-full bg-white/15 transition-colors hover:bg-white/25" @click="goNext">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <button
+              class="flex size-8 items-center justify-center rounded-full bg-white/15 transition-colors hover:bg-white/25"
+              @click="goNext"
+            >
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M6 4L10 8L6 12"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </button>
           </div>
         </div>

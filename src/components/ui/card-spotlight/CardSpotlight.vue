@@ -1,52 +1,52 @@
 <script setup>
-import { cn } from "@/lib/utils";
-import { computed, onMounted, ref } from "vue";
+import { cn } from '@/lib/utils'
+import { computed, onMounted, ref } from 'vue'
 
 const props = defineProps({
   class: {
     type: [Boolean, null, String, Object, Array],
     required: false,
     skipCheck: true,
-    default: "",
+    default: '',
   },
   slotClass: {
     type: [Boolean, null, String, Object, Array],
     required: false,
     skipCheck: true,
-    default: "",
+    default: '',
   },
   gradientSize: { type: Number, required: false, default: 200 },
-  gradientColor: { type: String, required: false, default: "#262626" },
+  gradientColor: { type: String, required: false, default: '#262626' },
   gradientOpacity: { type: Number, required: false, default: 0.8 },
-});
+})
 
-const mouseX = ref(-props.gradientSize * 10);
-const mouseY = ref(-props.gradientSize * 10);
+const mouseX = ref(-props.gradientSize * 10)
+const mouseY = ref(-props.gradientSize * 10)
 
 function handleMouseMove(e) {
-  const target = e.currentTarget;
-  const rect = target.getBoundingClientRect();
-  mouseX.value = e.clientX - rect.left;
-  mouseY.value = e.clientY - rect.top;
+  const target = e.currentTarget
+  const rect = target.getBoundingClientRect()
+  mouseX.value = e.clientX - rect.left
+  mouseY.value = e.clientY - rect.top
 }
 
 function handleMouseLeave() {
-  mouseX.value = -props.gradientSize * 10;
-  mouseY.value = -props.gradientSize * 10;
+  mouseX.value = -props.gradientSize * 10
+  mouseY.value = -props.gradientSize * 10
 }
 
 onMounted(() => {
-  mouseX.value = -props.gradientSize * 10;
-  mouseY.value = -props.gradientSize * 10;
-});
+  mouseX.value = -props.gradientSize * 10
+  mouseY.value = -props.gradientSize * 10
+})
 
 const backgroundStyle = computed(() => {
   return `radial-gradient(
     circle at ${mouseX.value}px ${mouseY.value}px,
     ${props.gradientColor} 0%,
     rgba(0, 0, 0, 0) 70%
-  )`;
-});
+  )`
+})
 </script>
 
 <template>

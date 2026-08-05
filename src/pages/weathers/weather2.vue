@@ -135,7 +135,10 @@ const showDetail = (cityName, status) => {
                 '--avatar-color': weatherPresentation[city.status].accent,
               }"
             >
-              <i :class="'mdi ' + weatherPresentation[city.status].icon" :style="{ fontSize: '32px' }"></i>
+              <i
+                :class="'mdi ' + weatherPresentation[city.status].icon"
+                :style="{ fontSize: '32px' }"
+              ></i>
             </div>
           </div>
 
@@ -426,7 +429,7 @@ const showDetail = (cityName, status) => {
 .city-card__value {
   font-size: 3.5rem;
   letter-spacing: -0.04em;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
 }
 
 .city-card__unit {

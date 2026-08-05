@@ -1,8 +1,8 @@
 <!-- ParentSize.vue -->
 <script setup>
-import { cn } from "@inspira-ui/plugins";
-import { useDebounceFn, useResizeObserver } from "@vueuse/core";
-import { computed, reactive, ref, useAttrs } from "vue";
+import { cn } from '@inspira-ui/plugins'
+import { useDebounceFn, useResizeObserver } from '@vueuse/core'
+import { computed, reactive, ref, useAttrs } from 'vue'
 
 const props = defineProps({
   class: String,
@@ -19,58 +19,52 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-});
+})
 
-const attrs = useAttrs();
-const target = ref(null);
+const attrs = useAttrs()
+const target = ref(null)
 const state = reactive({
   width: 0,
   height: 0,
   top: 0,
   left: 0,
-});
+})
 
 const mergedStyles = computed(() => ({
   ...props.parentSizeStyles,
   ...attrs.style,
-}));
+}))
 
 const attrsWithoutClassAndStyle = computed(() => {
-  const { class: _, style: __, ...rest } = attrs;
-  return rest;
-});
+  const { class: _, style: __, ...rest } = attrs
+  return rest
+})
 
 const normalizedIgnore = computed(() =>
-  Array.isArray(props.ignoreDimensions)
-    ? props.ignoreDimensions
-    : [props.ignoreDimensions],
-);
+  Array.isArray(props.ignoreDimensions) ? props.ignoreDimensions : [props.ignoreDimensions],
+)
 
 function updateDimensions(rect) {
-  const { width, height, top, left } = rect;
-  const newState = { width, height, top, left };
+  const { width, height, top, left } = rect
+  const newState = { width, height, top, left }
 
-  const hasChange = Object.keys(newState).some(
-    (key) => state[key] !== newState[key],
-  );
+  const hasChange = Object.keys(newState).some((key) => state[key] !== newState[key])
 
-  if (!hasChange) return;
+  if (!hasChange) return
 
-  const shouldUpdate = !Object.keys(newState).every((key) =>
-    normalizedIgnore.value.includes(key),
-  );
+  const shouldUpdate = !Object.keys(newState).every((key) => normalizedIgnore.value.includes(key))
 
   if (shouldUpdate) {
-    Object.assign(state, newState);
+    Object.assign(state, newState)
   }
 }
 
-const debouncedUpdate = useDebounceFn(updateDimensions, props.debounceTime);
+const debouncedUpdate = useDebounceFn(updateDimensions, props.debounceTime)
 
 useResizeObserver(target, (entries) => {
-  const entry = entries[0];
-  if (entry) debouncedUpdate(entry.contentRect);
-});
+  const entry = entries[0]
+  if (entry) debouncedUpdate(entry.contentRect)
+})
 </script>
 
 <template>
