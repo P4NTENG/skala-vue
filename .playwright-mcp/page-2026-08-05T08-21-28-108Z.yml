@@ -1,0 +1,82 @@
+- generic [ref=f16e3]:
+  - banner:
+    - navigation "Main navigation" [ref=f16e4]:
+      - link "SV SKALA" [ref=f16e5] [cursor=pointer]:
+        - /url: /skala-vue/
+        - generic [ref=f16e6]: SV
+        - generic [ref=f16e7]: SKALA
+      - generic:
+        - generic:
+          - link "Home" [ref=f16e9] [cursor=pointer]:
+            - /url: /skala-vue/
+          - link "Practices" [active] [ref=f16e14] [cursor=pointer]:
+            - /url: /skala-vue/practices
+          - link "Weathers" [ref=f16e20] [cursor=pointer]:
+            - /url: /skala-vue/weathers
+          - link "About" [ref=f16e25] [cursor=pointer]:
+            - /url: /skala-vue/about
+          - button "Switch to dark mode" [ref=f16e31]
+          - link "GitHub repository" [ref=f16e35] [cursor=pointer]:
+            - /url: https://github.com/P4NTENG/skala-vue
+  - generic [ref=f16e46]:
+    - heading "실습 목록" [level=1] [ref=f16e47]
+    - paragraph [ref=f16e48]: Vue 3 핵심 개념별 실습 페이지입니다.
+    - generic [ref=f16e49]:
+      - generic [ref=f16e50]:
+        - heading "Basic" [level=2] [ref=f16e51]
+        - generic [ref=f16e52]:
+          - link "Sample One" [ref=f16e53] [cursor=pointer]:
+            - /url: /skala-vue/practices/basic/sample-one
+          - link "Sample Two" [ref=f16e61] [cursor=pointer]:
+            - /url: /skala-vue/practices/basic/sample-two
+      - generic [ref=f16e69]:
+        - heading "Form Data Binding" [level=2] [ref=f16e70]
+        - generic [ref=f16e71]:
+          - link "Form Element Handling Example" [ref=f16e72] [cursor=pointer]:
+            - /url: /skala-vue/practices/form-data-binding/form-element-handling-example
+          - link "Two Way Data Binding With V Model" [ref=f16e80] [cursor=pointer]:
+            - /url: /skala-vue/practices/form-data-binding/two-way-data-binding-with-v-model
+          - link "V Model Modifier Example" [ref=f16e88] [cursor=pointer]:
+            - /url: /skala-vue/practices/form-data-binding/v-model-modifier-example
+      - generic [ref=f16e96]:
+        - heading "View Directive" [level=2] [ref=f16e97]
+        - generic [ref=f16e98]:
+          - link "V Bind" [ref=f16e99] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-bind
+          - link "V Classbind" [ref=f16e107] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-classbind
+          - link "V Cloak" [ref=f16e115] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-cloak
+          - link "V For" [ref=f16e123] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-for
+          - link "V Html" [ref=f16e131] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-html
+          - link "V If" [ref=f16e139] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-if
+          - link "V Memo" [ref=f16e147] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-memo
+          - link "V Once" [ref=f16e155] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-once
+          - link "V Pre" [ref=f16e163] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-pre
+          - link "V Shorthandbind" [ref=f16e171] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-shorthandbind
+          - link "V Show" [ref=f16e179] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-show
+          - link "V Stylebind" [ref=f16e187] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-stylebind
+          - link "V Text" [ref=f16e195] [cursor=pointer]:
+            - /url: /skala-vue/practices/view-directive/v-text
+      - generic [ref=f16e203]:
+        - heading "Vue Event Handling" [level=2] [ref=f16e204]
+        - generic [ref=f16e205]:
+          - link "Event Modifier" [ref=f16e206] [cursor=pointer]:
+            - /url: /skala-vue/practices/vue-event-handling/event-modifier
+          - link "Event Object" [ref=f16e214] [cursor=pointer]:
+            - /url: /skala-vue/practices/vue-event-handling/event-object
+          - link "V On" [ref=f16e222] [cursor=pointer]:
+            - /url: /skala-vue/practices/vue-event-handling/v-on
+      - generic [ref=f16e230]:
+        - heading "Vue Style" [level=2] [ref=f16e231]
+        - link "Vue Style Example" [ref=f16e233] [cursor=pointer]:
+          - /url: /skala-vue/practices/vue-style/vue-style-example

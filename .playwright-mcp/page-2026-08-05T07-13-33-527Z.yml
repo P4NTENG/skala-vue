@@ -1,0 +1,17 @@
+- generic [active] [ref=f7e1]:
+  - navigation "Main navigation" [ref=f7e4]:
+    - generic [ref=f7e5]:
+      - link [ref=f7e6] [cursor=pointer]:
+        - /url: /skala-vue/
+      - link [ref=f7e10] [cursor=pointer]:
+        - /url: /skala-vue/practices
+      - link [ref=f7e15] [cursor=pointer]:
+        - /url: /skala-vue/weathers
+      - link [ref=f7e19] [cursor=pointer]:
+        - /url: /skala-vue/about
+      - button "Switch to dark mode" [ref=f7e24]
+      - link "GitHub repository" [ref=f7e28] [cursor=pointer]:
+        - /url: https://github.com/P4NTENG/skala-vue
+  - generic [ref=f7e31]:
+    - generic "Toggle devtools panel" [ref=f7e32] [cursor=pointer]
+    - generic "Toggle Component Inspector" [ref=f7e38] [cursor=pointer]

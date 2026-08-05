@@ -1,0 +1,131 @@
+- generic [ref=f8e1]:
+  - generic [ref=f8e3]:
+    - banner [ref=f8e4]:
+      - navigation "Main navigation" [ref=f8e5]:
+        - link "SV SKALA" [ref=f8e6] [cursor=pointer]:
+          - /url: /skala-vue/
+          - generic [ref=f8e7]: SV
+          - generic [ref=f8e8]: SKALA
+        - generic:
+          - generic:
+            - link "Home" [ref=f8e10] [cursor=pointer]:
+              - /url: /skala-vue/
+            - link "Practices" [ref=f8e15] [cursor=pointer]:
+              - /url: /skala-vue/practices
+            - link "Weathers" [ref=f8e21] [cursor=pointer]:
+              - /url: /skala-vue/weathers
+            - link "About" [ref=f8e26] [cursor=pointer]:
+              - /url: /skala-vue/about
+            - button "Switch to dark mode" [ref=f8e32]
+            - link "GitHub repository" [ref=f8e36] [cursor=pointer]:
+              - /url: https://github.com/P4NTENG/skala-vue
+    - generic [ref=f8e51]:
+      - complementary [ref=f8e52]:
+        - generic [ref=f8e53]:
+          - list [ref=f8e54]:
+            - listitem [ref=f8e55]:
+              - button "Weather" [ref=f8e56]
+          - textbox "Search city…" [ref=f8e64]
+        - list [ref=f8e66]:
+          - listitem [ref=f8e67]:
+            - button "서울 35°C" [ref=f8e68]:
+              - generic [ref=f8e75]: 서울
+              - generic [ref=f8e76]: 35°C
+          - listitem [ref=f8e79]:
+            - button "수원 35°C" [ref=f8e80]:
+              - generic [ref=f8e87]: 수원
+              - generic [ref=f8e88]: 35°C
+          - listitem [ref=f8e91]:
+            - button "부산 32°C" [ref=f8e92]:
+              - generic [ref=f8e99]: 부산
+              - generic [ref=f8e100]: 32°C
+          - listitem [ref=f8e103]:
+            - button "제주 31°C" [ref=f8e104]:
+              - generic [ref=f8e111]: 제주
+              - generic [ref=f8e112]: 31°C
+          - listitem [ref=f8e115]:
+            - button "대전 35°C" [ref=f8e116]:
+              - generic [ref=f8e119]: 대전
+              - generic [ref=f8e120]: 35°C
+          - listitem [ref=f8e123]:
+            - button "광주 32°C" [ref=f8e124]:
+              - generic [ref=f8e127]: 광주
+              - generic [ref=f8e128]: 32°C
+          - listitem [ref=f8e131]:
+            - button "인천 32°C" [ref=f8e132]:
+              - generic [ref=f8e135]: 인천
+              - generic [ref=f8e136]: 32°C
+          - listitem [ref=f8e139]:
+            - button "울산 31°C" [ref=f8e140]:
+              - generic [ref=f8e147]: 울산
+              - generic [ref=f8e148]: 31°C
+          - listitem [ref=f8e151]:
+            - button "대구 34°C" [ref=f8e152]:
+              - generic [ref=f8e159]: 대구
+              - generic [ref=f8e160]: 34°C
+          - listitem [ref=f8e163]:
+            - button "청주 32°C" [ref=f8e164]:
+              - generic [ref=f8e171]: 청주
+              - generic [ref=f8e172]: 32°C
+          - listitem [ref=f8e175]:
+            - button "전주 33°C" [ref=f8e176]:
+              - generic [ref=f8e183]: 전주
+              - generic [ref=f8e184]: 33°C
+          - listitem [ref=f8e187]:
+            - button "포항 30°C" [ref=f8e188]:
+              - generic [ref=f8e195]: 포항
+              - generic [ref=f8e196]: 30°C
+          - listitem [ref=f8e199]:
+            - button "여수 27°C" [ref=f8e200]:
+              - generic [ref=f8e207]: 여수
+              - generic [ref=f8e208]: 27°C
+          - listitem [ref=f8e211]:
+            - button "춘천 38°C" [ref=f8e212]:
+              - generic [ref=f8e219]: 춘천
+              - generic [ref=f8e220]: 38°C
+        - combobox [ref=f8e224]:
+          - generic: °C
+      - main [ref=f8e226]:
+        - generic [ref=f8e235]:
+          - generic [ref=f8e236]:
+            - button "Toggle Sidebar" [ref=f8e237]
+            - generic [ref=f8e239]: 서울
+            - generic [ref=f8e240]: Clear
+          - button [ref=f8e241]
+        - generic [ref=f8e246]:
+          - tablist [ref=f8e247]:
+            - tab "Now" [ref=f8e248]
+            - tab "Hourly" [active] [selected] [ref=f8e249]
+            - tab "3-Day" [ref=f8e250]
+            - tab "Details" [ref=f8e251]
+          - tabpanel "Hourly" [ref=f8e296]:
+            - generic [ref=f8e297]:
+              - generic [ref=f8e298]: Hourly Forecast
+              - generic [ref=f8e300]:
+                - generic [ref=f8e301]:
+                  - generic [ref=f8e302]: Now
+                  - generic [ref=f8e305]: 36°
+                - generic [ref=f8e306]:
+                  - generic [ref=f8e307]: 오후 09시
+                  - generic [ref=f8e310]: 33°
+                - generic [ref=f8e311]:
+                  - generic [ref=f8e312]: 오전 12시
+                  - generic [ref=f8e319]: 31°
+                - generic [ref=f8e320]:
+                  - generic [ref=f8e321]: 오전 03시
+                  - generic [ref=f8e328]: 30°
+                - generic [ref=f8e329]:
+                  - generic [ref=f8e330]: 오전 06시
+                  - generic [ref=f8e337]: 29°
+                - generic [ref=f8e338]:
+                  - generic [ref=f8e339]: 오전 09시
+                  - generic [ref=f8e346]: 32°
+                - generic [ref=f8e347]:
+                  - generic [ref=f8e348]: 오후 12시
+                  - generic [ref=f8e355]: 37°
+                - generic [ref=f8e356]:
+                  - generic [ref=f8e357]: 오후 03시
+                  - generic [ref=f8e364]: 39°
+  - generic [ref=f8e39]:
+    - generic "Toggle devtools panel" [ref=f8e40] [cursor=pointer]
+    - generic "Toggle Component Inspector" [ref=f8e46] [cursor=pointer]

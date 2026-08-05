@@ -1,0 +1,84 @@
+- generic [ref=f16e3]:
+  - navigation "Main navigation":
+    - generic [ref=f16e479]:
+      - link [ref=f16e480] [cursor=pointer]:
+        - /url: /skala-vue/
+      - link [ref=f16e484] [cursor=pointer]:
+        - /url: /skala-vue/practices
+      - link [ref=f16e489] [cursor=pointer]:
+        - /url: /skala-vue/weathers
+      - link [ref=f16e493] [cursor=pointer]:
+        - /url: /skala-vue/about
+      - button "Switch to dark mode" [ref=f16e498]
+      - link "GitHub repository" [ref=f16e502] [cursor=pointer]:
+        - /url: https://github.com/P4NTENG/skala-vue
+  - generic [ref=f16e319]:
+    - complementary [ref=f16e320]:
+      - generic [ref=f16e321]:
+        - list [ref=f16e322]:
+          - listitem [ref=f16e323]:
+            - button "Weather" [ref=f16e324] [cursor=pointer]
+        - textbox "Search city…" [ref=f16e332]
+      - list [ref=f16e334]:
+        - listitem [ref=f16e335]:
+          - button "서울 95°F" [ref=f16e336]:
+            - generic [ref=f16e339]: 서울
+            - generic [ref=f16e340]: 95°F
+        - listitem [ref=f16e343]:
+          - button "수원 93°F" [ref=f16e344]:
+            - generic [ref=f16e347]: 수원
+            - generic [ref=f16e348]: 93°F
+        - listitem [ref=f16e351]:
+          - button "부산 88°F" [ref=f16e352]:
+            - generic [ref=f16e359]: 부산
+            - generic [ref=f16e360]: 88°F
+        - listitem [ref=f16e363]:
+          - button "제주 86°F" [ref=f16e364]:
+            - generic [ref=f16e371]: 제주
+            - generic [ref=f16e372]: 86°F
+        - listitem [ref=f16e375]:
+          - button "대전 94°F" [ref=f16e376]:
+            - generic [ref=f16e379]: 대전
+            - generic [ref=f16e380]: 94°F
+        - listitem [ref=f16e383]:
+          - button "광주 87°F" [ref=f16e384]:
+            - generic [ref=f16e387]: 광주
+            - generic [ref=f16e388]: 87°F
+        - listitem [ref=f16e391]:
+          - button "인천 88°F" [ref=f16e392]:
+            - generic [ref=f16e395]: 인천
+            - generic [ref=f16e396]: 88°F
+        - listitem [ref=f16e399]:
+          - button "울산 86°F" [ref=f16e400]:
+            - generic [ref=f16e407]: 울산
+            - generic [ref=f16e408]: 86°F
+        - listitem [ref=f16e411]:
+          - button "대구 91°F" [ref=f16e412]:
+            - generic [ref=f16e415]: 대구
+            - generic [ref=f16e416]: 91°F
+        - listitem [ref=f16e419]:
+          - button "청주 90°F" [ref=f16e420]:
+            - generic [ref=f16e423]: 청주
+            - generic [ref=f16e424]: 90°F
+        - listitem [ref=f16e427]:
+          - button "전주 88°F" [ref=f16e428]:
+            - generic [ref=f16e431]: 전주
+            - generic [ref=f16e432]: 88°F
+        - listitem [ref=f16e435]:
+          - button "포항 85°F" [ref=f16e436]:
+            - generic [ref=f16e443]: 포항
+            - generic [ref=f16e444]: 85°F
+        - listitem [ref=f16e447]:
+          - button "여수 82°F" [ref=f16e448]:
+            - generic [ref=f16e451]: 여수
+            - generic [ref=f16e452]: 82°F
+        - listitem [ref=f16e455]:
+          - button "춘천 99°F" [ref=f16e456]:
+            - generic [ref=f16e463]: 춘천
+            - generic [ref=f16e464]: 99°F
+      - combobox [ref=f16e468]:
+        - generic: °F
+    - main [ref=f16e470]:
+      - generic [ref=f16e471]:
+        - paragraph [ref=f16e477]: Select a city to view weather
+        - paragraph [ref=f16e478]: 14 cities · real-time OpenWeather data

@@ -1,0 +1,30 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e3]:
+    - banner [ref=f3e4]:
+      - navigation "Main navigation" [ref=f3e5]:
+        - link "SV SKALA" [ref=f3e6] [cursor=pointer]:
+          - /url: /skala-vue/
+          - generic [ref=f3e7]: SV
+          - generic [ref=f3e8]: SKALA
+        - generic:
+          - generic:
+            - link "Home" [ref=f3e10] [cursor=pointer]:
+              - /url: /skala-vue/
+            - link "Practices" [ref=f3e15] [cursor=pointer]:
+              - /url: /skala-vue/practices
+            - link "Weathers" [ref=f3e21] [cursor=pointer]:
+              - /url: /skala-vue/weathers
+            - link "About" [ref=f3e26] [cursor=pointer]:
+              - /url: /skala-vue/about
+            - button "Switch to dark mode" [ref=f3e32]
+            - link "GitHub repository" [ref=f3e36] [cursor=pointer]:
+              - /url: https://github.com/P4NTENG/skala-vue
+    - generic [ref=f3e39]:
+      - heading "Hello Skala-Vue" [level=2] [ref=f3e40]
+      - 'heading "일반 변수 클릭: 0" [level=3] [ref=f3e41]'
+      - button "일반 변수 증가" [ref=f3e42]
+      - 'heading "Vue 반응성 변수 클릭: 0" [level=3] [ref=f3e43]'
+      - button "Vue 변수 증가" [ref=f3e44]
+  - generic [ref=f3e45]:
+    - generic "Toggle devtools panel" [ref=f3e46] [cursor=pointer]
+    - generic "Toggle Component Inspector" [ref=f3e52] [cursor=pointer]

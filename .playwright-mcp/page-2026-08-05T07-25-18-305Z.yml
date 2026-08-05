@@ -1,0 +1,127 @@
+- generic [ref=f10e1]:
+  - generic [ref=f10e3]:
+    - banner [ref=f10e4]:
+      - navigation "Main navigation" [ref=f10e5]:
+        - link "SV SKALA" [ref=f10e6] [cursor=pointer]:
+          - /url: /skala-vue/
+          - generic [ref=f10e7]: SV
+          - generic [ref=f10e8]: SKALA
+        - generic:
+          - generic:
+            - link "Home" [ref=f10e10] [cursor=pointer]:
+              - /url: /skala-vue/
+            - link "Practices" [ref=f10e15] [cursor=pointer]:
+              - /url: /skala-vue/practices
+            - link "Weathers" [ref=f10e21] [cursor=pointer]:
+              - /url: /skala-vue/weathers
+            - link "About" [ref=f10e26] [cursor=pointer]:
+              - /url: /skala-vue/about
+            - button "Switch to dark mode" [ref=f10e32]
+            - link "GitHub repository" [ref=f10e36] [cursor=pointer]:
+              - /url: https://github.com/P4NTENG/skala-vue
+    - generic [ref=f10e39]:
+      - complementary [ref=f10e40]:
+        - generic [ref=f10e41]:
+          - list [ref=f10e42]:
+            - listitem [ref=f10e43]:
+              - button "Weather" [ref=f10e44]
+          - textbox "Search city…" [ref=f10e52]
+        - list [ref=f10e54]:
+          - listitem [ref=f10e55]:
+            - button "서울 35°C" [active] [ref=f10e56]:
+              - generic [ref=f10e63]: 서울
+              - generic [ref=f10e64]: 35°C
+          - listitem [ref=f10e67]:
+            - button "수원 35°C" [ref=f10e68]:
+              - generic [ref=f10e75]: 수원
+              - generic [ref=f10e76]: 35°C
+          - listitem [ref=f10e79]:
+            - button "부산 32°C" [ref=f10e80]:
+              - generic [ref=f10e87]: 부산
+              - generic [ref=f10e88]: 32°C
+          - listitem [ref=f10e91]:
+            - button "제주 31°C" [ref=f10e92]:
+              - generic [ref=f10e99]: 제주
+              - generic [ref=f10e100]: 31°C
+          - listitem [ref=f10e103]:
+            - button "대전 35°C" [ref=f10e104]:
+              - generic [ref=f10e107]: 대전
+              - generic [ref=f10e108]: 35°C
+          - listitem [ref=f10e111]:
+            - button "광주 32°C" [ref=f10e112]:
+              - generic [ref=f10e118]: 광주
+              - generic [ref=f10e119]: 32°C
+          - listitem [ref=f10e122]:
+            - button "인천 32°C" [ref=f10e123]:
+              - generic [ref=f10e126]: 인천
+              - generic [ref=f10e127]: 32°C
+          - listitem [ref=f10e130]:
+            - button "울산 31°C" [ref=f10e131]:
+              - generic [ref=f10e138]: 울산
+              - generic [ref=f10e139]: 31°C
+          - listitem [ref=f10e142]:
+            - button "대구 34°C" [ref=f10e143]:
+              - generic [ref=f10e150]: 대구
+              - generic [ref=f10e151]: 34°C
+          - listitem [ref=f10e154]:
+            - button "청주 32°C" [ref=f10e155]:
+              - generic [ref=f10e162]: 청주
+              - generic [ref=f10e163]: 32°C
+          - listitem [ref=f10e166]:
+            - button "전주 33°C" [ref=f10e167]:
+              - generic [ref=f10e174]: 전주
+              - generic [ref=f10e175]: 33°C
+          - listitem [ref=f10e178]:
+            - button "포항 30°C" [ref=f10e179]:
+              - generic [ref=f10e186]: 포항
+              - generic [ref=f10e187]: 30°C
+          - listitem [ref=f10e190]:
+            - button "여수 27°C" [ref=f10e191]:
+              - generic [ref=f10e198]: 여수
+              - generic [ref=f10e199]: 27°C
+          - listitem [ref=f10e202]:
+            - button "춘천 38°C" [ref=f10e203]:
+              - generic [ref=f10e210]: 춘천
+              - generic [ref=f10e211]: 38°C
+        - combobox [ref=f10e215]:
+          - generic: °C
+      - main [ref=f10e217]:
+        - generic [ref=f10e238]:
+          - generic [ref=f10e239]:
+            - button "Toggle Sidebar" [ref=f10e240]
+            - generic [ref=f10e242]: 서울
+            - generic [ref=f10e243]: Clear
+          - generic [ref=f10e244]: Updated 오후 04:15
+          - button [ref=f10e245]
+        - generic [ref=f10e250]:
+          - tablist [ref=f10e251]:
+            - tab "Now" [selected] [ref=f10e252]
+            - tab "Hourly" [ref=f10e253]
+            - tab "5-Day" [ref=f10e254]
+            - tab "Details" [ref=f10e255]
+          - tabpanel "Now" [ref=f10e256]:
+            - generic [ref=f10e258]:
+              - generic [ref=f10e265]:
+                - generic [ref=f10e266]: "35"
+                - generic [ref=f10e267]: °C
+              - paragraph [ref=f10e268]: Feels like 40°C
+              - paragraph [ref=f10e269]: 온흐림
+              - generic [ref=f10e270]:
+                - generic [ref=f10e271]:
+                  - generic [ref=f10e275]: 51%
+                  - generic [ref=f10e276]: Humidity
+                - generic [ref=f10e277]:
+                  - generic [ref=f10e282]: W 3 m/s
+                  - generic [ref=f10e283]: Wind
+                - generic [ref=f10e284]:
+                  - generic [ref=f10e287]: 100%
+                  - generic [ref=f10e288]: Clouds
+                - generic [ref=f10e289]:
+                  - generic [ref=f10e293]: 1006hPa
+                  - generic [ref=f10e294]: Pressure
+                - generic [ref=f10e295]:
+                  - generic [ref=f10e298]: 0%
+                  - generic [ref=f10e299]: Precip.
+  - generic [ref=f10e226]:
+    - generic "Toggle devtools panel" [ref=f10e227] [cursor=pointer]
+    - generic "Toggle Component Inspector" [ref=f10e233] [cursor=pointer]

@@ -1,0 +1,94 @@
+- generic [active] [ref=f8e1]:
+  - generic [ref=f8e3]:
+    - banner [ref=f8e4]:
+      - navigation "Main navigation" [ref=f8e5]:
+        - link "SV SKALA" [ref=f8e6] [cursor=pointer]:
+          - /url: /skala-vue/
+          - generic [ref=f8e7]: SV
+          - generic [ref=f8e8]: SKALA
+        - generic:
+          - generic:
+            - link "Home" [ref=f8e10] [cursor=pointer]:
+              - /url: /skala-vue/
+            - link "Practices" [ref=f8e15] [cursor=pointer]:
+              - /url: /skala-vue/practices
+            - link "Weathers" [ref=f8e21] [cursor=pointer]:
+              - /url: /skala-vue/weathers
+            - link "About" [ref=f8e26] [cursor=pointer]:
+              - /url: /skala-vue/about
+            - button "Switch to dark mode" [ref=f8e32]
+            - link "GitHub repository" [ref=f8e36] [cursor=pointer]:
+              - /url: https://github.com/P4NTENG/skala-vue
+    - generic [ref=f8e390]:
+      - complementary [ref=f8e391]:
+        - generic [ref=f8e392]:
+          - list [ref=f8e393]:
+            - listitem [ref=f8e394]:
+              - button "Weather" [ref=f8e395]
+          - textbox "Search city…" [ref=f8e403]
+        - list [ref=f8e423]:
+          - listitem [ref=f8e424]:
+            - button "서울 35°C" [ref=f8e425]:
+              - generic [ref=f8e432]: 서울
+              - generic [ref=f8e433]: 35°C
+          - listitem [ref=f8e436]:
+            - button "수원 35°C" [ref=f8e437]:
+              - generic [ref=f8e444]: 수원
+              - generic [ref=f8e445]: 35°C
+          - listitem [ref=f8e448]:
+            - button "부산 32°C" [ref=f8e449]:
+              - generic [ref=f8e456]: 부산
+              - generic [ref=f8e457]: 32°C
+          - listitem [ref=f8e460]:
+            - button "제주 31°C" [ref=f8e461]:
+              - generic [ref=f8e468]: 제주
+              - generic [ref=f8e469]: 31°C
+          - listitem [ref=f8e472]:
+            - button "대전 35°C" [ref=f8e473]:
+              - generic [ref=f8e476]: 대전
+              - generic [ref=f8e477]: 35°C
+          - listitem [ref=f8e480]:
+            - button "광주 32°C" [ref=f8e481]:
+              - generic [ref=f8e484]: 광주
+              - generic [ref=f8e485]: 32°C
+          - listitem [ref=f8e488]:
+            - button "인천 32°C" [ref=f8e489]:
+              - generic [ref=f8e492]: 인천
+              - generic [ref=f8e493]: 32°C
+          - listitem [ref=f8e496]:
+            - button "울산 31°C" [ref=f8e497]:
+              - generic [ref=f8e504]: 울산
+              - generic [ref=f8e505]: 31°C
+          - listitem [ref=f8e508]:
+            - button "대구 34°C" [ref=f8e509]:
+              - generic [ref=f8e516]: 대구
+              - generic [ref=f8e517]: 34°C
+          - listitem [ref=f8e520]:
+            - button "청주 32°C" [ref=f8e521]:
+              - generic [ref=f8e528]: 청주
+              - generic [ref=f8e529]: 32°C
+          - listitem [ref=f8e532]:
+            - button "전주 33°C" [ref=f8e533]:
+              - generic [ref=f8e540]: 전주
+              - generic [ref=f8e541]: 33°C
+          - listitem [ref=f8e544]:
+            - button "포항 30°C" [ref=f8e545]:
+              - generic [ref=f8e552]: 포항
+              - generic [ref=f8e553]: 30°C
+          - listitem [ref=f8e556]:
+            - button "여수 27°C" [ref=f8e557]:
+              - generic [ref=f8e564]: 여수
+              - generic [ref=f8e565]: 27°C
+          - listitem [ref=f8e568]:
+            - button "춘천 38°C" [ref=f8e569]:
+              - generic [ref=f8e576]: 춘천
+              - generic [ref=f8e577]: 38°C
+        - combobox [ref=f8e412]:
+          - generic: °C
+      - main [ref=f8e414]:
+        - generic [ref=f8e415]:
+          - paragraph [ref=f8e421]: Select a city to view weather
+          - paragraph [ref=f8e422]: 13 cities · real-time OpenWeather data
+  - generic [ref=f8e39]:
+    - generic "Toggle devtools panel" [ref=f8e40] [cursor=pointer]
+    - generic "Toggle Component Inspector" [ref=f8e46] [cursor=pointer]

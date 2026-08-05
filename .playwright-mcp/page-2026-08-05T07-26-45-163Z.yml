@@ -1,0 +1,103 @@
+- generic:
+  - generic:
+    - generic:
+      - banner:
+        - navigation:
+          - link:
+            - /url: /skala-vue/
+            - generic: SV
+            - generic: SKALA
+          - link:
+            - /url: /skala-vue/
+            - generic: Home
+          - link:
+            - /url: /skala-vue/practices
+            - generic: Practices
+          - link:
+            - /url: /skala-vue/weathers
+            - generic: Weathers
+          - link:
+            - /url: /skala-vue/about
+            - generic: About
+          - button
+          - link:
+            - /url: https://github.com/P4NTENG/skala-vue
+      - generic:
+        - complementary:
+          - generic:
+            - list:
+              - listitem:
+                - button:
+                  - generic: Weather
+            - generic:
+              - textbox:
+                - /placeholder: Search city…
+          - generic:
+            - list:
+              - listitem:
+                - button:
+                  - generic: 서울
+                  - generic: 35°C
+              - listitem:
+                - button:
+                  - generic: 수원
+                  - generic: 35°C
+              - listitem:
+                - button:
+                  - generic: 부산
+                  - generic: 32°C
+              - listitem:
+                - button:
+                  - generic: 제주
+                  - generic: 31°C
+              - listitem:
+                - button:
+                  - generic: 대전
+                  - generic: 35°C
+              - listitem:
+                - button:
+                  - generic: 광주
+                  - generic: 32°C
+              - listitem:
+                - button:
+                  - generic: 인천
+                  - generic: 32°C
+              - listitem:
+                - button:
+                  - generic: 울산
+                  - generic: 31°C
+              - listitem:
+                - button:
+                  - generic: 대구
+                  - generic: 34°C
+              - listitem:
+                - button:
+                  - generic: 청주
+                  - generic: 32°C
+              - listitem:
+                - button:
+                  - generic: 전주
+                  - generic: 33°C
+              - listitem:
+                - button:
+                  - generic: 포항
+                  - generic: 30°C
+              - listitem:
+                - button:
+                  - generic: 여수
+                  - generic: 27°C
+              - listitem:
+                - button:
+                  - generic: 춘천
+                  - generic: 38°C
+          - generic:
+            - combobox [expanded]:
+              - generic: °C
+        - generic:
+          - main:
+            - generic:
+              - paragraph: Select a city to view weather
+              - paragraph: 13 cities · real-time OpenWeather data
+  - listbox [ref=f11e238]:
+    - option "°C" [active] [selected] [ref=f11e239]
+    - option "°F" [ref=f11e241]
