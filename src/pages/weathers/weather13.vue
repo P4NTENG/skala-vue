@@ -792,7 +792,7 @@ const showRain = computed(() => {
           </div>
 
           <ScrollArea v-if="detailLoading" class="flex-1">
-            <div class="flex flex-col gap-6 px-10 py-8">
+            <div class="flex flex-col gap-6 px-8 py-5">
               <Card
                 ><CardContent class="flex flex-col items-center gap-3 pt-10">
                   <Skeleton class="h-12 w-12 rounded-full" /><Skeleton class="h-24 w-48" /><Skeleton
@@ -806,7 +806,7 @@ const showRain = computed(() => {
           </ScrollArea>
 
           <ScrollArea v-else class="flex-1">
-            <div class="flex flex-col gap-6 px-10 py-8">
+            <div class="flex flex-col gap-6 px-8 py-5">
               <Tabs v-model="activeTab">
                 <TabsList class="mb-4 grid w-full grid-cols-4">
                   <TabsTrigger value="now">Now</TabsTrigger>
@@ -824,7 +824,7 @@ const showRain = computed(() => {
                         :style="{ color: getCondition(selectedCity.weatherCode).color }"
                       />
                       <div class="flex items-baseline gap-1 tabular-nums">
-                        <span class="text-[96px] leading-[1.4] font-medium tracking-[-0.02em]">{{
+                        <span class="text-[72px] leading-[1.4] font-medium tracking-[-0.02em]">{{
                           convertTemp(selectedCity.temp)
                         }}</span>
                         <span class="text-xl font-medium text-muted-foreground">{{
@@ -864,7 +864,7 @@ const showRain = computed(() => {
                             },
                           ]"
                           :key="stat.label"
-                          class="glass-card flex flex-col items-center gap-1 rounded-xl p-3"
+                          class="glass-card flex flex-col items-center gap-1 rounded-xl p-2"
                         >
                           <component :is="stat.icon" :size="16" class="text-primary" />
                           <span class="tabular-nums text-xs font-semibold leading-[16.8px]">{{
@@ -923,7 +923,7 @@ const showRain = computed(() => {
                     <CardContent>
                       <VisXYContainer
                         :data="chartData"
-                        :height="160"
+                        :height="140"
                         :margin="{ left: 40, bottom: 24, right: 8, top: 4 }"
                       >
                         <VisArea
@@ -951,7 +951,7 @@ const showRain = computed(() => {
                     <CardContent>
                       <VisXYContainer
                         :data="chartData"
-                        :height="100"
+                        :height="80"
                         :margin="{ left: 40, bottom: 24, right: 8, top: 4 }"
                       >
                         <VisStackedBar
