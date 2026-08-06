@@ -792,7 +792,7 @@ const showRain = computed(() => {
           </div>
 
           <ScrollArea v-if="detailLoading" class="flex-1">
-            <div class="flex flex-col gap-6 px-8 py-5">
+            <div class="mx-auto w-full max-w-5xl flex flex-col gap-6 px-8 py-5">
               <Card
                 ><CardContent class="flex flex-col items-center gap-3 pt-10">
                   <Skeleton class="h-12 w-12 rounded-full" /><Skeleton class="h-24 w-48" /><Skeleton
@@ -806,7 +806,7 @@ const showRain = computed(() => {
           </ScrollArea>
 
           <ScrollArea v-else class="flex-1">
-            <div class="flex flex-col gap-6 px-8 py-5">
+            <div class="mx-auto w-full max-w-5xl flex flex-col gap-6 px-8 py-5">
               <Tabs v-model="activeTab">
                 <TabsList class="mb-4 grid w-full grid-cols-4">
                   <TabsTrigger value="now">Now</TabsTrigger>
