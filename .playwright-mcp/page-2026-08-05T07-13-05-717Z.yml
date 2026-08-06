@@ -1,5 +1,0 @@
-- generic [active] [ref=f6e1]:
-  - text: The server is configured with a public base URL of /skala-vue/ - did you mean to visit
-  - link /skala-vue/ [ref=f6e2] [cursor=pointer]:
-    - /url: /skala-vue/
-  - text: instead?

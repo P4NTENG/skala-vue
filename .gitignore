@@ -16,6 +16,9 @@ coverage
 .env
 nul
 
+# Playwright MCP test artifacts
+.playwright-mcp
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
