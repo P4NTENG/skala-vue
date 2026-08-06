@@ -769,7 +769,7 @@ const showRain = computed(() => {
         </div>
 
         <template v-else>
-          <div class="flex items-center justify-between border-b border-border bg-card px-8 py-4">
+          <div class="glass-card flex items-center justify-between border-b border-border px-8 py-4">
             <div class="flex items-center gap-2">
               <SidebarTrigger />
               <span class="text-sm font-semibold">{{ selectedCity.name }}</span>
@@ -816,8 +816,8 @@ const showRain = computed(() => {
                 </TabsList>
 
                 <TabsContent value="now">
-                  <Card
-                    ><CardContent class="flex flex-col items-center gap-2 pt-10">
+                <Card class="glass-card"
+                  ><CardContent class="flex flex-col items-center gap-2 pt-10">
                       <component
                         :is="getCondition(selectedCity.weatherCode).icon"
                         :size="48"
@@ -864,7 +864,7 @@ const showRain = computed(() => {
                             },
                           ]"
                           :key="stat.label"
-                          class="flex flex-col items-center gap-1 rounded-xl bg-muted p-3"
+                          class="glass-card flex flex-col items-center gap-1 rounded-xl p-3"
                         >
                           <component :is="stat.icon" :size="16" class="text-primary" />
                           <span class="tabular-nums text-xs font-semibold leading-[16.8px]">{{
@@ -878,7 +878,7 @@ const showRain = computed(() => {
                 </TabsContent>
 
                 <TabsContent value="hourly">
-                  <Card v-if="hourlyData.length"
+                  <Card v-if="hourlyData.length" class="glass-card"
                     ><CardHeader><CardTitle class="text-sm">Hourly Forecast</CardTitle></CardHeader>
                     <CardContent
                       class="flex gap-4 overflow-x-auto pb-2"
@@ -918,7 +918,7 @@ const showRain = computed(() => {
                       </div>
                     </CardContent>
                   </Card>
-                  <Card v-if="hourlyData.length" class="mt-4">
+                  <Card v-if="hourlyData.length" class="glass-card mt-4">
                     <CardHeader class="pb-2"><CardTitle class="text-sm">Temperature Trend</CardTitle></CardHeader>
                     <CardContent>
                       <VisXYContainer
@@ -946,7 +946,7 @@ const showRain = computed(() => {
                       </VisXYContainer>
                     </CardContent>
                   </Card>
-                  <Card v-if="hourlyData.length" class="mt-4">
+                  <Card v-if="hourlyData.length" class="glass-card mt-4">
                     <CardHeader class="pb-2"><CardTitle class="text-sm">Precipitation</CardTitle></CardHeader>
                     <CardContent>
                       <VisXYContainer
@@ -973,7 +973,7 @@ const showRain = computed(() => {
                 </TabsContent>
 
                 <TabsContent value="forecast">
-                  <Card v-if="dailyForecast.length"
+                  <Card v-if="dailyForecast.length" class="glass-card"
                     ><CardHeader><CardTitle class="text-sm">5-Day Forecast</CardTitle></CardHeader>
                     <CardContent class="flex flex-col gap-2">
                       <div
@@ -1013,7 +1013,7 @@ const showRain = computed(() => {
 
                 <TabsContent value="details">
                   <div class="grid grid-cols-2 gap-3">
-                    <Card
+                    <Card class="glass-card"
                       ><CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
                         <Sunrise :size="24" class="text-amber-500" />
                         <div>
@@ -1024,7 +1024,7 @@ const showRain = computed(() => {
                         </div>
                       </CardContent></Card
                     >
-                    <Card
+                    <Card class="glass-card"
                       ><CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
                         <Sunset :size="24" class="text-orange-500" />
                         <div>
@@ -1036,7 +1036,7 @@ const showRain = computed(() => {
                       </CardContent></Card
                     >
                     <template v-if="selectedCity.detailLoaded">
-                      <Card
+                      <Card class="glass-card"
                         ><CardContent class="flex flex-col items-center gap-2 pt-5 text-center"
                           ><ArrowUp :size="24" class="text-red-500" />
                           <div>
@@ -1047,7 +1047,7 @@ const showRain = computed(() => {
                           </div></CardContent
                         ></Card
                       >
-                        <Card
+                        <Card class="glass-card"
                         ><CardContent class="flex flex-col items-center gap-2 pt-5 text-center"
                           ><ArrowDown :size="24" class="text-primary" />
                           <div>
@@ -1058,7 +1058,7 @@ const showRain = computed(() => {
                           </div></CardContent
                         ></Card
                       >
-                      <Card v-if="windChill !== null">
+                      <Card v-if="windChill !== null" class="glass-card">
                         <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
                           <Wind :size="24" class="text-blue-400" />
                           <div>
@@ -1069,7 +1069,7 @@ const showRain = computed(() => {
                           </div>
                         </CardContent>
                       </Card>
-                      <Card v-if="heatIndex !== null">
+                      <Card v-if="heatIndex !== null" class="glass-card">
                         <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
                           <Thermometer :size="24" class="text-orange-500" />
                           <div>
@@ -1080,7 +1080,7 @@ const showRain = computed(() => {
                           </div>
                         </CardContent>
                       </Card>
-                      <Card class="col-span-2">
+                      <Card class="glass-card col-span-2">
                         <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
                           <Sun :size="24" class="text-yellow-500" />
                           <div class="w-full max-w-[220px]">
@@ -1105,7 +1105,7 @@ const showRain = computed(() => {
                           </div>
                         </CardContent>
                       </Card>
-                      <Card v-if="airQuality" class="col-span-2">
+                      <Card v-if="airQuality" class="glass-card col-span-2">
                         <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
                           <Waves :size="24" :class="AQI_LEVELS[airQuality.main.aqi].color" />
                           <div>
@@ -1119,7 +1119,7 @@ const showRain = computed(() => {
                           </div>
                         </CardContent>
                       </Card>
-                      <Card v-if="airQuality">
+                      <Card v-if="airQuality" class="glass-card">
                         <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
                           <div>
                             <p class="text-xs text-muted-foreground">PM2.5</p>
@@ -1129,7 +1129,7 @@ const showRain = computed(() => {
                           </div>
                         </CardContent>
                       </Card>
-                      <Card v-if="airQuality">
+                      <Card v-if="airQuality" class="glass-card">
                         <CardContent class="flex flex-col items-center gap-2 pt-5 text-center">
                           <div>
                             <p class="text-xs text-muted-foreground">PM10</p>
@@ -1165,5 +1165,11 @@ const showRain = computed(() => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.glass-card {
+  background: oklch(from var(--card) l c h / 0.55);
+  backdrop-filter: blur(12px) saturate(1.2);
+  border: 1px solid color-mix(in oklch, var(--border), transparent 70%);
 }
 </style>
